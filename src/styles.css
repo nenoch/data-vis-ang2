@@ -1,1 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
+
+.container.wrapper {
+  padding-top: 5%;
+}
+
+.visible {
+    /*border: 1px solid #ff0000;*/
+}
+
+.table-field {
+  margin-bottom: 4px;
+  border-radius: 4px;
+}
+
+.data-gen-box {
+    display: block;
+    padding: 10px 15px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 4px;
+}
+
+.margin-top10 {
+  margin-top: 10px;
+}
+
+.jumbotron.data-placeholder {
+  color: #ccc;
+  height: 100%;
+}
