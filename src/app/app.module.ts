@@ -14,7 +14,7 @@ import { MakeDraggableDirective } from './make-draggable.directive';
   declarations: [
     AppComponent,
     GraphFormComponent,
-    MakeDroppableDirective
+    MakeDroppableDirective,
     GraphAreaComponent,
     ColumnsListComponent,
     MakeDraggableDirective

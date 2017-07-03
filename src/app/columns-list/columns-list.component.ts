@@ -10,11 +10,5 @@ export class ColumnsListComponent implements OnInit {
   columns: any = [];
 
   ngOnInit() {
-    this.columns = ["date", "value"];
-  }
-
-  dragstartHandler(event) {
-    event.dataTransfer.setData('text', event.target.id);
-  }
-
+    this.columns = ['date', 'value'];  }
 }
