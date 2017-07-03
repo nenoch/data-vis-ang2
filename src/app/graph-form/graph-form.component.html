@@ -1,19 +1,19 @@
 <div class="data-gen-box">
   <h3>Generate Data Visualisation</h3>
   <hr />
-    <form id="graph-xy-form" class="form-inline">
+  <form (ngSubmit)="onSubmit(graphForm)" #graphForm="ngForm" class="form-inline">
     <div class="form-group">
       <label class="sr-only" for="X">Value for the X axis</label>
       <div class="input-group">
         <div class="input-group-addon">X</div>
-        <input appMakeDroppable type="text" class="form-control" id="X" placeholder="Drop value here">
+        <input appMakeDroppable name="x" type="text" class="form-control" placeholder="Drop value here" ngModel>
       </div>
     </div>
     <div class="form-group">
       <label class="sr-only" for="X">Value for the Y axis</label>
       <div class="input-group">
         <div class="input-group-addon">Y</div>
-        <input appMakeDroppable type="text" class="form-control" id="Y" placeholder="Drop value here">
+        <input appMakeDroppable name="y" type="text" class="form-control" placeholder="Drop value here" ngModel>
       </div>
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
