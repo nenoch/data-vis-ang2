@@ -1,0 +1,8 @@
+<div class="col-md-4 col-sm-4 col-lg-4">
+  <div class="list-group">
+    <div *ngFor="let column of columns" makeDraggable draggable="true" id="{{ column }}" class="list-group-item table-field">
+      {{ column }}
+      <span class="glyphicon glyphicon-menu-hamburger pull-right" aria-hidden="true"></span>
+    </div>
+  </div>
+</div>
