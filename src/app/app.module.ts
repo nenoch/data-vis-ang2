@@ -1,7 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 import { DndModule } from 'ng2-dnd';
+
+import { DataService } from './data.service';
 
 import { AppComponent } from './app.component';
 import { GraphFormComponent } from './graph-form/graph-form.component';
@@ -17,10 +20,11 @@ import { ColumnsListComponent } from './columns-list/columns-list.component';
   ],
   imports: [
     FormsModule,
-    DndModule.forRoot(),
-    BrowserModule
+    BrowserModule,
+    HttpModule,
+    DndModule.forRoot()
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
