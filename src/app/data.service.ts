@@ -20,7 +20,8 @@ export class DataService {
     return columns;
   }
 
-// not using at the moment //
+/* Note in use
+
   getData() {
   return this.http.get('assets/mock-data/data.csv')
     .map((response: Response) => this.extractData(response));
@@ -28,12 +29,8 @@ export class DataService {
 
   private extractData(response: Response){
     let csvData = response['_body'];
-    let valuePairs = csvData.split(/\r\n|\n/);
-    let columns = valuePairs[0].split(',');
-    console.log("raw", csvData);
-    console.log("pairs", valuePairs);
-    console.log("columns", columns);
-    return columns;
+    return csvData;
   }
+*/
 
 }
