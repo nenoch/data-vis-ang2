@@ -10,5 +10,5 @@ export class ColumnsListComponent implements OnInit {
   columns: any = [];
 
   ngOnInit() {
-    this.columns = ['date', 'value'];  }
+    this.columns = ['date', 'value']; }
 }
