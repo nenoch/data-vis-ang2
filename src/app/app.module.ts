@@ -1,6 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+
+import { DataService } from './data.service';
+
 
 import { AppComponent } from './app.component';
 import { GraphFormComponent } from './graph-form/graph-form.component';
@@ -9,7 +13,6 @@ import { ColumnsListComponent } from './columns-list/columns-list.component';
 
 import { MakeDroppableDirective } from './make-droppable.directive';
 import { MakeDraggableDirective } from './make-draggable.directive';
-import { DataService } from './data.service';
 
 
 @NgModule({
@@ -23,7 +26,8 @@ import { DataService } from './data.service';
   ],
   imports: [
     FormsModule,
-    BrowserModule
+    BrowserModule,
+    HttpModule
   ],
   providers: [DataService],
   bootstrap: [AppComponent]
