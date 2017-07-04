@@ -6,3 +6,8 @@
     border-radius: 4px;
     margin-bottom: 4px;
 }
+
+.file-input {
+    visibility: hidden;
+    position: absolute;
+}
