@@ -4,17 +4,19 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { GraphFormComponent } from './graph-form/graph-form.component';
-import { MakeDroppableDirective } from './make-droppable.directive';
-
 import { GraphAreaComponent } from './graph-area/graph-area.component';
 import { ColumnsListComponent } from './columns-list/columns-list.component';
+
+import { MakeDroppableDirective } from './make-droppable.directive';
 import { MakeDraggableDirective } from './make-draggable.directive';
+import { DataService } from './data.service';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     GraphFormComponent,
-    MakeDroppableDirective
+    MakeDroppableDirective,
     GraphAreaComponent,
     ColumnsListComponent,
     MakeDraggableDirective
@@ -23,7 +25,7 @@ import { MakeDraggableDirective } from './make-draggable.directive';
     FormsModule,
     BrowserModule
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

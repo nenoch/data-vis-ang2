@@ -12,5 +12,6 @@ export class MakeDroppableDirective {
     const data = event.dataTransfer.getData('text');
     event.preventDefault();
     event.target.value = data;
+    console.log(this);
   }
 }
