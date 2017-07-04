@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { GraphFormComponent } from './graph-form/graph-form.component';
 import { GraphAreaComponent } from './graph-area/graph-area.component';
 import { ColumnsListComponent } from './columns-list/columns-list.component';
+import { FileSelectorComponent } from './file-selector/file-selector.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GraphFormComponent,
     GraphAreaComponent,
-    ColumnsListComponent
+    ColumnsListComponent,
+    FileSelectorComponent
   ],
   imports: [
     FormsModule,
