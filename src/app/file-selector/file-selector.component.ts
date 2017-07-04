@@ -7,15 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FileSelectorComponent implements OnInit {
   files: any = [];
+  filesChosen: Boolean = false;
 
   constructor() { }
 
   ngOnInit() {
-    this.files = [] // TODO REMOVE
   }
 
   onChange(event) {
     this.files = event.srcElement.files;
+    if (this.files.length === 0) {
+      this.filesChosen = false;
+    } else {
+      this.filesChosen = true;
+    }
   }
 
 }

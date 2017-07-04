@@ -2,7 +2,13 @@
   <div class="file-selector-box">
     <div class="row">
       <div class="col-md-4 col-sm-4 col-lg-4 visible">
-        <!--<button type="submit" class="btn btn-default" value="Submit">Submit</button>-->
+        <h4>Selected Files</h4>
+        <hr />
+        <div *ngIf="!filesChosen">
+          <p>
+            No files selected
+          </p>
+        </div>
         <ul class="list-group">
           <li class="list-group-item" *ngFor="let file of files">
             {{ file.name }}
