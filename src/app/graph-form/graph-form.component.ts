@@ -23,8 +23,7 @@ export class GraphFormComponent implements OnInit {
   }
 
   onSubmit(form) {
-    console.log(form.value.x);
-    console.log(form.value.y);
+    console.log(this.axisData);
     // TODO Finish this.
   }
 }
