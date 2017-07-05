@@ -44,13 +44,21 @@ export class DataService {
     d3.csv(this.csvPath, function(d){
       let axisData = this.axes;
       return {
-        [axisData.xColumn] : d[axisData.xColumn],
-        [axisData.yColumn] : d[axisData.yColumn]
+        [axisData.xColumn] : this.isNumber(d[axisData.xColumn]),
+        [axisData.yColumn] : this.isNumber(d[axisData.yColumn])
       };
     }.bind(this), function(data) {
       this.setD3data(data);
       // the last object in the data array holds the columns;
     }.bind(this));
+  }
+
+  private isNumber(item){
+    if (item == +item){
+      return +item;
+    } else {
+      return item;
+    }
   }
 
 }
