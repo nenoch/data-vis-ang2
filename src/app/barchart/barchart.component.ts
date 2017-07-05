@@ -42,6 +42,7 @@ export class BarchartComponent implements OnInit {
   private margin = {top: 20, right: 20, bottom: 30, left: 40};
   private width: number;
   private height: number;
+  private colours;
 
   constructor(private dataService: DataService) {}
 
@@ -50,11 +51,24 @@ export class BarchartComponent implements OnInit {
     this.createBarchart();
   }
 
+  /* WIP
+  // getData() {
+  //   this.dataService.getD3data().subscribe(
+  //     data => this.data = data,
+  //     error => console.log(error)
+  //   );
+  // }
+  */
+
   createBarchart(){
     // Grab the element in the DOM
     let element = this.barContainer.nativeElement;
     this.width = 700 - this.margin.left - this.margin.right;
     this.height = 300 - this.margin.top - this.margin.bottom;
+    this.colours = d3.scaleLinear()
+                    .domain([0, this.data.length])
+                    .range(['red', 'blue']);
+
 
     // Set the range
     let x = d3.scaleBand()
@@ -80,6 +94,7 @@ export class BarchartComponent implements OnInit {
           .data(this.data)
         .enter().append("rect")
           .attr("class", "bar")
+          .style('fill', function(d,i){ return this.colours(i)}.bind(this))
           .attr("fill", "steelblue")
           .attr("x", function(d) { return x(d.day); })
           .attr("width", x.bandwidth())
