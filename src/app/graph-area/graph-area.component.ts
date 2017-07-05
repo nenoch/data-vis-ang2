@@ -10,6 +10,7 @@ export class GraphAreaComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log("hello");
   }
 
 }
