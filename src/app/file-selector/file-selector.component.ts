@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FileSelectorService } from './file-selector.service'
 
 @Component({
@@ -8,30 +8,31 @@ import { FileSelectorService } from './file-selector.service'
 })
 export class FileSelectorComponent implements OnInit {
 
-  files: any = [];
+  public showFileSelector: Boolean;
+  public filesChosen: Boolean = false;
 
-  filesChosen: Boolean = false;
+  private files: any = [];
 
-  showFileSelector: Boolean;
+  @Output() showState: EventEmitter<Boolean> = new EventEmitter();
 
-  constructor(private fileSelectorService: FileSelectorService) { }
-
+  constructor(private fileSelectorService: FileSelectorService) { };
 
   ngOnInit() {
     this.setFileSelectorStatus();
   }
 
-  onChange(event) {
+  private onChange(event) {
     this.files = event.srcElement.files;
     this.files.length === 0 ? this.filesChosen = false : this.filesChosen = true;
   }
 
-  hideHandler(event) {
+  private hideHandler(event) {
+    this.showState.emit(this.showFileSelector);
     this.fileSelectorService.toggleShowFileSelector();
     this.setFileSelectorStatus();
   }
 
-  setFileSelectorStatus() {
+  private setFileSelectorStatus() {
     this.showFileSelector = this.fileSelectorService.showFileSelector;
   }
 

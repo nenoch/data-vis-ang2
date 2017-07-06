@@ -8,7 +8,7 @@ export class FileSelectorService {
 
   constructor() { }
 
-  toggleShowFileSelector() {
+  public toggleShowFileSelector() {
     this.showFileSelector = !this.showFileSelector;
   }
 }

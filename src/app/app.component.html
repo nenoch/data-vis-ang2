@@ -1,5 +1,5 @@
-<app-file-selector></app-file-selector>
-<div class="container" #graphCreator>
+<app-file-selector (showState)="toggleGraphCreator($event)"></app-file-selector>
+<div class="container" #graphCreator [ngClass]="{ 'opacity': hideGraphCreator }">
   <div class="row">
     <app-columns-list></app-columns-list>
     <div class="col-md-8 col-sm-8 col-lg-8 visible">
