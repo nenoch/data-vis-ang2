@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { GraphFormComponent } from './graph-form/graph-form.component';
 import { GraphAreaComponent } from './graph-area/graph-area.component';
 import { ColumnsListComponent } from './columns-list/columns-list.component';
+import { FileSelectorComponent } from './file-selector/file-selector.component';
 import { BarchartComponent } from './barchart/barchart.component';
 
 @NgModule({
@@ -18,6 +19,7 @@ import { BarchartComponent } from './barchart/barchart.component';
     GraphFormComponent,
     GraphAreaComponent,
     ColumnsListComponent,
+    FileSelectorComponent
     BarchartComponent
   ],
   imports: [

@@ -11,7 +11,7 @@ import { DataService } from '../data.service';
 })
 export class GraphFormComponent implements OnInit {
 
-  axisData: AxisData;
+  private axisData: AxisData;
 
   constructor(private dataService: DataService) {}
 
@@ -19,12 +19,12 @@ export class GraphFormComponent implements OnInit {
     this.axisData = new AxisData('', '');
   }
 
-  transferDataSuccess(event) {
+  private transferDataSuccess(event) {
     const axis = event.mouseEvent.target.name
     this.axisData[`${axis}Column`] = event.dragData;
   }
 
-  onSubmit(form) {
+  private onSubmit(form: NgForm) {
     this.dataService.setAxes(this.axisData);
   }
 }
