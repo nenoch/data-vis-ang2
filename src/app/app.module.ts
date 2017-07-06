@@ -8,6 +8,7 @@ import { GraphFormComponent } from './graph-form/graph-form.component';
 import { GraphAreaComponent } from './graph-area/graph-area.component';
 import { ColumnsListComponent } from './columns-list/columns-list.component';
 import { FileSelectorComponent } from './file-selector/file-selector.component';
+import { FileSelectorService } from './file-selector/file-selector.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,9 @@ import { FileSelectorComponent } from './file-selector/file-selector.component';
     DndModule.forRoot(),
     BrowserModule
   ],
-  providers: [],
+  providers: [
+    FileSelectorService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

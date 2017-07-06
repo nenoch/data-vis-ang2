@@ -2,6 +2,7 @@
 
 .container.wrapper {
   padding-top: 5%;
+  padding-bottom: 2.5%
 }
 
 .visible {
@@ -20,4 +21,9 @@
 .jumbotron.data-placeholder {
   color: #ccc;
   height: 100%;
+}
+
+.opacity {
+  opacity: 0.5;
+  pointer-events: none
 }

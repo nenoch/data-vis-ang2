@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FileSelectorService } from './file-selector.service'
 
 @Component({
   selector: 'app-file-selector',
@@ -9,18 +10,14 @@ export class FileSelectorComponent implements OnInit {
   files: any = [];
   filesChosen: Boolean = false;
 
-  constructor() { }
+  constructor(fileSelectorService: FileSelectorService) { }
 
   ngOnInit() {
   }
 
   onChange(event) {
     this.files = event.srcElement.files;
-    if (this.files.length === 0) {
-      this.filesChosen = false;
-    } else {
-      this.filesChosen = true;
-    }
+    this.files.length === 0 ? this.filesChosen = false : this.filesChosen = true;
   }
 
 }
