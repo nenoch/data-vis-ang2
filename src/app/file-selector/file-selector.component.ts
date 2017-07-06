@@ -27,7 +27,8 @@ export class FileSelectorComponent implements OnInit {
   }
 
   private onChange(event) {
-    this.files = event.srcElement.files || [];
+    console.log(event);
+    this.files = event.target.files || [];
     this.files.length === 0 ? this.filesChosen = false : this.filesChosen = true;
   }
 
