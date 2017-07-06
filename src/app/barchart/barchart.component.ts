@@ -10,8 +10,9 @@ import * as d3 from 'd3';
 export class BarchartComponent implements OnInit {
   @ViewChild('barchart') private barContainer: ElementRef;
   private data;
-  private axes = [];
-  private margin = {top: 20, right: 20, bottom: 30, left: 40};
+  private xAxis;
+  private yAxis;
+  private margin = {top: 20, right: 20, bottom: 30, left: 45};
   private width: number;
   private height: number;
   private colours;
@@ -34,14 +35,18 @@ export class BarchartComponent implements OnInit {
   }
 
   private setAxes(){
+    let axes = [];
     for (var k in this.data[0]) {
-      this.axes.push(k)
+      axes.push(k)
     }
+    this.xAxis = axes[0];
+    this.yAxis = axes[1];
   }
 
 
   private createBarchart(){
     // Grab the element in the DOM
+    this.resetBarchart();
     let element = this.barContainer.nativeElement;
     this.width = 700 - this.margin.left - this.margin.right;
     this.height = 300 - this.margin.top - this.margin.bottom;
@@ -66,8 +71,10 @@ export class BarchartComponent implements OnInit {
 
 
       // Scale the range of the data in the domains
-      x.domain(this.data.map(function(d) { return d[this.axes[0]] }.bind(this)));
-      y.domain([0, d3.max(this.data, function(d) { return d[this.axes[1]] }.bind(this))]);
+      x.domain(this.data.map(function(d) { return d[this.xAxis] }.bind(this)));
+      y.domain([0, d3.max(this.data, function(d) { return d[this.yAxis] }.bind(this))]);
+
+      console.log("max", d3.max(this.data, function(d) { return d[this.yAxis] }.bind(this)));
 
       // append the rectangles for the bar chart
       svg.selectAll(".bar")
@@ -75,12 +82,10 @@ export class BarchartComponent implements OnInit {
         .enter().append("rect")
           .attr("class", "bar")
           .style('fill', function(d,i){ return this.colours(i)}.bind(this))
-          .attr("x", function(d) { return x(d[this.axes[0]]); }.bind(this))
+          .attr("x", function(d) { return x(d[this.xAxis]); }.bind(this))
           .attr("width", x.bandwidth())
-          .attr("y", function(d) { return y(d[this.axes[1]]); }.bind(this))
-          .attr("height", function(d) {
-            console.log("height", y(d[this.axes[1]]));
-            return this.height - y(d[this.axes[1]]);
+          .attr("y", function(d) { return y(d[this.yAxis]); }.bind(this))
+          .attr("height", function(d) { return this.height - y(d[this.yAxis]);
             }.bind(this));
 
       // add the x Axis
@@ -91,6 +96,11 @@ export class BarchartComponent implements OnInit {
       // add the y Axis
       svg.append("g")
           .call(d3.axisLeft(y));
+  }
+
+  private resetBarchart(){
+    let svg = d3.select('svg');
+    svg.remove();
   }
 
 }
