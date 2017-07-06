@@ -4,5 +4,11 @@ import { Injectable } from '@angular/core';
 
 export class FileSelectorService {
 
+  public showFileSelector: Boolean = true;
+
   constructor() { }
+
+  toggleShowFileSelector() {
+    this.showFileSelector = !this.showFileSelector;
+  }
 }

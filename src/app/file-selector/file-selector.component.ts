@@ -7,17 +7,32 @@ import { FileSelectorService } from './file-selector.service'
   styleUrls: ['./file-selector.component.css']
 })
 export class FileSelectorComponent implements OnInit {
+
   files: any = [];
+
   filesChosen: Boolean = false;
 
-  constructor(fileSelectorService: FileSelectorService) { }
+  showFileSelector: Boolean;
+
+  constructor(private fileSelectorService: FileSelectorService) { }
+
 
   ngOnInit() {
+    this.setFileSelectorStatus();
   }
 
   onChange(event) {
     this.files = event.srcElement.files;
     this.files.length === 0 ? this.filesChosen = false : this.filesChosen = true;
+  }
+
+  hideHandler(event) {
+    this.fileSelectorService.toggleShowFileSelector();
+    this.setFileSelectorStatus();
+  }
+
+  setFileSelectorStatus() {
+    this.showFileSelector = this.fileSelectorService.showFileSelector;
   }
 
 }

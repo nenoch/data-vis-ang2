@@ -14,9 +14,6 @@
   border-radius: 4px;
 }
 
-.margin-top10 {
-  margin-top: 10px;
-}
 
 .jumbotron.data-placeholder {
   color: #ccc;
@@ -26,4 +23,8 @@
 .opacity {
   opacity: 0.5;
   pointer-events: none
+}
+
+.margin-top10 {
+  margin-top: 10px;
 }
