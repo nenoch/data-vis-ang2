@@ -10,13 +10,15 @@ import { AppComponent } from './app.component';
 import { GraphFormComponent } from './graph-form/graph-form.component';
 import { GraphAreaComponent } from './graph-area/graph-area.component';
 import { ColumnsListComponent } from './columns-list/columns-list.component';
+import { BarchartComponent } from './barchart/barchart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GraphFormComponent,
     GraphAreaComponent,
-    ColumnsListComponent
+    ColumnsListComponent,
+    BarchartComponent
   ],
   imports: [
     FormsModule,

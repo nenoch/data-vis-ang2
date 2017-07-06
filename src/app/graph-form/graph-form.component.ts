@@ -26,6 +26,5 @@ export class GraphFormComponent implements OnInit {
 
   onSubmit(form) {
     this.dataService.setAxes(this.axisData);
-    // TODO Finish this.
   }
 }

@@ -20,7 +20,7 @@ export class ColumnsListComponent implements OnInit {
     this.dataService.getCSVColumns().subscribe(
       data => this.columns = data,
       error =>  console.log(error)
-      );
+    );
   }
 
 }

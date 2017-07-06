@@ -26,6 +26,11 @@ export class DataService {
     this.axes = axisObject;
     this.convertD3data();
   }
+/*
+  getD3data(){
+    return this.d3Data;
+  }
+*/
 
   private extractColumns(response: Response){
     let csvData = response['_body'];
@@ -37,7 +42,6 @@ export class DataService {
 
   private setD3data(data){
     this.d3Data = data;
-    console.log(this.d3Data);
   }
 
   private convertD3data(){
@@ -49,7 +53,6 @@ export class DataService {
       };
     }.bind(this), function(data) {
       this.setD3data(data);
-      // the last object in the data array holds the columns;
     }.bind(this));
   }
 
