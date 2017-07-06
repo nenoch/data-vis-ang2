@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-columns-list',
@@ -9,6 +10,17 @@ import { Component, OnInit } from '@angular/core';
 export class ColumnsListComponent implements OnInit {
   columns: any = [];
 
+  constructor(private dataService: DataService){}
+
   ngOnInit() {
-    this.columns = ['date', 'value']; }
+    this.getColumns();
+  }
+
+  getColumns(){
+    this.dataService.getCSVColumns().subscribe(
+      data => this.columns = data,
+      error =>  console.log(error)
+    );
+  }
+
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AxisData } from './axis-data';
+import { DataService } from '../data.service';
+
 
 @Component({
   selector: 'app-graph-form',
@@ -11,7 +13,7 @@ export class GraphFormComponent implements OnInit {
 
   private axisData: AxisData;
 
-  constructor() { }
+  constructor(private dataService: DataService) {}
 
   ngOnInit() {
     this.axisData = new AxisData('', '');
@@ -23,8 +25,6 @@ export class GraphFormComponent implements OnInit {
   }
 
   private onSubmit(form: NgForm) {
-    console.log(this.axisData);
-    // TODO Finish this-----
-    // Generates graph from axis data provided
+    this.dataService.setAxes(this.axisData);
   }
 }

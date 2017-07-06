@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+
 @Component({
   selector: 'app-graph-area',
   templateUrl: './graph-area.component.html',
@@ -10,6 +11,7 @@ export class GraphAreaComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
 
 }
