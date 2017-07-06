@@ -9,7 +9,7 @@ import { AxisData } from './axis-data';
 })
 export class GraphFormComponent implements OnInit {
 
-  axisData: AxisData;
+  private axisData: AxisData;
 
   constructor() { }
 
@@ -17,13 +17,14 @@ export class GraphFormComponent implements OnInit {
     this.axisData = new AxisData('', '');
   }
 
-  transferDataSuccess(event) {
+  private transferDataSuccess(event) {
     const axis = event.mouseEvent.target.name
     this.axisData[`${axis}Column`] = event.dragData;
   }
 
-  onSubmit(form) {
+  private onSubmit(form: NgForm) {
     console.log(this.axisData);
-    // TODO Finish this.
+    // TODO Finish this-----
+    // Generates graph from axis data provided
   }
 }

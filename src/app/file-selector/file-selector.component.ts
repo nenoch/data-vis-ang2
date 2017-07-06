@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { FileSelectorService } from './file-selector.service'
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-file-selector',
@@ -8,32 +8,35 @@ import { FileSelectorService } from './file-selector.service'
 })
 export class FileSelectorComponent implements OnInit {
 
-  public showFileSelector: Boolean;
+  public showFileSelector: Boolean = true;
   public filesChosen: Boolean = false;
 
   private files: any = [];
 
   @Output() showState: EventEmitter<Boolean> = new EventEmitter();
 
-  constructor(private fileSelectorService: FileSelectorService) { };
+  constructor() { };
 
   ngOnInit() {
-    this.setFileSelectorStatus();
+  }
+
+  private onSubmit(form: NgForm) {
+    // TODO call to backend service, converting files to a csv
+    console.dir(this.files);
+    this.hideHandler();
   }
 
   private onChange(event) {
-    this.files = event.srcElement.files;
+    this.files = event.srcElement.files || [];
     this.files.length === 0 ? this.filesChosen = false : this.filesChosen = true;
   }
 
-  private hideHandler(event) {
+  private hideHandler() {
     this.showState.emit(this.showFileSelector);
-    this.fileSelectorService.toggleShowFileSelector();
-    this.setFileSelectorStatus();
+    this.toggleShowFileSelector();
   }
 
-  private setFileSelectorStatus() {
-    this.showFileSelector = this.fileSelectorService.showFileSelector;
+  private toggleShowFileSelector() {
+    this.showFileSelector = !this.showFileSelector;
   }
-
 }
