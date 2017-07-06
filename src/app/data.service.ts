@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { AxisData } from './graph-form/axis-data';
 import 'rxjs/Rx';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import * as d3 from 'd3';
 
 
@@ -12,8 +12,12 @@ export class DataService {
   private csvPath = 'assets/mock-data/data.csv';
   public d3Data = [];
   public axes: AxisData;
+  public dataStream: Observable<any>;
+  private observable: BehaviorSubject<any>;
 
   constructor(private http: Http){
+    this.observable = new BehaviorSubject([]);
+    this.dataStream = this.observable.asObservable();
   }
 
   // Independent from d3 library
@@ -26,11 +30,6 @@ export class DataService {
     this.axes = axisObject;
     this.convertD3data();
   }
-/*
-  getD3data(){
-    return this.d3Data;
-  }
-*/
 
   private extractColumns(response: Response){
     let csvData = response['_body'];
@@ -41,7 +40,7 @@ export class DataService {
   //
 
   private setD3data(data){
-    this.d3Data = data;
+    this.observable.next(this.d3Data = data);
   }
 
   private convertD3data(){

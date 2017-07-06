@@ -9,37 +9,10 @@ import * as d3 from 'd3';
 })
 export class BarchartComponent implements OnInit {
   @ViewChild('barchart') private barContainer: ElementRef;
-  private data = [
- {
-   "day": "Monday",
-   "people": "1234"
- },
- {
-   "day": "Tuesday",
-   "people": "2345"
- },
- {
-   "day": "Wednesday",
-   "people": "3456"
- },
- {
-   "day": "Thursday",
-   "people": "4567"
- },
- {
-   "day": "Friday",
-   "people": "5678"
- },
- {
-   "day": "Saturday",
-   "people": "6789"
- },
- {
-   "day": "Sunday",
-   "people": "1010"
- }
-];
-  private margin = {top: 20, right: 20, bottom: 30, left: 40};
+  private data;
+  private xAxis;
+  private yAxis;
+  private margin = {top: 20, right: 20, bottom: 30, left: 45};
   private width: number;
   private height: number;
   private colours;
@@ -47,21 +20,33 @@ export class BarchartComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
-    console.log(this.data);
-    this.createBarchart();
+    this.getData();
   }
 
-  /* WIP
-  // getData() {
-  //   this.dataService.getD3data().subscribe(
-  //     data => this.data = data,
-  //     error => console.log(error)
-  //   );
-  // }
-  */
+  private getData() {
+    this.dataService.dataStream.subscribe((data) => {
+      this.data = data;
+      console.log("data", this.data);
+      this.setAxes();
+      if (this.data.length !== 0){
+        this.createBarchart();
+      }
+    });
+  }
 
-  createBarchart(){
+  private setAxes(){
+    let axes = [];
+    for (var k in this.data[0]) {
+      axes.push(k)
+    }
+    this.xAxis = axes[0];
+    this.yAxis = axes[1];
+  }
+
+
+  private createBarchart(){
     // Grab the element in the DOM
+    this.resetBarchart();
     let element = this.barContainer.nativeElement;
     this.width = 700 - this.margin.left - this.margin.right;
     this.height = 300 - this.margin.top - this.margin.bottom;
@@ -86,8 +71,8 @@ export class BarchartComponent implements OnInit {
 
 
       // Scale the range of the data in the domains
-      x.domain(this.data.map(function(d) { return d.day }));
-      y.domain([0, d3.max(this.data, function(d) { return d.people })]);
+      x.domain(this.data.map(function(d) { return d[this.xAxis] }.bind(this)));
+      y.domain([0, d3.max(this.data, function(d) { return d[this.yAxis] }.bind(this))]);
 
       // append the rectangles for the bar chart
       svg.selectAll(".bar")
@@ -95,19 +80,37 @@ export class BarchartComponent implements OnInit {
         .enter().append("rect")
           .attr("class", "bar")
           .style('fill', function(d,i){ return this.colours(i)}.bind(this))
-          .attr("x", function(d) { return x(d.day); })
+          .attr("x", function(d) { return x(d[this.xAxis]); }.bind(this))
           .attr("width", x.bandwidth())
-          .attr("y", function(d) { return y(d.people); })
-          .attr("height", function(d) { return this.height - y(d.people); }.bind(this));
+          .attr("y", function(d) { return y(d[this.yAxis]); }.bind(this))
+          .attr("height", function(d) { return this.height - y(d[this.yAxis]);
+            }.bind(this));
 
-      // add the x Axis
+      // X Axis
       svg.append("g")
           .attr("transform", "translate(0," + this.height + ")")
-          .call(d3.axisBottom(x));
+          .call(d3.axisBottom(x))
+        .append("text")
+          .attr('class', 'label-style')
+          .attr("x", this.width)
+          .attr("y", 8)
+          .attr("dy", "0.71em")
+          .attr("text-anchor", "middle")
+          .text(this.xAxis);
 
-      // add the y Axis
+      // Y Axis
       svg.append("g")
-          .call(d3.axisLeft(y));
+          .call(d3.axisLeft(y))
+        .append("text")
+          .attr('class', 'label-style')
+          .attr("y", -6)
+          .attr("text-anchor", "middle")
+          .text(this.yAxis);
+  }
+
+  private resetBarchart(){
+    let svg = d3.select('svg');
+    svg.remove();
   }
 
 }

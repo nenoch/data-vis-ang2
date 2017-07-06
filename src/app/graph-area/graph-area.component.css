@@ -1,0 +1,6 @@
+.label-style {
+  text-transform: capitalize;
+  font-size: 10px;
+  font-weight: bold;
+  fill: #000;
+}
