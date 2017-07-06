@@ -16,13 +16,6 @@ export class ColumnsListComponent implements OnInit {
     this.getColumns();
   }
 
-  // getColumns() {
-  //   let data = this.dataService.getData();
-  //   for (let k in data[0]) {
-  //     this.columns.push(k);
-  //   }
-  // }
-
   getColumns(){
     this.dataService.getCSVColumns().subscribe(
       data => this.columns = data,
