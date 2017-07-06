@@ -95,7 +95,6 @@ export class BarchartComponent implements OnInit {
         .enter().append("rect")
           .attr("class", "bar")
           .style('fill', function(d,i){ return this.colours(i)}.bind(this))
-          .attr("fill", "steelblue")
           .attr("x", function(d) { return x(d.day); })
           .attr("width", x.bandwidth())
           .attr("y", function(d) { return y(d.people); })
