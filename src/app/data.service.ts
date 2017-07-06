@@ -41,7 +41,6 @@ export class DataService {
 
   private setD3data(data){
     this.observable.next(this.d3Data = data);
-    console.log("data set", this.d3Data);
   }
 
   private convertD3data(){

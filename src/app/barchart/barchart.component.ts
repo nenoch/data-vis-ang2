@@ -9,36 +9,8 @@ import * as d3 from 'd3';
 })
 export class BarchartComponent implements OnInit {
   @ViewChild('barchart') private barContainer: ElementRef;
-  private data = [
- {
-   "day": "Monday",
-   "people": "1234"
- },
- {
-   "day": "Tuesday",
-   "people": "2345"
- },
- {
-   "day": "Wednesday",
-   "people": "3456"
- },
- {
-   "day": "Thursday",
-   "people": "4567"
- },
- {
-   "day": "Friday",
-   "people": "5678"
- },
- {
-   "day": "Saturday",
-   "people": "6789"
- },
- {
-   "day": "Sunday",
-   "people": "1010"
- }
-];
+  private data;
+  private axes = [];
   private margin = {top: 20, right: 20, bottom: 30, left: 40};
   private width: number;
   private height: number;
@@ -50,19 +22,25 @@ export class BarchartComponent implements OnInit {
     this.getData();
   }
 
-  getData() {
+  private getData() {
     this.dataService.dataStream.subscribe((data) => {
       this.data = data;
       console.log("data", this.data);
+      this.setAxes();
       if (this.data.length !== 0){
-        console.log("hello!");
         this.createBarchart();
       }
     });
   }
 
+  private setAxes(){
+    for (var k in this.data[0]) {
+      this.axes.push(k)
+    }
+  }
 
-  createBarchart(){
+
+  private createBarchart(){
     // Grab the element in the DOM
     let element = this.barContainer.nativeElement;
     this.width = 700 - this.margin.left - this.margin.right;
@@ -88,8 +66,8 @@ export class BarchartComponent implements OnInit {
 
 
       // Scale the range of the data in the domains
-      x.domain(this.data.map(function(d) { return d.day }));
-      y.domain([0, d3.max(this.data, function(d) { return d.people })]);
+      x.domain(this.data.map(function(d) { return d[this.axes[0]] }.bind(this)));
+      y.domain([0, d3.max(this.data, function(d) { return d[this.axes[1]] }.bind(this))]);
 
       // append the rectangles for the bar chart
       svg.selectAll(".bar")
@@ -97,10 +75,13 @@ export class BarchartComponent implements OnInit {
         .enter().append("rect")
           .attr("class", "bar")
           .style('fill', function(d,i){ return this.colours(i)}.bind(this))
-          .attr("x", function(d) { return x(d.day); })
+          .attr("x", function(d) { return x(d[this.axes[0]]); }.bind(this))
           .attr("width", x.bandwidth())
-          .attr("y", function(d) { return y(d.people); })
-          .attr("height", function(d) { return this.height - y(d.people); }.bind(this));
+          .attr("y", function(d) { return y(d[this.axes[1]]); }.bind(this))
+          .attr("height", function(d) {
+            console.log("height", y(d[this.axes[1]]));
+            return this.height - y(d[this.axes[1]]);
+            }.bind(this));
 
       // add the x Axis
       svg.append("g")
