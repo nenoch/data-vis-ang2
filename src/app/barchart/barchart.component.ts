@@ -74,8 +74,6 @@ export class BarchartComponent implements OnInit {
       x.domain(this.data.map(function(d) { return d[this.xAxis] }.bind(this)));
       y.domain([0, d3.max(this.data, function(d) { return d[this.yAxis] }.bind(this))]);
 
-      console.log("max", d3.max(this.data, function(d) { return d[this.yAxis] }.bind(this)));
-
       // append the rectangles for the bar chart
       svg.selectAll(".bar")
           .data(this.data)
@@ -88,14 +86,27 @@ export class BarchartComponent implements OnInit {
           .attr("height", function(d) { return this.height - y(d[this.yAxis]);
             }.bind(this));
 
-      // add the x Axis
+      // X Axis
       svg.append("g")
           .attr("transform", "translate(0," + this.height + ")")
-          .call(d3.axisBottom(x));
+          .call(d3.axisBottom(x))
+        .append("text")
+          .attr('class', 'label-style')
+          .attr("x", this.width)
+          .attr("y", 8)
+          .attr("dy", "0.71em")
+          .attr("text-anchor", "middle")
+          .text(this.xAxis);
 
-      // add the y Axis
+      // Y Axis
       svg.append("g")
-          .call(d3.axisLeft(y));
+          .call(d3.axisLeft(y))
+        .append("text")
+          .classed('label-style', true)
+          .attr('class', 'label-style')
+          .attr("y", -6)
+          .attr("text-anchor", "middle")
+          .text(this.yAxis);
   }
 
   private resetBarchart(){
