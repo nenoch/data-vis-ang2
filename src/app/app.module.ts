@@ -19,7 +19,7 @@ import { BarchartComponent } from './barchart/barchart.component';
     GraphFormComponent,
     GraphAreaComponent,
     ColumnsListComponent,
-    FileSelectorComponent
+    FileSelectorComponent,
     BarchartComponent
   ],
   imports: [
