@@ -47,18 +47,20 @@ export class BarchartComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
-    console.log(this.data);
-    this.createBarchart();
+    this.getData();
   }
 
-  /* WIP
-  // getData() {
-  //   this.dataService.getD3data().subscribe(
-  //     data => this.data = data,
-  //     error => console.log(error)
-  //   );
-  // }
-  */
+  getData() {
+    this.dataService.dataStream.subscribe((data) => {
+      this.data = data;
+      console.log("data", this.data);
+      if (this.data.length !== 0){
+        console.log("hello!");
+        this.createBarchart();
+      }
+    });
+  }
+
 
   createBarchart(){
     // Grab the element in the DOM
