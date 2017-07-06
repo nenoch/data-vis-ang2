@@ -102,7 +102,6 @@ export class BarchartComponent implements OnInit {
       svg.append("g")
           .call(d3.axisLeft(y))
         .append("text")
-          .classed('label-style', true)
           .attr('class', 'label-style')
           .attr("y", -6)
           .attr("text-anchor", "middle")
