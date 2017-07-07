@@ -71,18 +71,18 @@ export class BarchartComponent implements OnInit {
 
 
       // Scale the range of the data in the domains
-      x.domain(this.data.map(function(d) { return d[this.xAxis] }.bind(this)));
-      y.domain([0, d3.max(this.data, function(d) { return d[this.yAxis] }.bind(this))]);
+      x.domain(this.data.map((d) => d[this.xAxis] ));
+      y.domain([0, d3.max(this.data, (d) => d[this.yAxis])]);
 
       // append the rectangles for the bar chart
       svg.selectAll(".bar")
           .data(this.data)
         .enter().append("rect")
           .attr("class", "bar")
-          .style("fill", function(d,i){ return this.colours(i)}.bind(this))
-          .attr("x", function(d) { return x(d[this.xAxis]); }.bind(this))
+          .style("fill", (d,i) => this.colours(i) )
+          .attr("x", (d) => x(d[this.xAxis]) )
           .attr("width", x.bandwidth())
-          .attr("y", function(d) { return y(d[this.yAxis]); }.bind(this))
+          .attr("y", (d) => y(d[this.yAxis]) )
           .attr("height", (d) => this.setBarHeight(d,y) );
 
       // X Axis
@@ -108,11 +108,9 @@ export class BarchartComponent implements OnInit {
   }
 
   private setBarHeight(d,y){
+    let error = { title: "Y Axis Error", content: "Please enter a numeric value for the Y Axis."};
     if (isNaN(this.height - y(d[this.yAxis]))) {
-      this.errorService.handleError({
-        title: "Y Axis Error",
-        content: "Please enter a numeric value for the Y Axis."
-      });
+      this.errorService.handleError(error);
       this.resetBarchart();
     }
     else {
