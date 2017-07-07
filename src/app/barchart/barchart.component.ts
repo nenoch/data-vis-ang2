@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { DataService } from '../data.service';
+import { ErrorHandlerService } from '../error-handler/error-handler.service';
 import * as d3 from 'd3';
 
 @Component({
@@ -25,7 +26,8 @@ export class BarchartComponent implements OnInit {
       }
   }
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private errorService: ErrorHandlerService) {}
+
 
   ngOnInit() {
     this.getData();
@@ -34,7 +36,6 @@ export class BarchartComponent implements OnInit {
   private getData() {
     this.dataService.dataStream.subscribe((data) => {
       this.data = data;
-      console.log("data", this.data);
       this.setAxes();
       if (this.dataExists()) {
         this.createBarchart();
@@ -90,27 +91,26 @@ export class BarchartComponent implements OnInit {
 
 
       // Scale the range of the data in the domains
-      x.domain(this.data.map(function(d) { return d[this.xAxis] }.bind(this)));
-      y.domain([0, d3.max(this.data, function(d) { return d[this.yAxis] }.bind(this))]);
+      x.domain(this.data.map((d) => d[this.xAxis] ));
+      y.domain([0, d3.max(this.data, (d) => d[this.yAxis])]);
 
       // append the rectangles for the bar chart
       svg.selectAll(".bar")
           .data(this.data)
         .enter().append("rect")
           .attr("class", "bar")
-          .style('fill', function(d,i){ return this.colours(i)}.bind(this))
-          .attr("x", function(d) { return x(d[this.xAxis]); }.bind(this))
+          .style("fill", (d,i) => this.colours(i) )
+          .attr("x", (d) => x(d[this.xAxis]) )
           .attr("width", x.bandwidth())
-          .attr("y", function(d) { return y(d[this.yAxis]); }.bind(this))
-          .attr("height", function(d) { return this.height - y(d[this.yAxis]);
-            }.bind(this));
+          .attr("y", (d) => y(d[this.yAxis]) )
+          .attr("height", (d) => this.setBarHeight(d,y) );
 
       // X Axis
       svg.append("g")
           .attr("transform", "translate(0," + this.height + ")")
           .call(d3.axisBottom(x))
         .append("text")
-          .attr('class', 'label-style')
+          .attr("class", "label-style")
           .attr("x", this.width)
           .attr("y", 8)
           .attr("dy", "0.71em")
@@ -121,10 +121,21 @@ export class BarchartComponent implements OnInit {
       svg.append("g")
           .call(d3.axisLeft(y))
         .append("text")
-          .attr('class', 'label-style')
+          .attr("class", "label-style")
           .attr("y", -6)
           .attr("text-anchor", "middle")
           .text(this.yAxis);
+  }
+
+  private setBarHeight(d,y){
+    let error = { title: "Y Axis Error", content: "Please enter a numeric value for the Y Axis."};
+    if (isNaN(this.height - y(d[this.yAxis]))) {
+      this.errorService.handleError(error);
+      this.resetBarchart();
+    }
+    else {
+      return this.height - y(d[this.yAxis]);
+    }
   }
 
   private resetBarchart(){
