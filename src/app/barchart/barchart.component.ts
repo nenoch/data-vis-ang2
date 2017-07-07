@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { DataService } from '../data.service';
 import { ErrorHandlerService } from '../error-handler/error-handler.service';
 import * as d3 from 'd3';
@@ -16,9 +16,18 @@ export class BarchartComponent implements OnInit {
   private margin = {top: 20, right: 20, bottom: 30, left: 45};
   private width: number;
   private height: number;
+  private aspectRatio = 0.7;
   private colours;
 
+  @HostListener('window:resize', ['$event'])
+  onKeyUp(ev: UIEvent) {
+    if (this.dataExists()) {
+        this.createBarchart();
+      }
+  }
+
   constructor(private dataService: DataService, private errorService: ErrorHandlerService) {}
+
 
   ngOnInit() {
     this.getData();
@@ -28,10 +37,14 @@ export class BarchartComponent implements OnInit {
     this.dataService.dataStream.subscribe((data) => {
       this.data = data;
       this.setAxes();
-      if (this.data.length !== 0){
+      if (this.dataExists()) {
         this.createBarchart();
       }
     });
+  }
+
+  private dataExists() {
+    return this.data.length !== 0;
   }
 
   private setAxes(){
@@ -43,13 +56,20 @@ export class BarchartComponent implements OnInit {
     this.yAxis = axes[1];
   }
 
+  private setSize() {
+    const container = this.barContainer.nativeElement;
+    this.width = container.offsetWidth - this.margin.left - this.margin.right;
+    this.height = this.aspectRatio * this.width - this.margin.top - this.margin.bottom;
+  }
+
 
   private createBarchart(){
     // Grab the element in the DOM
     this.resetBarchart();
+    this.setSize();
+
     let element = this.barContainer.nativeElement;
-    this.width = 700 - this.margin.left - this.margin.right;
-    this.height = 300 - this.margin.top - this.margin.bottom;
+
     this.colours = d3.scaleLinear()
                     .domain([0, this.data.length])
                     .range(['red', 'blue']);
