@@ -27,7 +27,6 @@ export class BarchartComponent implements OnInit {
   private getData() {
     this.dataService.dataStream.subscribe((data) => {
       this.data = data;
-      console.log("data", this.data);
       this.setAxes();
       if (this.data.length !== 0){
         this.createBarchart();
@@ -84,18 +83,7 @@ export class BarchartComponent implements OnInit {
           .attr("x", function(d) { return x(d[this.xAxis]); }.bind(this))
           .attr("width", x.bandwidth())
           .attr("y", function(d) { return y(d[this.yAxis]); }.bind(this))
-          .attr("height", function(d) {
-            if (isNaN(this.height - y(d[this.yAxis]))) {
-              this.errorService.handleError({
-                title: "Y Axis Error",
-                content: "Please enter a numeric value for the Y Axis."
-              });
-              this.resetBarchart();
-            }
-            else {
-              return this.height - y(d[this.yAxis]);
-            }
-          }.bind(this));
+          .attr("height", (d) => this.setBarHeight(d,y) );
 
       // X Axis
       svg.append("g")
@@ -119,18 +107,18 @@ export class BarchartComponent implements OnInit {
           .text(this.yAxis);
   }
 
-  // private setBarHeight(d){
-  //   if (isNaN(this.height - y(d[this.yAxis]))) {
-  //     this.errorService.handleError({
-  //       title: "Y Axis Error",
-  //       content: "Please enter a numeric value for the Y Axis."
-  //     });
-  //     this.resetBarchart();
-  //   }
-  //   else {
-  //     return this.height - y(d[this.yAxis]);
-  //   }
-  // }
+  private setBarHeight(d,y){
+    if (isNaN(this.height - y(d[this.yAxis]))) {
+      this.errorService.handleError({
+        title: "Y Axis Error",
+        content: "Please enter a numeric value for the Y Axis."
+      });
+      this.resetBarchart();
+    }
+    else {
+      return this.height - y(d[this.yAxis]);
+    }
+  }
 
   private resetBarchart(){
     let svg = d3.select('svg');
