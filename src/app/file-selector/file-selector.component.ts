@@ -22,6 +22,7 @@ export class FileSelectorComponent implements OnInit {
 
   private onSubmit(form: NgForm) {
     // TODO call to backend service, converting files to a csv
+    // Dummy code: this.fileConverterDirective.convertFiles(this.files)
     console.dir(this.files);
     this.hideHandler();
   }
