@@ -6,6 +6,7 @@ import { DndModule } from 'ng2-dnd';
 
 import { DataService } from './data.service';
 import { ErrorHandlerService } from './error-handler/error-handler.service';
+import { UploadService } from './upload.service';
 
 import { AppComponent } from './app.component';
 import { GraphFormComponent } from './graph-form/graph-form.component';
@@ -33,7 +34,8 @@ import { ErrorModalComponent } from './error-handler/error-modal/error-modal.com
   ],
   providers: [
     DataService,
-    ErrorHandlerService
+    ErrorHandlerService,
+    UploadService
   ],
   bootstrap: [AppComponent]
 })
