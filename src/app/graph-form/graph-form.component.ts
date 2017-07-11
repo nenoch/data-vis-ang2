@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AxisData } from './axis-data';
 import { DataService } from '../data.service';
+import { ChartUtilsService } from '../chart-utils.service';
 
 
 @Component({
@@ -13,7 +14,7 @@ export class GraphFormComponent implements OnInit {
 
   private axisData: AxisData;
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private chartUtils: ChartUtilsService) {}
 
   ngOnInit() {
     this.axisData = new AxisData('', '');
@@ -26,5 +27,9 @@ export class GraphFormComponent implements OnInit {
 
   private onSubmit(form: NgForm) {
     this.dataService.setAxes(this.axisData);
+  }
+
+  private onReset() {
+    this.chartUtils.resetSVG();
   }
 }
