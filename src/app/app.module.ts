@@ -36,6 +36,10 @@ import { GraphDirective } from './graph-area/graph.directive';
     BarchartComponent,
     LinechartComponent
   ],
+  entryComponents: [
+    BarchartComponent,
+    LinechartComponent
+  ],
   imports: [
     FormsModule,
     BrowserModule,

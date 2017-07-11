@@ -20,8 +20,8 @@ export class GraphFormComponent implements OnInit {
     this.axisData = new AxisData('', '');
   }
 
-  private selectGraph(chart) {
-    this.graphService.setGraph(chart);
+  private selectGraph(graph) {
+    this.graphService.setGraph(graph);
   }
 
   private transferDataSuccess(event) {

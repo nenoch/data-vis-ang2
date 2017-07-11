@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 
+import { Graph } from './graph';
 import { BarchartComponent } from '../barchart/barchart.component';
 import { LinechartComponent } from '../linechart/linechart.component';
 
@@ -16,6 +17,6 @@ export class GraphService {
   constructor() { }
 
   public setGraph(graph) {
-    this.selectedGraph.emit(this.graphs[graph])
+    this.selectedGraph.emit(new Graph(this.graphs[graph]))
   }
 }

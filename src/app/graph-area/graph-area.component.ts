@@ -25,9 +25,10 @@ export class GraphAreaComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.graphService.selectedGraph.subscribe((graphComponent) => {
-      // TODO Stuff to load graph
+      console.log(graphComponent.component);
+      this.graph = graphComponent;
+      this.loadGraph();
     })
-    this.loadGraph();
   }
 
   loadGraph() {
@@ -35,7 +36,7 @@ export class GraphAreaComponent implements OnInit, AfterViewInit {
     const viewContainerRef = this.graphHost.viewContainerRef;
     viewContainerRef.clear();
     const componentRef = viewContainerRef.createComponent(componentFactory);
-    (<GraphComponent>componentRef.instance).data = this.graph.data;
+    // (<GraphComponent>componentRef.instance).data = this.graph.data;
   }
 
 }
