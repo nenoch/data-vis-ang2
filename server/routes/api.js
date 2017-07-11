@@ -20,7 +20,7 @@ router.post('/upload', (req, res) => {
         }  
        // No error occured.
         return res.status(200).json({
-          success: "Success" // TODO return a proper object for frontend
+          message: "Success" // TODO return a proper object for frontend
         }); 
   });  
 })

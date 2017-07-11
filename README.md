@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng build --watch` to bundle angular files and watch for changes. Run `nodemon server.js` to start the server and navigate to `http://localhost:3000/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 

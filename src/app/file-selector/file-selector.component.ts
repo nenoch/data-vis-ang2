@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UploadService } from '../upload.service';
+import { ErrorHandlerService } from '../error-handler/error-handler.service';
 
 @Component({
   selector: 'app-file-selector',
@@ -16,16 +17,21 @@ export class FileSelectorComponent implements OnInit {
 
   @Output() showState: EventEmitter<Boolean> = new EventEmitter();
 
-  constructor(private uploadService: UploadService) { };
+  constructor(private uploadService: UploadService, private errorService: ErrorHandlerService) { };
 
   ngOnInit() {
   }
 
   private onSubmit(form: NgForm) {
     this.uploadService.postFiles(this.files).subscribe(data => {
-      console.log(data); // TODO figure out proper frontend response
-    })
-    // this.hideHandler();
+      if (data.message === 'Success') {
+        this.hideHandler();
+        this.resetForm(form);
+      }
+    },
+      err => {
+        this.errorService.handleError(err.json());
+      })
   }
 
   private onChange(event) {
@@ -41,5 +47,10 @@ export class FileSelectorComponent implements OnInit {
 
   private toggleShowFileSelector() {
     this.showFileSelector = !this.showFileSelector;
+  }
+
+  private resetForm(form: NgForm) {
+    this.files = [];
+    form.reset();
   }
 }

@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { ErrorHandlerService } from './error-handler/error-handler.service';
 
 @Injectable()
 export class UploadService {
 
-  constructor(private http: Http, private errorService: ErrorHandlerService) { }
+  constructor(private http: Http) { }
 
   public postFiles(files: any) {
     const formData: FormData = this.createFormData(files);
@@ -16,11 +15,7 @@ export class UploadService {
     const options = new RequestOptions({ headers: headers });
 
     return this.http.post('/api/upload', formData, options)
-      .map(res => res.json())
-      .catch((error: Response) => {
-                this.errorService.handleError(error.json());
-                return Observable.throw(error.json());
-            });
+      .map(res => res.json());
   }
 
   private createFormData(files: any): FormData {
