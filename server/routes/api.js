@@ -1,6 +1,10 @@
 const express = require ('express');
 const router = express.Router();
 
+
+const child = require('child_process').exec;
+const SHELL = './centrica_converter/file_watcher.sh';
+
 const config = require ('../config')
 const DIR = config.UPLOAD_DIR;
 
@@ -23,9 +27,25 @@ router.post('/upload', (req, res, next) => {
         }  
        // No error occured.
         return res.status(200).json({
-          message: "Success" // TODO return a proper object for frontend
-        }); 
-  });  
-})
+          message: "Success"
+        });
+  });
+});
+
+router.get('/convert', (req, res) => {
+  child(SHELL, function (error, stdout, stderr) {
+    if (error !== null) {
+      console.log('exec error: ' + error);
+      return res.status(420).json({
+          error: error
+      })
+    }
+    console.log('stdout: ' + stdout);
+    console.log('stderr: ' + stderr);
+    return res.status(200).json({
+      message: "Succesfully converted files."
+    })
+  });
+});
 
 module.exports = router;
