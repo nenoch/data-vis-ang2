@@ -9,7 +9,7 @@ import * as d3 from 'd3';
 @Injectable()
 export class DataService {
 
-  private csvPath = 'assets/mock-data/dataset.csv';
+  private csvPath = 'assets/data/dataset.csv';
   public d3Data = [];
   public axes: AxisData;
   public dataStream: Observable<any>;
