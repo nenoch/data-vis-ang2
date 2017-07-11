@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const multer = require ('multer');
-const DIR = './uploads'; // TODO Change to correct directory
+const DIR = './centrica_converter/InputPath'; // TODO Change to correct directory
 const upload = multer({dest: DIR}).array('uploadFile[]');
 
 /* GET api listing. */
