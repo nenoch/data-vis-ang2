@@ -34,7 +34,6 @@ export class DataService {
   private extractColumns(response: Response){
     let csvData = response['_body'];
     let valuePairs = csvData.split(/\r\n|\n/);
-    console.log(valuePairs);
     let columns = valuePairs[0].split(',');
     return columns;
   }

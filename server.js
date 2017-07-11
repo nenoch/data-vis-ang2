@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 
 // Get our API routes
 const api = require('./server/routes/api');
+const converter = require('./server/routes/converter');
 
 const app = express();
 
@@ -27,6 +28,8 @@ app.use(function(req, res, next) {
 
 // Set our api routes
 app.use('/api', api);
+app.use('/converter', converter);
+
 
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {

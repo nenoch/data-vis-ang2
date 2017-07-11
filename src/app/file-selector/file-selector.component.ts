@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UploadService } from '../upload.service';
 import { ErrorHandlerService } from '../error-handler/error-handler.service';
+import { ConverterService } from '../converter.service';
 
 @Component({
   selector: 'app-file-selector',
@@ -17,7 +18,7 @@ export class FileSelectorComponent implements OnInit {
 
   @Output() showState: EventEmitter<Boolean> = new EventEmitter();
 
-  constructor(private uploadService: UploadService, private errorService: ErrorHandlerService) { };
+  constructor(private uploadService: UploadService, private errorService: ErrorHandlerService, private converterService: ConverterService) { };
 
   ngOnInit() {
   }
@@ -27,6 +28,7 @@ export class FileSelectorComponent implements OnInit {
       if (data.message === 'Success') {
         this.hideHandler();
         this.resetForm(form);
+        this.fileConvertion();
       }
     },
       err => {
@@ -38,6 +40,16 @@ export class FileSelectorComponent implements OnInit {
     console.log(event);
     this.files = event.target.files || [];
     this.files.length === 0 ? this.filesChosen = false : this.filesChosen = true;
+  }
+
+  private fileConvertion(){
+    this.converterService.convertFiles().subscribe(data => {
+      console.log(data);
+    },
+      err => {
+        this.errorService.handleError(err.json());
+      })
+
   }
 
   private hideHandler() {

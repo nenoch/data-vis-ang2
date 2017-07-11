@@ -8,6 +8,7 @@ import { DataService } from './data.service';
 import { ErrorHandlerService } from './error-handler/error-handler.service';
 import { UploadService } from './upload.service';
 import { ChartUtilsService } from './chart-utils.service';
+import { ConverterService } from './converter.service';
 
 import { AppComponent } from './app.component';
 import { GraphFormComponent } from './graph-form/graph-form.component';
@@ -37,7 +38,8 @@ import { ErrorModalComponent } from './error-handler/error-modal/error-modal.com
     DataService,
     UploadService,
     ErrorHandlerService,
-    ChartUtilsService
+    ChartUtilsService,
+    ConverterService
   ],
   bootstrap: [AppComponent]
 })
