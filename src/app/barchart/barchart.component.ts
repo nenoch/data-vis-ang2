@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { DataService } from '../data.service';
 import { ErrorHandlerService } from '../error-handler/error-handler.service';
+import { ChartUtilsService } from '../chart-utils.service';
+
 import * as d3 from 'd3';
 
 @Component({
@@ -26,7 +28,7 @@ export class BarchartComponent implements OnInit {
       }
   }
 
-  constructor(private dataService: DataService, private errorService: ErrorHandlerService) {}
+  constructor(private dataService: DataService, private errorService: ErrorHandlerService, private chartUtils: ChartUtilsService) {}
 
 
   ngOnInit() {
@@ -139,8 +141,7 @@ export class BarchartComponent implements OnInit {
   }
 
   private resetBarchart(){
-    let svg = d3.select('svg');
-    svg.remove();
+    this.chartUtils.resetSVG();
   }
 
 }
