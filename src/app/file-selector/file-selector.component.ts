@@ -30,12 +30,11 @@ export class FileSelectorComponent implements OnInit {
       }
     },
       err => {
-        this.errorService.handleError(err.json());
+        this.errorService.handleError({title: 'Upload Failed', content: err.statusText});
       })
   }
 
   private onChange(event) {
-    console.log(event);
     this.files = event.target.files || [];
     this.files.length === 0 ? this.filesChosen = false : this.filesChosen = true;
   }
@@ -51,6 +50,7 @@ export class FileSelectorComponent implements OnInit {
 
   private resetForm(form: NgForm) {
     this.files = [];
+    this.filesChosen = false;
     form.reset();
   }
 }

@@ -1,22 +1,25 @@
-const express = require('express');
+const express = require ('express');
 const router = express.Router();
 
+const config = require ('../config')
+const DIR = config.UPLOAD_DIR;
+
 const multer = require ('multer');
-const DIR = './centrica_converter/InputPath'; // TODO Change to correct directory
-const upload = multer({dest: DIR}).array('uploadFile[]');
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, DIR)
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+})
+const upload = multer({storage: storage}).array('uploadFile[]');
 
-/* GET api listing. */
-router.get('/', (req, res) => {
-  res.send('api works');
-});
-
-router.post('/upload', (req, res) => {
+router.post('/upload', (req, res, next) => {
   upload(req, res, function (err) {
         if (err) {
           // An error occurred when uploading
-          return res.status(422).json({
-              error: err
-          })
+          return res.status(422).json(err)
         }  
        // No error occured.
         return res.status(200).json({
