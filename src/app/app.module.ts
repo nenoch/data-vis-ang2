@@ -8,6 +8,7 @@ import { DataService } from './data.service';
 import { ErrorHandlerService } from './error-handler/error-handler.service';
 import { UploadService } from './upload.service';
 import { ChartUtilsService } from './chart-utils.service';
+import { GraphService } from './graph-area/graph.service';
 
 import { AppComponent } from './app.component';
 import { GraphFormComponent } from './graph-form/graph-form.component';
@@ -45,7 +46,8 @@ import { GraphDirective } from './graph-area/graph.directive';
     DataService,
     UploadService,
     ErrorHandlerService,
-    ChartUtilsService
+    ChartUtilsService,
+    GraphService
   ],
   bootstrap: [AppComponent]
 })

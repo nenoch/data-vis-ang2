@@ -1,7 +1,8 @@
 import { Component, OnInit, AfterViewInit, Input, ViewChild, ComponentFactoryResolver } from '@angular/core';
+import { GraphComponent } from './graph.component';
+import { GraphService } from './graph.service';
 import { GraphDirective } from './graph.directive';
 import { Graph } from './graph';
-import { GraphComponent } from './graph.component';
 
 
 @Component({
@@ -11,17 +12,22 @@ import { GraphComponent } from './graph.component';
 })
 export class GraphAreaComponent implements OnInit, AfterViewInit {
 
-  @Input() graph: Graph;
+  // @Input() graph: Graph;
+  private graph: Graph;
+
   @ViewChild(GraphDirective) graphHost: GraphDirective;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private graphService: GraphService) { }
 
   ngOnInit() {
 
   }
 
   ngAfterViewInit() {
-
+    this.graphService.selectedGraph.subscribe((graphComponent) => {
+      // TODO Stuff to load graph
+    })
+    this.loadGraph();
   }
 
   loadGraph() {
