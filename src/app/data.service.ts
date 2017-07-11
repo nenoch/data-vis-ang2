@@ -9,7 +9,7 @@ import * as d3 from 'd3';
 @Injectable()
 export class DataService {
 
-  private csvPath = 'assets/mock-data/data.csv';
+  private csvPath = 'assets/data/data.csv';
   public d3Data = [];
   public axes: AxisData;
   public dataStream: Observable<any>;
@@ -34,6 +34,7 @@ export class DataService {
   private extractColumns(response: Response){
     let csvData = response['_body'];
     let valuePairs = csvData.split(/\r\n|\n/);
+    console.log(valuePairs);
     let columns = valuePairs[0].split(',');
     return columns;
   }
