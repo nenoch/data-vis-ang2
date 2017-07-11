@@ -10,8 +10,8 @@ export class ConverterService {
   constructor(private http: Http) { }
 
   convertFiles(){
-    
-    return this.http.get('/converter/convert')
+
+    return this.http.get('/api/convert')
       .map(res => res.json());
 
   }
