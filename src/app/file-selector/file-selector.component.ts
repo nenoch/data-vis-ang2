@@ -1,5 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { UploadService } from '../upload.service';
+import { ErrorHandlerService } from '../error-handler/error-handler.service';
 
 @Component({
   selector: 'app-file-selector',
@@ -15,16 +17,21 @@ export class FileSelectorComponent implements OnInit {
 
   @Output() showState: EventEmitter<Boolean> = new EventEmitter();
 
-  constructor() { };
+  constructor(private uploadService: UploadService, private errorService: ErrorHandlerService) { };
 
   ngOnInit() {
   }
 
   private onSubmit(form: NgForm) {
-    // TODO call to backend service, converting files to a csv
-    // Dummy code: this.fileConverterDirective.convertFiles(this.files)
-    console.dir(this.files);
-    this.hideHandler();
+    this.uploadService.postFiles(this.files).subscribe(data => {
+      if (data.message === 'Success') {
+        this.hideHandler();
+        this.resetForm(form);
+      }
+    },
+      err => {
+        this.errorService.handleError(err.json());
+      })
   }
 
   private onChange(event) {
@@ -40,5 +47,10 @@ export class FileSelectorComponent implements OnInit {
 
   private toggleShowFileSelector() {
     this.showFileSelector = !this.showFileSelector;
+  }
+
+  private resetForm(form: NgForm) {
+    this.files = [];
+    form.reset();
   }
 }
