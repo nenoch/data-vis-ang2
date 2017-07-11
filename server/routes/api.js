@@ -26,16 +26,17 @@ router.post('/upload', (req, res) => {
 
 router.get('/convert', (req, res) => {
   child(SHELL, function (error, stdout, stderr) {
-
+    if (error !== null) {
+      console.log('exec error: ' + error);
+      return res.status(420).json({
+          error: error
+      })
+    }
     console.log('stdout: ' + stdout);
     console.log('stderr: ' + stderr);
-
-    if (error !== null) {
-
-      console.log('exec error: ' + error);
-
-    }
-
+    return res.status(200).json({
+      message: "Succesfully converted files."
+    })
   });
 });
 

@@ -32,22 +32,24 @@ export class FileSelectorComponent implements OnInit {
       }
     },
       err => {
-        this.errorService.handleError(err.json());
+        console.log(err);
+        this.errorService.handleError(err);
       })
   }
 
   private onChange(event) {
-    console.log(event);
     this.files = event.target.files || [];
     this.files.length === 0 ? this.filesChosen = false : this.filesChosen = true;
   }
 
   private fileConvertion(){
-    this.converterService.convertFiles().subscribe(data => {
-      console.log(data);
+    this.converterService.convertFiles().subscribe(
+      data => {
+      console.log(data.message);
     },
       err => {
-        this.errorService.handleError(err.json());
+        console.log(err);
+        this.errorService.handleError(err);
       })
 
   }
