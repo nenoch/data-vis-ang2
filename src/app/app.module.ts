@@ -36,6 +36,7 @@ import { ErrorModalComponent } from './error-handler/error-modal/error-modal.com
   providers: [
     DataService,
     UploadService,
+    ErrorHandlerService,
     ChartUtilsService
   ],
   bootstrap: [AppComponent]
