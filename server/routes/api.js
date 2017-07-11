@@ -14,13 +14,11 @@ router.post('/upload', (req, res) => {
   upload(req, res, function (err) {
         if (err) {
           // An error occurred when uploading
-          console.log(err);
           return res.status(422).json({
-              message: "Error on upload" // TODO implement proper error handling
+              error: err
           })
         }  
        // No error occured.
-        console.log(req.files);
         return res.status(200).json({
           success: "Success" // TODO return a proper object for frontend
         }); 

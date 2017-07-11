@@ -22,7 +22,6 @@ export class FileSelectorComponent implements OnInit {
   }
 
   private onSubmit(form: NgForm) {
-    console.dir(this.files);
     this.uploadService.postFiles(this.files).subscribe(data => {
       console.log(data); // TODO figure out proper frontend response
     })
