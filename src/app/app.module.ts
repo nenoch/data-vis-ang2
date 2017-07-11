@@ -17,6 +17,7 @@ import { ColumnsListComponent } from './columns-list/columns-list.component';
 import { FileSelectorComponent } from './file-selector/file-selector.component';
 import { BarchartComponent } from './barchart/barchart.component';
 import { ErrorModalComponent } from './error-handler/error-modal/error-modal.component';
+import { LinechartComponent } from './linechart/linechart.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ErrorModalComponent } from './error-handler/error-modal/error-modal.com
     ColumnsListComponent,
     FileSelectorComponent,
     BarchartComponent,
-    ErrorModalComponent
+    ErrorModalComponent,
+    LinechartComponent
   ],
   imports: [
     FormsModule,

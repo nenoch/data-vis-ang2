@@ -1,25 +1,33 @@
-const express = require('express');
+const express = require ('express');
 const router = express.Router();
 
-const multer = require ('multer');
-const DIR = './centrica_converter/InputPath';
-const upload = multer({dest: DIR}).array('uploadFile[]');
 
 const child = require('child_process').exec;
 const SHELL = './centrica_converter/file_watcher.sh';
 
+const config = require ('../config')
+const DIR = config.UPLOAD_DIR;
 
-router.post('/upload', (req, res) => {
+const multer = require ('multer');
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, DIR)
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+})
+const upload = multer({storage: storage}).array('uploadFile[]');
+
+router.post('/upload', (req, res, next) => {
   upload(req, res, function (err) {
         if (err) {
           // An error occurred when uploading
-          return res.status(422).json({
-              error: err
-          })
-        }
+          return res.status(422).json(err)
+        }  
        // No error occured.
         return res.status(200).json({
-          message: "Success" // TODO return a proper object for frontend
+          message: "Success"
         });
   });
 });

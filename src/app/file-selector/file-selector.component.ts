@@ -33,7 +33,7 @@ export class FileSelectorComponent implements OnInit {
     },
       err => {
         console.log(err);
-        this.errorService.handleError(err);
+        this.errorService.handleError({title: 'Upload Failed', content: err.statusText});
       })
   }
 
@@ -49,7 +49,7 @@ export class FileSelectorComponent implements OnInit {
     },
       err => {
         console.log(err);
-        this.errorService.handleError(err);
+        this.errorService.handleError({title: 'Convertion Failed', content: err.statusText});
       })
 
   }
@@ -65,6 +65,7 @@ export class FileSelectorComponent implements OnInit {
 
   private resetForm(form: NgForm) {
     this.files = [];
+    this.filesChosen = false;
     form.reset();
   }
 }
