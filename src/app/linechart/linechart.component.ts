@@ -14,7 +14,7 @@ export class LinechartComponent implements OnInit {
   private data;
   private xAxis;
   private yAxis;
-  private margin = {top: 20, right: 20, bottom: 30, left: 45};
+  private margin = {top: 50, right: 20, bottom: 100, left: 45};
   private width: number;
   private height: number;
   private aspectRatio = 0.7;
@@ -99,18 +99,29 @@ export class LinechartComponent implements OnInit {
       svg.append('g')
           .attr('transform', 'translate(0,' + this.height + ')')
           .call(d3.axisBottom(x))
-          .select('.domain')
-          .remove();
+          .selectAll("text")
+              .style("text-anchor", "end")
+              .attr("dx", "-.8em")
+              .attr("dy", ".15em")
+              .attr("transform", "rotate(-65)" );
+      // X Axis label
+      svg.select("g")
+          .append("text")
+            .attr("class", "label-style")
+            .attr("x", 8)
+            .attr("y", -this.width)
+            .attr("dy", -6)
+            .attr("transform", "rotate(90)" )
+            .attr("text-anchor", "middle")
+            .text(this.xAxis);
 
       // Y Axis
       svg.append('g')
           .call(d3.axisLeft(y))
         .append('text')
-          .attr('fill', '#000')
-          .attr('transform', 'rotate(-90)')
-          .attr('y', 6)
-          .attr('dy', '0.71em')
-          .attr('text-anchor', 'end')
+          .attr("class", "label-style")
+          .attr("y", -6)
+          .attr("text-anchor", "middle")
           .text(this.yAxis);
 
       svg.append('path')
@@ -119,7 +130,7 @@ export class LinechartComponent implements OnInit {
           .attr('stroke', 'steelblue')
           .attr('stroke-linejoin', 'round')
           .attr('stroke-linecap', 'round')
-          .attr('stroke-width', 1.5)
+          .attr('stroke-width', 3)
           .attr('d', line);
   }
 
