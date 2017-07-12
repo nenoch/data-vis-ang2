@@ -15,7 +15,7 @@ export class LinechartComponent implements OnInit, OnDestroy {
   private data;
   private xAxis;
   private yAxis;
-  private margin = {top: 20, right: 20, bottom: 30, left: 45};
+  private margin = {top: 50, right: 20, bottom: 100, left: 45};
   private width: number;
   private height: number;
   private aspectRatio = 0.7;
@@ -80,15 +80,13 @@ export class LinechartComponent implements OnInit, OnDestroy {
     // Set the range
     const x = d3.scaleBand()
               .rangeRound([0, this.width])
-              .padding(0.1);
+              .padding(1);
     const y = d3.scaleLinear()
               .rangeRound([this.height, 0]);
 
     const line = d3.line()
-      // .x(d => x(d[this.xAxis]))
-      // .y(d => y(d[this.yAxis]));
       .x(d => x(d[this.xAxis]))
-      .y(d => this.ySetLine(d, y));
+      .y(d => this.setLineY(d, y));
 
     const svg = d3.select(element).append('svg')
         .attr('width', this.width + this.margin.left + this.margin.right)
@@ -105,18 +103,30 @@ export class LinechartComponent implements OnInit, OnDestroy {
       svg.append('g')
           .attr('transform', 'translate(0,' + this.height + ')')
           .call(d3.axisBottom(x))
-          .select('.domain')
-          .remove();
+          .selectAll("text")
+              .style("text-anchor", "end")
+              .attr("dx", "-.8em")
+              .attr("dy", ".15em")
+              .attr("transform", "rotate(-65)" );
+
+      // X Axis label
+      svg.select("g")
+          .append("text")
+            .attr("class", "label-style")
+            .attr("x", 8)
+            .attr("y", -this.width)
+            .attr("dy", -6)
+            .attr("transform", "rotate(90)" )
+            .attr("text-anchor", "middle")
+            .text(this.xAxis);
 
       // Y Axis
       svg.append('g')
           .call(d3.axisLeft(y))
         .append('text')
-          .attr('fill', '#000')
-          .attr('transform', 'rotate(-90)')
-          .attr('y', 6)
-          .attr('dy', '0.71em')
-          .attr('text-anchor', 'end')
+          .attr("class", "label-style")
+          .attr("y", -6)
+          .attr("text-anchor", "middle")
           .text(this.yAxis);
 
       svg.append('path')
@@ -125,17 +135,17 @@ export class LinechartComponent implements OnInit, OnDestroy {
           .attr('stroke', 'steelblue')
           .attr('stroke-linejoin', 'round')
           .attr('stroke-linecap', 'round')
-          .attr('stroke-width', 1.5)
+          .attr('stroke-width', 3)
           .attr('d', line);
   }
 
-  private ySetLine(d, y) {
+  private setLineY(d, y) {
     const error = { title: 'Y Axis Error', content: 'Please enter a numeric value for the Y Axis.'};
-    if (isNaN(this.height - y(d[this.yAxis]))) {
+    if (isNaN(y(d[this.yAxis]))) {
       this.errorService.handleError(error);
       this.resetLinechart();
     } else {
-      return this.height - y(d[this.yAxis]);
+      return y(d[this.yAxis]);
     }
   }
 
