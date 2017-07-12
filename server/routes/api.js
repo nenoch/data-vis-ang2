@@ -1,11 +1,11 @@
-const express = require ('express');
+const express = require('express');
 const router = express.Router();
+const config = require ('../config');
 
 
 const child = require('child_process').exec;
-const SHELL = './centrica_converter/file_watcher.sh';
+const SHELL = config.SHELL_DIR;
 
-const config = require ('../config')
 const DIR = config.UPLOAD_DIR;
 
 const multer = require ('multer');
@@ -24,7 +24,7 @@ router.post('/upload', (req, res, next) => {
         if (err) {
           // An error occurred when uploading
           return res.status(422).json(err)
-        }  
+        }
        // No error occured.
         return res.status(200).json({
           message: "Success"
