@@ -15,37 +15,36 @@ export class DataService {
   public dataStream: Observable<any>;
   private observable: BehaviorSubject<any>;
 
-  constructor(private http: Http){
+  constructor(private http: Http) {
     this.observable = new BehaviorSubject([]);
     this.dataStream = this.observable.asObservable();
   }
 
   // Independent from d3 library
-  getCSVColumns() {
+  public getCSVColumns() {
     return this.http.get(Constants.CSV_DIR)
     .map((response: Response) => this.extractColumns(response));
   }
 
-  setAxes(axisObject){
+  public setAxes(axisObject) {
     this.axes = axisObject;
     this.convertD3data();
   }
 
-  private extractColumns(response: Response){
-    let csvData = response['_body'];
-    let valuePairs = csvData.split(/\r\n|\n/);
-    let columns = valuePairs[0].split(',');
-    return columns;
-  }
-  //
-
-  private setD3data(data){
+  public setD3data(data) {
     this.observable.next(this.d3Data = data);
   }
 
-  private convertD3data(){
+  private extractColumns(response: Response) {
+    const csvData = response['_body'];
+    const valuePairs = csvData.split(/\r\n|\n/);
+    const columns = valuePairs[0].split(',');
+    return columns;
+  }
+
+  private convertD3data() {
     d3.csv(Constants.CSV_DIR, function(d){
-      let axisData = this.axes;
+      const axisData = this.axes;
       return {
         [axisData.xColumn] : this.isNumber(d[axisData.xColumn]),
         [axisData.yColumn] : this.isNumber(d[axisData.yColumn])
@@ -55,8 +54,8 @@ export class DataService {
     }.bind(this));
   }
 
-  private isNumber(item){
-    if (item == +item){
+  private isNumber(item) {
+    if (item === +item) {
       return +item;
     } else {
       return item;

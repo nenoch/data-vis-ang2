@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AxisData } from './axis-data';
 import { DataService } from '../data.service';
@@ -11,6 +11,9 @@ import { ChartUtilsService } from '../chart-utils.service';
   styleUrls: ['./graph-form.component.css']
 })
 export class GraphFormComponent implements OnInit {
+
+  @Output()
+  graphType: String = 'barchart'
 
   private axisData: AxisData;
 
@@ -29,7 +32,12 @@ export class GraphFormComponent implements OnInit {
     this.dataService.setAxes(this.axisData);
   }
 
+  private changeGraph(graph) {
+    this.graphType = graph;
+  }
+
   private onReset() {
     this.chartUtils.resetSVG();
+    this.dataService.setD3data([]);
   }
 }

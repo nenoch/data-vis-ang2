@@ -2,10 +2,10 @@
   <!-- <div class="jumbotron data-placeholder margin-top10">
     <h3>Your chart will appear here!</h3>
   </div> -->
-  <div *ngIf="graph == 'barchart'">
+  <div *ngIf="graph === 'barchart'">
     <app-barchart></app-barchart>
   </div>
-  <div *ngIf="graph == 'linechart'">
+  <div *ngIf="graph === 'linechart'">
     <app-linechart></app-linechart>
   </div>
 </div>

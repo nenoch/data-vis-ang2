@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener} from '@angular/core';
 import { DataService } from '../data.service';
 import { ErrorHandlerService } from '../error-handler/error-handler.service';
 import { ChartUtilsService } from '../chart-utils.service';
+import { ISubscription } from 'rxjs/Subscription';
 
 import * as d3 from 'd3';
 
@@ -10,7 +11,7 @@ import * as d3 from 'd3';
   templateUrl: './barchart.component.html',
   styleUrls: ['./barchart.component.css']
 })
-export class BarchartComponent implements OnInit {
+export class BarchartComponent implements OnInit, OnDestroy {
   @ViewChild('barchart') private barContainer: ElementRef;
   private data;
   private xAxis;
@@ -20,6 +21,7 @@ export class BarchartComponent implements OnInit {
   private height: number;
   private aspectRatio = 0.7;
   private colours;
+  private subscription: ISubscription;
 
   @HostListener('window:resize', ['$event'])
   onKeyUp(ev: UIEvent) {
@@ -35,11 +37,15 @@ export class BarchartComponent implements OnInit {
     this.getData();
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
   private getData() {
-    this.dataService.dataStream.subscribe((data) => {
+    this.subscription = this.dataService.dataStream.subscribe((data) => {
       this.data = data;
-      this.setAxes();
       if (this.dataExists()) {
+        this.setAxes();
         this.createBarchart();
       }
     });
