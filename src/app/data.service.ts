@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Constants } from './constant';
 import { Http, Response } from '@angular/http';
 import { AxisData } from './graph-form/axis-data';
 import 'rxjs/Rx';
@@ -9,7 +10,7 @@ import * as d3 from 'd3';
 @Injectable()
 export class DataService {
 
-  private csvPath = 'assets/data/data.csv';
+  // private csvPath = 'assets/data/data.csv';
   public d3Data = [];
   public axes: AxisData;
   public dataStream: Observable<any>;
@@ -22,7 +23,7 @@ export class DataService {
 
   // Independent from d3 library
   getCSVColumns() {
-    return this.http.get(this.csvPath)
+    return this.http.get(Constants.CSV_DIR)
     .map((response: Response) => this.extractColumns(response));
   }
 
@@ -44,7 +45,7 @@ export class DataService {
   }
 
   private convertD3data(){
-    d3.csv(this.csvPath, function(d){
+    d3.csv(Constants.CSV_DIR, function(d){
       let axisData = this.axes;
       return {
         [axisData.xColumn] : this.isNumber(d[axisData.xColumn]),
