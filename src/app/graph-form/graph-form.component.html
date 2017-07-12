@@ -23,18 +23,15 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-lg-12 text-center visible">
     <div class="btn-group margin-top10">
-      <button type="button" class="btn btn-default" aria-label="barchart">
+      <button type="button" (click)="changeGraph('barchart')" class="btn btn-default" aria-label="barchart">
         <i class="fa fa-bar-chart" aria-hidden="true"></i>
       </button>
-      <button type="button" class="btn btn-default" aria-label="linechart">
+      <button type="button" (click)="changeGraph('linechart')" class="btn btn-default" aria-label="linechart">
         <i class="fa fa-line-chart" aria-hidden="true"></i>
-      </button>
-      <button type="button" class="btn btn-default" aria-label="Graph3">
-        <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-      </button>
-      <button type="button" class="btn btn-default" aria-label="Graph4">
-        <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
       </button>
     </div>
   </div>
+</div>
+<div class="row">
+    <app-graph-area [graph]="graphType"></app-graph-area>
 </div>
