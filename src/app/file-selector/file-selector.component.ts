@@ -1,8 +1,8 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { UploadService } from '../upload.service';
+import { UploadService } from './upload.service';
 import { ErrorHandlerService } from '../error-handler/error-handler.service';
-import { ConverterService } from '../converter.service';
+import { ConverterService } from './converter.service';
 
 @Component({
   selector: 'app-file-selector',
