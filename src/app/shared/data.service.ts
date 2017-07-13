@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Constants } from './constant';
 import { Http, Response } from '@angular/http';
-import { AxisData } from './graph-form/axis-data';
+import { AxisData } from '../graph-form/axis-data';
 import 'rxjs/Rx';
 import { Observable, BehaviorSubject } from 'rxjs';
 import * as d3 from 'd3';

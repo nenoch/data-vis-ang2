@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener} from '@angular/core';
-import { DataService } from '../data.service';
+import { DataService } from '../shared/data.service';
 import { ErrorHandlerService } from '../error-handler/error-handler.service';
-import { ChartUtilsService } from '../chart-utils.service';
+import { ChartUtilsService } from '../shared/chart-utils.service';
 import { ISubscription } from 'rxjs/Subscription';
 
 import * as d3 from 'd3';

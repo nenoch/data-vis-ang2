@@ -1,8 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AxisData } from './axis-data';
-import { DataService } from '../data.service';
-import { ChartUtilsService } from '../chart-utils.service';
+import { DataService } from '../shared/data.service';
+import { ChartUtilsService } from '../shared/chart-utils.service';
+import { Constants } from '../shared/constant';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { ChartUtilsService } from '../chart-utils.service';
 export class GraphFormComponent implements OnInit {
 
   @Output()
-  graphType: String = 'barchart'
+  graphType: String = Constants.DEFAULT_GRAPH;
 
   private axisData: AxisData;
 
@@ -29,6 +30,9 @@ export class GraphFormComponent implements OnInit {
   }
 
   private onSubmit(form: NgForm) {
+    if (!this.axisData.xColumn || !this.axisData.yColumn) {
+      return;
+    }
     this.dataService.setAxes(this.axisData);
   }
 

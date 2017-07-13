@@ -4,11 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { DndModule } from 'ng2-dnd';
 
-import { DataService } from './data.service';
+import { DataService } from './shared/data.service';
 import { ErrorHandlerService } from './error-handler/error-handler.service';
-import { UploadService } from './upload.service';
-import { ChartUtilsService } from './chart-utils.service';
-import { ConverterService } from './converter.service';
+import { UploadService } from './file-selector/upload.service';
+import { ChartUtilsService } from './shared/chart-utils.service';
+import { ConverterService } from './file-selector/converter.service';
 
 import { AppComponent } from './app.component';
 import { GraphFormComponent } from './graph-form/graph-form.component';
