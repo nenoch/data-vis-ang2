@@ -10,14 +10,13 @@ body{
 button:focus {
   outline:0 !important;
 }
-
 .divider {
   margin-top: 10px;
   border: 2px solid #eee;
 }
 
 .container.wrapper {
-  padding-top: 5%;
+  padding-top: 2%;
   padding-bottom: 2.5%
 }
 
