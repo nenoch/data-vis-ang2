@@ -23,23 +23,18 @@
   border: 0;
 }
 
-.btn-green {
+.btn-reset {
   -webkit-transition-duration: 0.4s;
   transition-duration: 0.4s;
-  background-color: #d3f703;
-  color: #333f48;
-  font-weight: bold;
-}
-
-.btn-green:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-}
-
-.btn-reset {
-  background-color: #0056b8;
+  opacity: 0.7;
+  background-color: inherit;
   border-color: #eee;
   color: #eee;
   font-weight: bold;
+}
+
+.btn-reset:hover {
+  opacity: 1;
 }
 
 .btn-hide-show {

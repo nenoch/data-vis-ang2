@@ -4,5 +4,56 @@
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 4px;
+    margin-top: 10px;
     margin-bottom: 4px;
+}
+
+.data-gen-title {
+  font-weight: bold;
+  color: #0056b8;
+  text-align: center;
+}
+
+.btn-chart {
+  color: #FFF;
+  background-color: #7ECEFC;
+  border: 1px solid #eee;
+  font-weight: bold;
+}
+
+.btn-chart:focus {
+  color: #FFF;
+  background-color: #0056b8;
+  border: 1px solid #eee;
+  font-weight: bold;
+}
+
+.input-xy {
+  border-left: 0;
+  border-color: #333F48;
+  color: #333F48;
+}
+
+.btn-reset {
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  opacity: 0.7;
+  background-color: inherit;
+  border-color: #0056b8;
+  color: #0056b8;
+  font-weight: bold;
+}
+
+.btn-reset:hover {
+  opacity: 1;
+}
+
+.XY-icon {
+  border-color: #333F48;
+  background-color: #333F48;
+  color: #d3f703;
+}
+
+.form-element {
+  margin: 0.2em;
 }

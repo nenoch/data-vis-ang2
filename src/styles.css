@@ -4,18 +4,22 @@
 body{
   background: #eee;
   font-family: 'Open Sans', sans-serif;
+  color: #333F48;
+}
+
+button:focus {
+  outline:0 !important;
+}
+
+.divider {
+  margin-top: 10px;
+  border: 2px solid #eee;
 }
 
 .container.wrapper {
   padding-top: 5%;
   padding-bottom: 2.5%
 }
-
-.table-field {
-  margin-bottom: 4px;
-  border-radius: 4px;
-}
-
 
 .jumbotron.data-placeholder {
   color: #ccc;
@@ -28,4 +32,16 @@ body{
 
 .no-border {
   border: 0;
+}
+
+.btn-green {
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  background-color: #d3f703;
+  color: #333f48;
+  font-weight: bold;
+}
+
+.btn-green:hover {
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.24), 0 7px 10px 0 rgba(0,0,0,0.19);
 }
