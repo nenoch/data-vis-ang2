@@ -1,11 +1,14 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+
+body{
+  background: #eee;
+  font-family: 'Open Sans', sans-serif;
+}
 
 .container.wrapper {
   padding-top: 5%;
   padding-bottom: 2.5%
-}
-
-.visible {
-    /*border: 1px solid #ff0000;*/
 }
 
 .table-field {
@@ -21,4 +24,8 @@
 
 .margin-top10 {
   margin-top: 10px;
+}
+
+.no-border {
+  border: 0;
 }
