@@ -55,7 +55,7 @@ export class DataService {
   }
 
   private isNumber(item) {
-    if (item === +item) {
+    if (item == +item) {
       return +item;
     } else {
       return item;
