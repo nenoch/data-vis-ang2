@@ -36,17 +36,19 @@ export class GraphFormComponent implements OnInit {
       return;
     }
     this.dataService.setAxes(this.axisData);
-    this.barFocusTrigger.emit(true);
+    this.toggleChartBtn();
+  }
+
+  private toggleChartBtn(){
+    if (this.graphType === 'linechart'){
+      this.lineFocusTrigger.emit(true);
+    } else if (this.graphType === 'barchart'){
+      this.barFocusTrigger.emit(true);
+    }
   }
 
   private changeGraph(graph) {
     this.graphType = graph;
-    // if (this.graphType === 'barchart'){
-    //   this.barFocusTrigger.emit(true);
-    // }
-    // else if (this.graphType === 'linechart'){
-    //   this.lineFocusTrigger.emit(true);
-    // }
   }
 
   private onReset() {
