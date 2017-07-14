@@ -27,7 +27,7 @@ export class BarchartComponent implements OnInit, OnDestroy {
   @HostListener('window:resize', ['$event'])
   onKeyUp(ev: UIEvent) {
     if (this.dataExists()) {
-        this.createBarchart(false);
+        this.createBarchart();
       }
   }
 
@@ -74,7 +74,7 @@ export class BarchartComponent implements OnInit, OnDestroy {
   }
 
 
-  private createBarchart(animate: Boolean) {
+  private createBarchart(animate: Boolean = false) {
     // Grab the element in the DOM
     this.resetBarchart();
     this.setSize();
