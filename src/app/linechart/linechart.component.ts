@@ -19,7 +19,7 @@ export class LinechartComponent implements OnInit, OnDestroy {
   private width: number;
   private height: number;
   private aspectRatio = 0.7;
-  private colours;
+  private lineColour: String = '#0056b8';
   private subscription: ISubscription;
   private animate: Boolean = true;
 
@@ -137,7 +137,7 @@ export class LinechartComponent implements OnInit, OnDestroy {
     const path = svg.append('path')
           .datum(this.data)
           .attr('fill', 'none')
-          .attr('stroke', 'steelblue')
+          .attr('stroke', this.lineColour)
           .attr('stroke-linejoin', 'round')
           .attr('stroke-linecap', 'round')
           .attr('stroke-width', 3)
