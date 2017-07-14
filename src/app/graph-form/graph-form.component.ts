@@ -16,6 +16,8 @@ export class GraphFormComponent implements OnInit {
   @Output()
   graphType: String = Constants.DEFAULT_GRAPH;
 
+  public barFocusTrigger = new EventEmitter<boolean>();
+  public lineFocusTrigger = new EventEmitter<boolean>();
   private axisData: AxisData;
 
   constructor(private dataService: DataService, private chartUtils: ChartUtilsService) {}
@@ -34,6 +36,15 @@ export class GraphFormComponent implements OnInit {
       return;
     }
     this.dataService.setAxes(this.axisData);
+    this.toggleChartBtn();
+  }
+
+  private toggleChartBtn(){
+    if (this.graphType === 'linechart'){
+      this.lineFocusTrigger.emit(true);
+    } else if (this.graphType === 'barchart'){
+      this.barFocusTrigger.emit(true);
+    }
   }
 
   private changeGraph(graph) {
