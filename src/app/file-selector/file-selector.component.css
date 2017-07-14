@@ -12,6 +12,10 @@
     position: absolute;
 }
 
+.file-selector-form {
+  padding-top: 3%;
+}
+
 .selected-file {
   color: #000;
   border-radius: 0;

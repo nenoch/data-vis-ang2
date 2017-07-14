@@ -83,9 +83,7 @@ export class BarchartComponent implements OnInit, OnDestroy {
 
     this.barColours = d3.scaleLinear()
                     .domain([0, this.data.length])
-                    .range(['#0056b8', '#d3f703']);
-
-    // this.barColours = '#0056b8';
+                    .range(['#0056b8', '#7ECEFC']);
 
 
     // Set the range
