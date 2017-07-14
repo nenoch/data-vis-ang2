@@ -1,8 +1,8 @@
 .file-selector-box {
     display: block;
     padding: 10px 15px;
-    background-color: #fff;
-    border: 1px solid #ddd;
+    color: #FFF;
+    background-color: #0056b8;
     border-radius: 4px;
     margin-bottom: 4px;
 }
@@ -10,4 +10,41 @@
 .file-input {
     visibility: hidden;
     position: absolute;
+}
+
+.selected-file {
+  color: #000;
+  border-radius: 0;
+}
+
+.blue-icon {
+  color: #FFF;
+  background-color: #7ECEFC;
+  border: 0;
+}
+
+.btn-reset {
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  opacity: 0.7;
+  background-color: inherit;
+  border-color: #eee;
+  color: #eee;
+  font-weight: bold;
+}
+
+.btn-reset:hover {
+  opacity: 1;
+}
+
+.btn-hide-show {
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  opacity: 0.5;
+  background-color: inherit;
+}
+
+.btn-hide-show:hover {
+  color: #fff;
+  opacity: 1;
 }

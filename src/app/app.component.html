@@ -1,9 +1,17 @@
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand"><i class="fa fa-database" aria-hidden="true"></i>
+               SQL2HQL</a>
+        </div>
+    </div>
+</nav>
 <div class="container wrapper">
   <app-file-selector (showState)="toggleGraphCreator($event)"></app-file-selector>
   <div [ngClass]="{ 'opacity': hideGraphCreator }">
     <div class="row">
       <app-columns-list></app-columns-list>
-      <div class="col-md-8 col-sm-8 col-lg-8 visible">
+      <div class="col-md-8 col-sm-8 col-lg-8 ">
         <app-graph-form></app-graph-form>
         <!-- <div class="row">
           <app-graph-area></app-graph-area>

@@ -1,3 +1,11 @@
 .error-title {
   font-size: 24px;
 }
+
+.red-border {
+  border-color: red;
+}
+
+.red-icon {
+  color: red;
+}

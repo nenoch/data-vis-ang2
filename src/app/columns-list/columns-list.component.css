@@ -1,1 +1,16 @@
 
+.table-field {
+  margin-bottom: 4px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.table-field:hover {
+  margin-left: 10px;
+  margin-right: -10px;
+
+}
+
+.table-field:first-child {
+  margin-top: 10px;
+}
