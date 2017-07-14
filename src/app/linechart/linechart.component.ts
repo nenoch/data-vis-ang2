@@ -19,8 +19,9 @@ export class LinechartComponent implements OnInit, OnDestroy {
   private width: number;
   private height: number;
   private aspectRatio = 0.7;
-  private colours;
+  private lineColour: String = '#0056b8';
   private subscription: ISubscription;
+  private animate: Boolean = true;
 
   @HostListener('window:resize', ['$event'])
   onKeyUp(ev: UIEvent) {
@@ -44,7 +45,7 @@ export class LinechartComponent implements OnInit, OnDestroy {
       this.data = data;
       if (this.dataExists()) {
         this.setAxes();
-        this.createLinechart();
+        this.createLinechart(this.animate);
       }
     });
   }
@@ -71,7 +72,7 @@ export class LinechartComponent implements OnInit, OnDestroy {
   }
 
 
-  private createLinechart() {
+  private createLinechart(animate: Boolean = false) {
     this.resetLinechart();
     this.setSize();
 
@@ -103,40 +104,55 @@ export class LinechartComponent implements OnInit, OnDestroy {
       svg.append('g')
           .attr('transform', 'translate(0,' + this.height + ')')
           .call(d3.axisBottom(x))
-          .selectAll("text")
-              .style("text-anchor", "end")
-              .attr("dx", "-.8em")
-              .attr("dy", ".15em")
-              .attr("transform", "rotate(-65)" );
+          .selectAll('text')
+              .style('text-anchor', 'end')
+              .attr('dx', '-.8em')
+              .attr('dy', '.15em')
+              .attr('transform', 'rotate(-65)' );
 
       // X Axis label
-      svg.select("g")
-          .append("text")
-            .attr("class", "label-style")
-            .attr("x", 8)
-            .attr("y", -this.width)
-            .attr("dy", -6)
-            .attr("transform", "rotate(90)" )
-            .attr("text-anchor", "middle")
+      svg.select('g')
+          .append('text')
+            .attr('class', 'label-style')
+            .attr('x', 8)
+            .attr('y', -this.width)
+            .attr('dy', -6)
+            .attr('transform', 'rotate(90)' )
+            .attr('text-anchor', 'middle')
             .text(this.xAxis);
 
       // Y Axis
       svg.append('g')
           .call(d3.axisLeft(y))
         .append('text')
-          .attr("class", "label-style")
-          .attr("y", -6)
-          .attr("text-anchor", "middle")
+          .attr('class', 'label-style')
+          .attr('y', -6)
+          .attr('text-anchor', 'middle')
           .text(this.yAxis);
 
-      svg.append('path')
+      this.drawLine(svg, line, animate);
+  }
+
+  private drawLine(svg, line, animate: Boolean) {
+    const path = svg.append('path')
           .datum(this.data)
           .attr('fill', 'none')
-          .attr('stroke', 'steelblue')
+          .attr('stroke', this.lineColour)
           .attr('stroke-linejoin', 'round')
           .attr('stroke-linecap', 'round')
           .attr('stroke-width', 3)
           .attr('d', line);
+
+    if (animate) {
+      const totalLength = path.node().getTotalLength();
+
+      path
+        .attr('stroke-dasharray', totalLength + ' ' + totalLength)
+        .attr('stroke-dashoffset', totalLength)
+        .transition()
+        .duration(2000)
+        .attr('stroke-dashoffset', 0);
+    }
   }
 
   private setLineY(d, y) {
