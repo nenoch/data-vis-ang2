@@ -20,8 +20,9 @@ export class BarchartComponent implements OnInit, OnDestroy {
   private width: number;
   private height: number;
   private aspectRatio = 0.7;
-  private colours;
+  private barColours;
   private subscription: ISubscription;
+  private animate: Boolean = true;
 
   @HostListener('window:resize', ['$event'])
   onKeyUp(ev: UIEvent) {
@@ -46,7 +47,7 @@ export class BarchartComponent implements OnInit, OnDestroy {
       this.data = data;
       if (this.dataExists()) {
         this.setAxes();
-        this.createBarchart();
+        this.createBarchart(this.animate);
       }
     });
   }
@@ -55,10 +56,12 @@ export class BarchartComponent implements OnInit, OnDestroy {
     return this.data.length !== 0;
   }
 
-  private setAxes(){
-    let axes = [];
-    for (var k in this.data[0]) {
+  private setAxes() {
+    const axes = [];
+    for (const k in this.data[0]) {
+      if (this.data[0].hasOwnProperty(k)) {
       axes.push(k)
+      }
     }
     this.xAxis = axes[0];
     this.yAxis = axes[1];
@@ -71,92 +74,116 @@ export class BarchartComponent implements OnInit, OnDestroy {
   }
 
 
-  private createBarchart(){
+  private createBarchart(animate: Boolean = false) {
     // Grab the element in the DOM
     this.resetBarchart();
     this.setSize();
 
-    let element = this.barContainer.nativeElement;
+    const element = this.barContainer.nativeElement;
 
-    this.colours = d3.scaleLinear()
+    this.barColours = d3.scaleLinear()
                     .domain([0, this.data.length])
-                    .range(['red', 'blue']);
+                    .range(['#0056b8', '#d3f703']);
+
+    // this.barColours = '#0056b8';
 
 
     // Set the range
-    let x = d3.scaleBand()
+    const x = d3.scaleBand()
               .range([0, this.width])
               .padding(0.1);
-    let y = d3.scaleLinear()
+    const y = d3.scaleLinear()
               .range([this.height, 0]);
 
-    let svg = d3.select(element).append("svg")
-        .attr("width", this.width + this.margin.left + this.margin.right)
-        .attr("height", this.height + this.margin.top + this.margin.bottom)
-      .append("g")
-        .attr("transform",
-              "translate(" + this.margin.left + "," + this.margin.top + ")");
+    const svg = d3.select(element).append('svg')
+        .attr('width', this.width + this.margin.left + this.margin.right)
+        .attr('height', this.height + this.margin.top + this.margin.bottom)
+      .append('g')
+        .attr('transform',
+              'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
 
       // Scale the range of the data in the domains
       x.domain(this.data.map((d) => d[this.xAxis] ));
       y.domain([0, d3.max(this.data, (d) => d[this.yAxis])]);
 
-      // append the rectangles for the bar chart
-      svg.selectAll(".bar")
-          .data(this.data)
-        .enter().append("rect")
-          .attr("class", "bar")
-          .style("fill", (d,i) => this.colours(i) )
-          .attr("x", (d) => x(d[this.xAxis]) )
-          .attr("width", x.bandwidth())
-          .attr("y", (d) => y(d[this.yAxis]) )
-          .attr("height", (d) => this.setBarHeight(d,y) );
 
       // X Axis
-      svg.append("g")
-          .attr("transform", "translate(0," + this.height + ")")
+      svg.append('g')
+          .attr('transform', 'translate(0,' + this.height + ')')
           .call(d3.axisBottom(x))
-          .selectAll("text")
-              .style("text-anchor", "end")
-              .attr("dx", "-.8em")
-              .attr("dy", ".15em")
-              .attr("transform", "rotate(-65)" );
+          .selectAll('text')
+              .style('text-anchor', 'end')
+              .attr('dx', '-.8em')
+              .attr('dy', '.15em')
+              .attr('transform', 'rotate(-65)' );
 
       // X Axis label
-      svg.select("g")
-        .append("text")
-          .attr("class", "label-style")
-          .attr("x", 8)
-          .attr("y", -this.width)
-          .attr("dy", -6)
-          .attr("transform", "rotate(90)" )
-          .attr("text-anchor", "middle")
+      svg.select('g')
+        .append('text')
+          .attr('class', 'label-style')
+          .attr('x', 8)
+          .attr('y', -this.width)
+          .attr('dy', -6)
+          .attr('transform', 'rotate(90)' )
+          .attr('text-anchor', 'middle')
           .text(this.xAxis);
 
       // Y Axis
-      svg.append("g")
+      svg.append('g')
           .call(d3.axisLeft(y))
-        .append("text")
-          .attr("class", "label-style")
-          .attr("y", -6)
-          .attr("text-anchor", "middle")
+        .append('text')
+          .attr('class', 'label-style')
+          .attr('y', -6)
+          .attr('text-anchor', 'middle')
           .text(this.yAxis);
+
+      this.appendBars(svg, x, y, animate);
   }
 
-  private setBarHeight(d,y){
-    let error = { title: "Y Axis Error", content: "Please enter a numeric value for the Y Axis."};
+  private appendBars(svg, x, y, animate: Boolean) {
+    if (animate) {
+      svg.selectAll('.bar')
+          .data(this.data)
+        .enter().append('rect')
+          .attr('class', 'bar')
+          .style('fill', (d,i) => this.barColours(i) )
+          .attr('x', (d) => x(d[this.xAxis]) )
+          .attr('y', (d) => this.height)
+          .attr('width', x.bandwidth())
+          // Animation Start
+          .attr('height', 0)
+          .transition()
+          .duration(1000)
+          .delay(function (d, i) {
+              return i * 125;
+          })
+          .attr('height', (d) => this.setBarHeight(d, y) )
+          .attr('y', (d) => y(d[this.yAxis]) );
+    } else {
+      svg.selectAll('.bar')
+          .data(this.data)
+        .enter().append('rect')
+          .attr('class', 'bar')
+          .style('fill', 'steelblue' )
+          .attr('x', (d) => x(d[this.xAxis]) )
+          .attr('width', x.bandwidth())
+          .attr('y', (d) => y(d[this.yAxis]) )
+          .attr('height', (d) => this.setBarHeight(d, y) );
+    }
+  }
+
+  private setBarHeight(d, y) {
+    const error = { title: 'Y Axis Error', content: 'Please enter a numeric value for the Y Axis.'};
     if (isNaN(this.height - y(d[this.yAxis]))) {
       this.errorService.handleError(error);
       this.resetBarchart();
-    }
-    else {
+    } else {
       return this.height - y(d[this.yAxis]);
     }
   }
 
-  private resetBarchart(){
+  private resetBarchart() {
     this.chartUtils.resetSVG();
   }
-
 }

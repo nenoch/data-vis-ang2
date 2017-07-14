@@ -17,7 +17,7 @@ button:focus {
 }
 
 .container.wrapper {
-  padding-top: 5%;
+  padding-top: 2%;
   padding-bottom: 2.5%
 }
 
@@ -43,5 +43,8 @@ button:focus {
 }
 
 .btn-green:hover {
-    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.24), 0 7px 10px 0 rgba(0,0,0,0.19);
+  background-color: #333F48;
+  color: #d3f703;
+  border-color: #d3f703;
+    /*box-shadow: 0 5px 8px 0 rgba(0,0,0,0.24), 0 7px 10px 0 rgba(0,0,0,0.19);*/
 }
