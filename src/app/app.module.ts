@@ -18,6 +18,7 @@ import { FileSelectorComponent } from './file-selector/file-selector.component';
 import { BarchartComponent } from './barchart/barchart.component';
 import { ErrorModalComponent } from './error-handler/error-modal/error-modal.component';
 import { LinechartComponent } from './linechart/linechart.component';
+import { FocusDirective } from './focus.directive';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { LinechartComponent } from './linechart/linechart.component';
     FileSelectorComponent,
     BarchartComponent,
     ErrorModalComponent,
-    LinechartComponent
+    LinechartComponent,
+    FocusDirective
   ],
   imports: [
     FormsModule,

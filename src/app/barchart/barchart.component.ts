@@ -81,10 +81,11 @@ export class BarchartComponent implements OnInit, OnDestroy {
 
     const element = this.barContainer.nativeElement;
 
-    // this.barColours = d3.scaleLinear()
-    //                 .domain([0, this.data.length])
-    //                 .range(['red', 'blue']);
-    this.barColours = 'steelblue';
+    this.barColours = d3.scaleLinear()
+                    .domain([0, this.data.length])
+                    .range(['#0056b8', '#d3f703']);
+
+    // this.barColours = '#0056b8';
 
 
     // Set the range
@@ -146,7 +147,7 @@ export class BarchartComponent implements OnInit, OnDestroy {
           .data(this.data)
         .enter().append('rect')
           .attr('class', 'bar')
-          .style('fill', this.barColours )
+          .style('fill', (d,i) => this.barColours(i) )
           .attr('x', (d) => x(d[this.xAxis]) )
           .attr('y', (d) => this.height)
           .attr('width', x.bandwidth())
@@ -155,7 +156,7 @@ export class BarchartComponent implements OnInit, OnDestroy {
           .transition()
           .duration(1000)
           .delay(function (d, i) {
-              return i * 300;
+              return i * 125;
           })
           .attr('height', (d) => this.setBarHeight(d, y) )
           .attr('y', (d) => y(d[this.yAxis]) );
