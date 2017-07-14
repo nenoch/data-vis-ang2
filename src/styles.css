@@ -10,6 +10,7 @@ body{
 button:focus {
   outline:0 !important;
 }
+
 .divider {
   margin-top: 10px;
   border: 2px solid #eee;
