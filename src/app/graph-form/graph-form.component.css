@@ -21,7 +21,7 @@
   font-weight: bold;
 }
 
-.btn-chart:focus {
+.btn-chart-focus {
   color: #FFF;
   background-color: #0056b8;
   border: 1px solid #eee;
