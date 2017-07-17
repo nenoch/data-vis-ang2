@@ -21,7 +21,7 @@
   font-weight: bold;
 }
 
-.btn-chart:focus {
+.btn-chart-focus {
   color: #FFF;
   background-color: #0056b8;
   border: 1px solid #eee;
@@ -51,7 +51,7 @@
 .XY-icon {
   border-color: #333F48;
   background-color: #333F48;
-  color: #d3f703;
+  color: #b3e000;
 }
 
 .form-element {

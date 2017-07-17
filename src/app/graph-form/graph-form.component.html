@@ -23,10 +23,10 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-lg-12 text-center ">
     <div class="btn-group margin-top10">
-      <button [focus]="barFocusTrigger" type="button" (click)="changeGraph('barchart')" class="btn btn-chart" aria-label="barchart">
+      <button [ngClass]="{'btn-chart-focus': this.graphType === 'barchart' }" [focus]="barFocusTrigger" type="button" (click)="changeGraph('barchart')" class="btn btn-chart" aria-label="barchart">
         <i class="fa fa-bar-chart" aria-hidden="true"></i>
       </button>
-      <button [focus]="lineFocusTrigger" type="button" (click)="changeGraph('linechart')" class="btn btn-chart" aria-label="linechart">
+      <button [ngClass]="{'btn-chart-focus': this.graphType === 'linechart' }"[focus]="lineFocusTrigger" type="button" (click)="changeGraph('linechart')" class="btn btn-chart" aria-label="linechart">
         <i class="fa fa-line-chart" aria-hidden="true"></i>
       </button>
     </div>

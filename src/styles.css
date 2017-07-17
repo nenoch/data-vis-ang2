@@ -37,14 +37,13 @@ button:focus {
 .btn-green {
   -webkit-transition-duration: 0.4s;
   transition-duration: 0.4s;
-  background-color: #d3f703;
+  background-color: #b3e000;
   color: #333f48;
   font-weight: bold;
 }
 
 .btn-green:hover {
-  background-color: #333F48;
-  color: #d3f703;
-  border-color: #d3f703;
+  background-color: #d3f703;
+  color: #333F48;
     /*box-shadow: 0 5px 8px 0 rgba(0,0,0,0.24), 0 7px 10px 0 rgba(0,0,0,0.19);*/
 }
