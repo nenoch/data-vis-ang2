@@ -10,6 +10,10 @@ export class DataPreviewComponent implements OnInit {
 
   private columns: Array<any> = [];
   private rows: Array<any> = [];
+  private showAmount = 10;
+  private scrollAmount = 10;
+  private firstRow = 0;
+  private stopRow: number = this.showAmount;
 
   constructor(private dataService: DataService) { }
 
@@ -21,6 +25,11 @@ export class DataPreviewComponent implements OnInit {
       },
       error =>  console.log(error)
     );
+  }
+
+  public showNext(event) {
+    this.firstRow += this.scrollAmount;
+    this.stopRow += this.scrollAmount;
   }
 
   private convertRows(data) {

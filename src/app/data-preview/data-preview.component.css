@@ -7,3 +7,15 @@
     margin-top: 10px;
     margin-bottom: 4px;
 }
+
+.btn-hide-show {
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  opacity: 0.5;
+  background-color: inherit;
+}
+
+.btn-hide-show:hover {
+  color: #333F48;
+  opacity: 1;
+}
