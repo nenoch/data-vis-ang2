@@ -23,7 +23,8 @@ import { DataPreviewComponent } from './data-preview/data-preview.component';
 import { BarchartComponent } from './barchart/barchart.component';
 import { LinechartComponent } from './linechart/linechart.component';
 
-import { FocusDirective } from './focus.directive';
+import { FocusDirective } from './directives/focus.directive';
+import { InfiniteScrollerDirective } from './directives/infinite-scroller.directive';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { FocusDirective } from './focus.directive';
     FocusDirective,
     TabMenuComponent,
     TabComponent,
-    DataPreviewComponent
+    DataPreviewComponent,
+    InfiniteScrollerDirective
   ],
   imports: [
     FormsModule,

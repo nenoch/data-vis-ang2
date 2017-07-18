@@ -5,14 +5,20 @@
         <thead>
           <th *ngFor="let column of columns">{{ column }}</th>
         </thead>
+      </table>
+      <div id="infinite-scroller"
+          appInfiniteScroller
+          scrollPercent="70"
+          immediateCallback="true"
+          [scrollCallback]="scrollCallback">
+      <table class="table table-hover">
         <tbody>
-          <tr *ngFor="let row of rows | slice:firstRow:stopRow">
+          <tr *ngFor="let row of rowsToDisplay">
             <td *ngFor="let data of row">{{ data }}</td>
           </tr>
         </tbody>
       </table>
-      <button class="btn btn-hide-show pull-right" (click)="showLast($event)"><span class="glyphicon glyphicon-arrow-up"></span> Show last {{ scrollUpAmount }}</button>
-      <button class="btn btn-hide-show pull-right" (click)="showNext($event)"><span class="glyphicon glyphicon-arrow-down"></span> Show next {{ scrollDownAmount }}</button>
+      </div>
     </div>
   </div>
 </div>

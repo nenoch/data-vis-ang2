@@ -19,3 +19,9 @@
   color: #333F48;
   opacity: 1;
 }
+
+#infinite-scroller {
+  max-height: 250px;
+  overflow-y: scroll;
+  padding: 0;
+}
