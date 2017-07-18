@@ -11,7 +11,8 @@
           </tr>
         </tbody>
       </table>
-      <button class="btn btn-hide-show pull-right" (click)="showNext($event)"><span class="glyphicon glyphicon-arrow-down"></span> Show next {{ scrollAmount }}</button>
+      <button class="btn btn-hide-show pull-right" (click)="showLast($event)"><span class="glyphicon glyphicon-arrow-up"></span> Show last {{ scrollUpAmount }}</button>
+      <button class="btn btn-hide-show pull-right" (click)="showNext($event)"><span class="glyphicon glyphicon-arrow-down"></span> Show next {{ scrollDownAmount }}</button>
     </div>
   </div>
 </div>
