@@ -55,7 +55,6 @@ export class InfiniteScrollerDirective implements AfterViewInit {
   }
 
   private registerScrollEvent() {
-    console.log('register');
     this.scrollEvent$ = Observable.fromEvent(this.elm.nativeElement, 'scroll');
 
   }
@@ -72,7 +71,6 @@ export class InfiniteScrollerDirective implements AfterViewInit {
   }
 
   private requestCallbackOnScroll() {
-    console.log('callback');
     this.requestOnScroll$ = this.userScrolledDown$;
 
     if (this.immediateCallback) {

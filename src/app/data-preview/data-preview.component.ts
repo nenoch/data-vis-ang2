@@ -8,11 +8,13 @@ import { DataService } from '../shared/data.service';
 })
 export class DataPreviewComponent implements OnInit {
 
+  public scrollCallback;
+
   private columns: Array<any> = [];
   private rows: Array<any> = [];
   private rowsToDisplay: Array<any> = [];
-  private currentRow = 10;
-  public scrollCallback;
+  private initialRows = 25;
+  private currentRow: number = this.initialRows;
 
   constructor(private dataService: DataService) {
     this.scrollCallback = this.displayRows.bind(this);
