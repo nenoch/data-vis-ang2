@@ -26,6 +26,11 @@ export class DataService {
     .map((response: Response) => this.extractColumns(response));
   }
 
+  public getCSV() {
+    return this.http.get(Constants.CSV_DIR)
+      .map(res => d3.csvParse(res['_body']));
+  }
+
   public setAxes(axisObject) {
     this.axes = axisObject;
     this.convertD3data();
