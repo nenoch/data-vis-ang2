@@ -17,6 +17,7 @@ export class FileSelectorComponent implements OnInit {
   private files: any = [];
 
   @Output() showState: EventEmitter<Boolean> = new EventEmitter();
+  @Output() loadingState: EventEmitter<Boolean> = new EventEmitter();
 
   constructor(private uploadService: UploadService, private errorService: ErrorHandlerService, private converterService: ConverterService) { };
 
@@ -24,6 +25,7 @@ export class FileSelectorComponent implements OnInit {
   }
 
   private onSubmit(form: NgForm) {
+    // TODO set loader to true
     this.uploadService.postFiles(this.files).subscribe(data => {
       if (data.message === 'Success') {
         this.hideHandler();
@@ -46,9 +48,11 @@ export class FileSelectorComponent implements OnInit {
     this.converterService.convertFiles().subscribe(
       data => {
       console.log(data.message);
+      // TODO set loader to false
     },
       err => {
         console.log(err);
+        // TODO set loader to false
         this.errorService.handleError({title: 'Convertion Failed', content: err.statusText});
       })
 

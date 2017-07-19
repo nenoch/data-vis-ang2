@@ -1,4 +1,4 @@
-<div class='loading-state'>
+<div [ngClass]="{ 'loading-state': activateLoader }">
 <nav class="navbar navbar-inverse navbar-static-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -8,7 +8,7 @@
     </div>
 </nav>
   <div class="container wrapper">
-    <app-file-selector (showState)="toggleGraphCreator($event)"></app-file-selector>
+    <app-file-selector (showState)="toggleGraphCreator($event)" (loadingState)="toggleLoader($event)"></app-file-selector>
     <div [ngClass]="{ 'opacity': hideGraphCreator }">
       <div class="row">
         <app-columns-list></app-columns-list>
