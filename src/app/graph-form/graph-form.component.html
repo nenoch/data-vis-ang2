@@ -29,6 +29,9 @@
       <button [ngClass]="{'btn-chart-focus': this.graphType === 'linechart' }"[focus]="lineFocusTrigger" type="button" (click)="changeGraph('linechart')" class="btn btn-chart" aria-label="linechart">
         <i class="fa fa-line-chart" aria-hidden="true"></i>
       </button>
+      <button [ngClass]="{'btn-chart-focus': this.graphType === 'donutchart' }"[focus]="donutFocusTrigger" type="button" (click)="changeGraph('donutchart')" class="btn btn-chart" aria-label="donutchart">
+        <i class="fa fa-pie-chart" aria-hidden="true"></i>
+      </button>
     </div>
   </div>
 </div>
