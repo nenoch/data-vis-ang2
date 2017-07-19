@@ -6,8 +6,7 @@
 .loading-state {
   opacity: 0.6;
   pointer-events: none;
-  position: relative;
-  z-index: 1000;
+  text-align:center;
 }
 
 .loading-state:before {
@@ -16,8 +15,7 @@
   font-family: "FontAwesome";
   content: "\f110";
   color: #333F48;
-  z-index: 1000;
-  position: fixed;
+  position: absolute;
   height: 0;
   width: 0;
   margin: auto;
@@ -25,9 +23,9 @@
   left: 0;
   bottom: 0;
   right: 0;
-  -webkit-animation: fa-spin 1500ms infinite linear;
-  -moz-animation: fa-spin 1500ms infinite linear;
-  -ms-animation: fa-spin 1500ms infinite linear;
-  -o-animation: fa-spin 1500ms infinite linear;
-  animation: fa-spin 1500ms infinite linear;
+  -webkit-animation: fa-spin 2s infinite linear;
+  -moz-animation: fa-spin 2s infinite linear;
+  -ms-animation: fa-spin 2s infinite linear;
+  -o-animation: fa-spin 2s infinite linear;
+  animation: fa-spin 2s infinite linear;
 }
