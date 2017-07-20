@@ -9,8 +9,13 @@ export class AppComponent {
 
   title = 'app';
   public hideGraphCreator: Boolean = true;
+  public activateLoader: Boolean = false;
 
   private toggleGraphCreator(bool) {
     this.hideGraphCreator = !bool;
+  }
+
+  private toggleLoader(bool) {
+    this.activateLoader = bool;
   }
 }
