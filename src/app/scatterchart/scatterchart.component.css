@@ -1,0 +1,16 @@
+:host /deep/ .circle-tip {
+  display: none;
+}
+
+:host /deep/ .circle {
+  opacity: 0.5;
+}
+
+:host /deep/ .circle:hover .circle-tip {
+  display: block;
+  fill: white;
+}
+
+:host /deep/ .circle:hover {
+  opacity: 1;
+}

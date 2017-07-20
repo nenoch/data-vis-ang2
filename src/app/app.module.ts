@@ -25,6 +25,7 @@ import { LinechartComponent } from './linechart/linechart.component';
 
 import { FocusDirective } from './directives/focus.directive';
 import { InfiniteScrollerDirective } from './directives/infinite-scroller.directive';
+import { ScatterchartComponent } from './scatterchart/scatterchart.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { InfiniteScrollerDirective } from './directives/infinite-scroller.direct
     TabMenuComponent,
     TabComponent,
     DataPreviewComponent,
-    InfiniteScrollerDirective
+    InfiniteScrollerDirective,
+    ScatterchartComponent
   ],
   imports: [
     FormsModule,
