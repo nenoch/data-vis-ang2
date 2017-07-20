@@ -15,11 +15,16 @@ import { GraphFormComponent } from './graph-form/graph-form.component';
 import { GraphAreaComponent } from './graph-area/graph-area.component';
 import { ColumnsListComponent } from './columns-list/columns-list.component';
 import { FileSelectorComponent } from './file-selector/file-selector.component';
-import { BarchartComponent } from './barchart/barchart.component';
 import { ErrorModalComponent } from './error-handler/error-modal/error-modal.component';
+import { TabMenuComponent } from './tab-menu/tab-menu.component';
+import { TabComponent} from './tab-menu/tab';
+import { DataPreviewComponent } from './data-preview/data-preview.component';
+
+import { BarchartComponent } from './barchart/barchart.component';
 import { LinechartComponent } from './linechart/linechart.component';
 
-import { FocusDirective } from './focus.directive';
+import { FocusDirective } from './directives/focus.directive';
+import { InfiniteScrollerDirective } from './directives/infinite-scroller.directive';
 
 
 @NgModule({
@@ -32,7 +37,11 @@ import { FocusDirective } from './focus.directive';
     BarchartComponent,
     ErrorModalComponent,
     LinechartComponent,
-    FocusDirective
+    FocusDirective,
+    TabMenuComponent,
+    TabComponent,
+    DataPreviewComponent,
+    InfiniteScrollerDirective
   ],
   imports: [
     FormsModule,

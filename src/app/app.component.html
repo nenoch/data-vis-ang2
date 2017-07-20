@@ -10,13 +10,19 @@
   <div class="container wrapper">
     <app-file-selector (showState)="toggleGraphCreator($event)" (loadingState)="toggleLoader($event)"></app-file-selector>
     <div [ngClass]="{ 'opacity': hideGraphCreator }">
-      <div class="row">
-        <app-columns-list></app-columns-list>
-        <div class="col-md-8 col-sm-8 col-lg-8 ">
-          <app-graph-form></app-graph-form>
-        </div>
-      </div>
+    <app-tab-menu>
+      <app-tab tabTitle="Graph">
+        <div class="row">
+          <app-columns-list></app-columns-list>
+          <div class="col-md-8 col-sm-8 col-lg-8 ">
+            <app-graph-form></app-graph-form>
+          </div>
+        </div> 
+      </app-tab>
+      <app-tab tabTitle="Data">
+        <app-data-preview></app-data-preview>
+      </app-tab>
+    </app-tab-menu>
     </div>
   </div>
-</div>
 <app-error-modal></app-error-modal>
