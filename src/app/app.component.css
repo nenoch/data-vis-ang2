@@ -6,7 +6,6 @@
 .loading-state {
   opacity: 0.6;
   pointer-events: none;
-  text-align:center;
 }
 
 .loading-state:before {
