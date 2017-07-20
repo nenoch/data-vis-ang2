@@ -8,9 +8,16 @@
 
 :host /deep/ .circle:hover .circle-tip {
   display: block;
-  fill: white;
+  fill: black;
 }
 
 :host /deep/ .circle:hover {
   opacity: 1;
+}
+
+:host /deep/ .label-style {
+  text-transform: capitalize;
+  font-size: 10px;
+  font-weight: bold;
+  fill: #000;
 }

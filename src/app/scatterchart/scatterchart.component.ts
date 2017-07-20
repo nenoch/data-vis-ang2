@@ -149,13 +149,11 @@ export class ScatterchartComponent implements OnInit {
 
     const xScale = d3.scaleLinear()
                   .range([0, this.width])
-                  .domain(d3.extent(this.data, d => d[this.xAxis]))
-                  .nice();
+                  .domain(d3.extent(this.data, d => d[this.xAxis]));
 
     const yScale = d3.scaleLinear()
                   .range([this.height, 0])
-                  .domain(d3.extent(this.data, d => d[this.yAxis] ))
-                  .nice();
+                  .domain(d3.extent(this.data, d => d[this.yAxis] ));
 
     const rScale = d3.scaleSqrt()
                   .domain([0, d3.max(this.data, d => d[this.radius])])
@@ -216,7 +214,7 @@ export class ScatterchartComponent implements OnInit {
     circles.append('text')
         .attr('text-anchor', 'middle')
         .attr('class', 'circle-tip')
-        .text(d => d[this.radius]);
+        .text(d => `${this.radius}: ${d[this.radius]}`);
 
   }
 
