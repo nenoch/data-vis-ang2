@@ -16,6 +16,6 @@ export class AppComponent {
   }
 
   private toggleLoader(bool) {
-    this.activateLoader = !bool;
+    this.activateLoader = bool;
   }
 }

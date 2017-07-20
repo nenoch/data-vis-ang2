@@ -22,10 +22,8 @@ const upload = multer({storage: storage}).array('uploadFile[]');
 router.post('/upload', (req, res, next) => {
   upload(req, res, function (err) {
         if (err) {
-          // An error occurred when uploading
           return res.status(422).json(err)
         }
-       // No error occured.
         return res.status(200).json({
           message: "Success"
         });
