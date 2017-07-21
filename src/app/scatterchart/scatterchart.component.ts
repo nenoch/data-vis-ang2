@@ -16,7 +16,7 @@ export class ScatterchartComponent implements OnInit {
   private data;
   private xAxis;
   private yAxis;
-  private radius = "TotalValue";
+  private radius;
   private margin = {top: 50, right: 20, bottom: 100, left: 45};
   private width: number;
   private height: number;
@@ -59,6 +59,7 @@ export class ScatterchartComponent implements OnInit {
     }
     this.xAxis = axes[0];
     this.yAxis = axes[1];
+    this.radius = axes[2];
   }
 
 
@@ -135,14 +136,25 @@ export class ScatterchartComponent implements OnInit {
       circles.append('circle')
         .attr('cx', 0)
         .attr('cy', 0)
-        .attr('r', d => rScale(d[this.radius]))
+        .attr('r', d => this.setCircleRadius(rScale,d))
         .style('fill', this.circleColour);
 
-      circles.append('text')
-        .attr('text-anchor', 'middle')
-        .attr('class', 'circle-tip')
-        .text(d => `${this.radius}: ${d[this.radius]}`);
+      if (this.radius !== '') {
 
+        circles.append('text')
+          .attr('text-anchor', 'middle')
+          .attr('class', 'circle-tip')
+          .text(d => `${this.radius}: ${d[this.radius]}`);
+      }
+
+  }
+
+  private setCircleRadius(rScale,d) {
+    if (this.radius !== '') {
+      return rScale(d[this.radius]);
+    } else {
+      return 4;
+    }
   }
 
   private resetScatterchart() {
