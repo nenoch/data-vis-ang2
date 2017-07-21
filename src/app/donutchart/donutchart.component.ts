@@ -23,11 +23,12 @@ export class DonutchartComponent implements OnInit, OnDestroy {
   private padAngle = 0.015;
   private cornerRadius = 3;
   private subscription: ISubscription;
+  private animate = true;
 
   @HostListener('window:resize', ['$event'])
   onKeyUp(ev: UIEvent) {
     if (this.dataExists()) {
-        this.createDonutchart();
+        this.createDonutchart(false);
       }
   }
 
@@ -46,7 +47,7 @@ export class DonutchartComponent implements OnInit, OnDestroy {
       this.data = data;
       if (this.dataExists()) {
         this.setAxes();
-        this.createDonutchart();
+        this.createDonutchart(this.animate);
       }
     });
   }
@@ -72,7 +73,7 @@ export class DonutchartComponent implements OnInit, OnDestroy {
     this.height = this.width - this.margin.top - this.margin.bottom;
   }
 
-  private createDonutchart() {
+  private createDonutchart(animate: boolean) {
     this.resetBarchart();
     this.setSize();
 
@@ -104,24 +105,33 @@ export class DonutchartComponent implements OnInit, OnDestroy {
     svg.append('g').attr('class', 'labelName');
     svg.append('g').attr('class', 'lines');
 
-    const path = svg.select('.slices')
+    const path = this.drawSlices(svg, pie, arc, animate);
+  }
+
+  private drawSlices(svg, pie, arc, animate: boolean) {
+       const slices = svg.select('.slices')
       .datum(this.data).selectAll('path')
       .data(pie)
       .enter().append('path')
-      .attr('fill', d => this.colour(d.data[this.category]))
-      // Animation for drawing each section
-      .transition().delay((d, i) => i * 100).duration(1000)
-      .attrTween('d', d => {
-          const i = d3.interpolate(d.startAngle, d.endAngle);
-          return t => {
-              d.endAngle = i(t);
-              return arc(d);
-          }
-      })
+      .attr('fill', d => this.colour(d.data[this.category]));
+
+      if (animate) {
+        return slices.transition()
+                     .delay((d, i) => i * 100)
+                     .duration(1000)
+                     .attrTween('d', d => {
+                        const i = d3.interpolate(d.startAngle, d.endAngle);
+                        return t => {
+                            d.endAngle = i(t);
+                            return arc(d);
+                        }
+                    });
+      } else {
+        return slices.attr('d', arc);
+      }
   }
 
   private resetBarchart() {
     this.chartUtils.resetSVG();
   }
-
 }
