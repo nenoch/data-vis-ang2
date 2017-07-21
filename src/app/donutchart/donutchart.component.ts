@@ -19,7 +19,6 @@ export class DonutchartComponent implements OnInit, OnDestroy {
   private margin = {top: 50, right: 20, bottom: 100, left: 45};
   private width: number;
   private height: number;
-  private aspectRatio = 0.7;
   private colour = d3.scaleOrdinal(d3.schemeCategory20c);
   private padAngle = 0.015;
   private cornerRadius = 3;
@@ -70,7 +69,7 @@ export class DonutchartComponent implements OnInit, OnDestroy {
   private setSize() {
     const container = this.donutContainer.nativeElement;
     this.width = container.offsetWidth - this.margin.left - this.margin.right;
-    this.height = this.aspectRatio * this.width - this.margin.top - this.margin.bottom;
+    this.height = this.width - this.margin.top - this.margin.bottom;
   }
 
   private createDonutchart() {
@@ -99,7 +98,7 @@ export class DonutchartComponent implements OnInit, OnDestroy {
         .attr('height', this.height + this.margin.top + this.margin.bottom)
       .append('g')
         .attr('transform',
-              'translate(' + this.width / 2 + ',' + this.height / 2  + ')');
+              'translate(' + (this.width + this.margin.left) / 2 + ',' + ((this.height + this.margin.top) / 2 )  + ')');
 
     svg.append('g').attr('class', 'slices');
     svg.append('g').attr('class', 'labelName');
