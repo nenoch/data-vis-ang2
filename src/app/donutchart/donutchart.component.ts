@@ -101,34 +101,58 @@ export class DonutchartComponent implements OnInit, OnDestroy {
         .attr('transform',
               'translate(' + (this.width + this.margin.left) / 2 + ',' + ((this.height + this.margin.top) / 2 )  + ')');
 
-    svg.append('g').attr('class', 'slices');
-    svg.append('g').attr('class', 'labelName');
-    svg.append('g').attr('class', 'lines');
+    const sliceGroup = svg.append('g').attr('class', 'slices');
+    const path = this.drawSlices(sliceGroup, pie, arc, animate);
 
-    const path = this.drawSlices(svg, pie, arc, animate);
+    const labelGroup = svg.append('g').attr('class', 'labelGroup');
+    labelGroup.append('g').attr('class', 'labelName');
+    labelGroup.append('g').attr('class', 'lines');
+    console.log(pie);
+    const label = labelGroup.select('.labelName')
+                            .selectAll('text')
+                            .data(pie)
+                            .enter()
+                            .append('text')
+                            .attr('dy', '.35em')
+                            .html( d => {
+                              return `${d.data[this.category]}: <tspan>${d.data[this.variable]}</tspan>`;
+                            })
+                            .attr('transform', d => {
+                              const pos = outerArc.centroid(d);
+                              pos[0] = radius * 0.95 * (this.midAngle(d) < Math.PI ? 1 : -1);
+                              return `translate('${pos})`;
+                            })
+                            .style('text-anchor', d => {
+                              return (this.midAngle(d)) < Math.PI ? 'start' : 'end';
+                            })
+
   }
 
-  private drawSlices(svg, pie, arc, animate: boolean) {
-       const slices = svg.select('.slices')
-      .datum(this.data).selectAll('path')
+  private drawSlices(sliceGroup, pie, arc, animate: boolean) {
+    const slices = sliceGroup.datum(this.data)
+      .selectAll('path')
       .data(pie)
       .enter().append('path')
       .attr('fill', d => this.colour(d.data[this.category]));
 
-      if (animate) {
-        return slices.transition()
-                     .delay((d, i) => i * 100)
-                     .duration(1000)
-                     .attrTween('d', d => {
-                        const i = d3.interpolate(d.startAngle, d.endAngle);
-                        return t => {
-                            d.endAngle = i(t);
-                            return arc(d);
-                        }
-                    });
-      } else {
-        return slices.attr('d', arc);
-      }
+    if (animate) {
+      return slices.transition()
+                   .delay((d, i) => i * 100)
+                   .duration(1000)
+                   .attrTween('d', d => {
+                      const i = d3.interpolate(d.startAngle, d.endAngle);
+                      return t => {
+                        d.endAngle = i(t);
+                        return arc(d);
+                      }
+                  });
+    } else {
+      return slices.attr('d', arc);
+    }
+  }
+
+  private midAngle(d) {
+    return d.startAngle + (d.endAngle - d.startAngle) / 2;
   }
 
   private resetBarchart() {
