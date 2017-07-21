@@ -52,7 +52,9 @@ export class DataService {
       const axisData = this.axes;
       return {
         [axisData.xColumn] : this.isNumber(d[axisData.xColumn]),
-        [axisData.yColumn] : this.isNumber(d[axisData.yColumn])
+        [axisData.yColumn] : this.isNumber(d[axisData.yColumn]),
+        //hardcoded radius (z) value
+        'TotalValue' : this.isNumber(d.TotalValue)
       };
     }.bind(this), function(data) {
       this.setD3data(data);

@@ -13,113 +13,9 @@ import * as d3 from 'd3';
 })
 export class ScatterchartComponent implements OnInit {
   @ViewChild('scatterchart') private scatterContainer: ElementRef;
-  private data = [
- {
-   "Category": "Technology",
-   "TotalValue": 93910.21,
-   "ProductConcentration": 0.030137063,
-   "CustomerConcentration": 0.087770725
- },
- {
-   "Category": "Technology",
-   "TotalValue": 185853.87,
-   "ProductConcentration": 0.727932545,
-   "CustomerConcentration": 0.234178493
- },
- {
-   "Category": "Office Supplies",
-   "TotalValue": 47862.64,
-   "ProductConcentration": 0.869843455,
-   "CustomerConcentration": 0.967766883
- },
- {
-   "Category": "Furniture",
-   "TotalValue": 118352.55,
-   "ProductConcentration": 0.185026777,
-   "CustomerConcentration": 0.627607548
- },
- {
-   "Category": "Office Supplies",
-   "TotalValue": 9512.23,
-   "ProductConcentration": 0.080804313,
-   "CustomerConcentration": 0.914777644
- },
- {
-   "Category": "Office Supplies",
-   "TotalValue": 2074.76,
-   "ProductConcentration": 0.303772145,
-   "CustomerConcentration": 0.029366578
- },
- {
-   "Category": "Furniture",
-   "TotalValue": 224691.01,
-   "ProductConcentration": 0.742161958,
-   "CustomerConcentration": 0.886106234
- },
- {
-   "Category": "Office Supplies",
-   "TotalValue": 6940.06,
-   "ProductConcentration": 0.06212297,
-   "CustomerConcentration": 0.655249515
- },
- {
-   "Category": "Office Supplies",
-   "TotalValue": 89394.16,
-   "ProductConcentration": 0.52971077,
-   "CustomerConcentration": 0.439508931
- },
- {
-   "Category": "Furniture",
-   "TotalValue": 301858.94,
-   "ProductConcentration": 0.318459499,
-   "CustomerConcentration": 0.209223271
- },
- {
-   "Category": "Technology",
-   "TotalValue": 125443.68,
-   "ProductConcentration": 0.565379441,
-   "CustomerConcentration": 0.618075232
- },
- {
-   "Category": "Office Supplies",
-   "TotalValue": 20591.01,
-   "ProductConcentration": 0.746932104,
-   "CustomerConcentration": 0.232158633
- },
- {
-   "Category": "Office Supplies",
-   "TotalValue": 202564.78,
-   "ProductConcentration": 0.665022485,
-   "CustomerConcentration": 0.230177646
- },
- {
-   "Category": "Technology",
-   "TotalValue": 285491.32,
-   "ProductConcentration": 0.554136398,
-   "CustomerConcentration": 0.751528667
- },
- {
-   "Category": "Furniture",
-   "TotalValue": 78646.02,
-   "ProductConcentration": 0.159382955,
-   "CustomerConcentration": 0.775545349
- },
- {
-   "Category": "Office Supplies",
-   "TotalValue": 44425.64,
-   "ProductConcentration": 0.324886509,
-   "CustomerConcentration": 0.508537074
- },
- {
-   "Category": "Office Supplies",
-   "TotalValue": 173190.97,
-   "ProductConcentration": 0.469404641,
-   "CustomerConcentration": 0.035722445
- }
-];
-
-  private xAxis = "ProductConcentration";
-  private yAxis = "CustomerConcentration";
+  private data;
+  private xAxis;
+  private yAxis;
   private radius = "TotalValue";
   private margin = {top: 50, right: 20, bottom: 100, left: 45};
   private width: number;
@@ -129,11 +25,42 @@ export class ScatterchartComponent implements OnInit {
   private subscription: ISubscription;
   private animate: Boolean = true;
 
+
   constructor(private dataService: DataService, private errorService: ErrorHandlerService, private chartUtils: ChartUtilsService) {}
 
   ngOnInit() {
-    this.createScatterchart();
+    this.getData();
   }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  private getData() {
+    this.subscription = this.dataService.dataStream.subscribe((data) => {
+      this.data = data;
+      if (this.dataExists()) {
+        this.setAxes();
+        this.createScatterchart();
+      }
+    });
+  }
+
+  private dataExists() {
+    return this.data.length !== 0;
+  }
+
+  private setAxes() {
+    const axes = [];
+    for (const k in this.data[0]) {
+      if (this.data[0].hasOwnProperty(k)) {
+        axes.push(k)
+      }
+    }
+    this.xAxis = axes[0];
+    this.yAxis = axes[1];
+  }
+
 
   private setSize() {
     const container = this.scatterContainer.nativeElement;
@@ -205,13 +132,13 @@ export class ScatterchartComponent implements OnInit {
                           return `translate(${xScale(d[this.xAxis])}, ${yScale(d[this.yAxis])})`
                         });
 
-    circles.append('circle')
+      circles.append('circle')
         .attr('cx', 0)
         .attr('cy', 0)
         .attr('r', d => rScale(d[this.radius]))
         .style('fill', this.circleColour);
 
-    circles.append('text')
+      circles.append('text')
         .attr('text-anchor', 'middle')
         .attr('class', 'circle-tip')
         .text(d => `${this.radius}: ${d[this.radius]}`);
