@@ -11,6 +11,7 @@ import * as d3 from 'd3';
   templateUrl: './scatterchart.component.html',
   styleUrls: ['./scatterchart.component.css']
 })
+
 export class ScatterchartComponent implements OnInit {
   @ViewChild('scatterchart') private scatterContainer: ElementRef;
   private data;
@@ -25,6 +26,12 @@ export class ScatterchartComponent implements OnInit {
   private subscription: ISubscription;
   private animate: Boolean = true;
 
+  @HostListener('window:resize', ['$event'])
+  onKeyUp(ev: UIEvent) {
+    if (this.dataExists()) {
+        this.createScatterchart();
+      }
+  }
 
   constructor(private dataService: DataService, private errorService: ErrorHandlerService, private chartUtils: ChartUtilsService) {}
 
@@ -85,7 +92,7 @@ export class ScatterchartComponent implements OnInit {
 
     const rScale = d3.scaleSqrt()
                   .domain([0, d3.max(this.data, d => d[this.radius])])
-                  .range([0,30]);
+                  .range([0,10]);
 
     const svg = d3.select(element).append('svg')
         .attr('width', this.width + this.margin.left + this.margin.right)
@@ -145,6 +152,7 @@ export class ScatterchartComponent implements OnInit {
           .attr('text-anchor', 'middle')
           .attr('class', 'circle-tip')
           .text(d => `${this.radius}: ${d[this.radius]}`);
+
       }
 
   }
