@@ -14,17 +14,15 @@ import * as d3 from 'd3';
 export class DonutchartComponent implements OnInit, OnDestroy {
   @ViewChild('donutchart') private donutContainer: ElementRef;
   private data;
-  private xAxis;
-  private yAxis;
+  private category;
+  private variable;
   private margin = {top: 50, right: 20, bottom: 100, left: 45};
   private width: number;
   private height: number;
   private aspectRatio = 0.7;
   private colour = d3.scaleOrdinal(d3.schemeCategory20c);
   private padAngle = 0.015;
-  private floatFormat = d3.format('.4r');
   private cornerRadius = 3;
-  private percentFormat = d3.format(',.2%');
   private subscription: ISubscription;
 
   @HostListener('window:resize', ['$event'])
@@ -65,8 +63,8 @@ export class DonutchartComponent implements OnInit, OnDestroy {
       axes.push(k)
       }
     }
-    this.xAxis = axes[0];
-    this.yAxis = axes[1];
+    this.category = axes[0];
+    this.variable = axes[1];
   }
 
   private setSize() {
@@ -80,8 +78,47 @@ export class DonutchartComponent implements OnInit, OnDestroy {
     this.setSize();
 
     const element = this.donutContainer.nativeElement;
+    const radius = Math.min(this.width, this.height) / 2;
 
+    const pie = d3.pie()
+      .value(d => d[this.variable])
+      .sort(null);
 
+    const arc = d3.arc()
+      .outerRadius(radius * 1)
+      .innerRadius(radius * 0.7)
+      .cornerRadius(this.cornerRadius)
+      .padAngle(this.padAngle);
+
+    const outerArc = d3.arc()
+      .outerRadius(radius * 0.9)
+      .innerRadius(radius * 0.9);
+
+    const svg = d3.select(element).append('svg')
+        .attr('width', this.width + this.margin.left + this.margin.right)
+        .attr('height', this.height + this.margin.top + this.margin.bottom)
+      .append('g')
+        .attr('transform',
+              'translate(' + this.width / 2 + ',' + this.height / 2  + ')');
+
+    svg.append('g').attr('class', 'slices');
+    svg.append('g').attr('class', 'labelName');
+    svg.append('g').attr('class', 'lines');
+
+    const path = svg.select('.slices')
+      .datum(this.data).selectAll('path')
+      .data(pie)
+      .enter().append('path')
+      .attr('fill', d => this.colour(d.data[this.category]))
+      // Animation for drawing each section
+      .transition().delay((d, i) => i * 100).duration(1000)
+      .attrTween('d', d => {
+          const i = d3.interpolate(d.startAngle, d.endAngle);
+          return t => {
+              d.endAngle = i(t);
+              return arc(d);
+          }
+      })
   }
 
   private resetBarchart() {
