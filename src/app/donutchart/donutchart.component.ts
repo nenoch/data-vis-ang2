@@ -107,25 +107,8 @@ export class DonutchartComponent implements OnInit, OnDestroy {
     const labelGroup = svg.append('g').attr('class', 'labelGroup');
     labelGroup.append('g').attr('class', 'labelName');
     labelGroup.append('g').attr('class', 'lines');
-    console.log(pie);
-    const label = labelGroup.select('.labelName')
-                            .selectAll('text')
-                            .data(pie)
-                            .enter()
-                            .append('text')
-                            .attr('dy', '.35em')
-                            .html( d => {
-                              return `${d.data[this.category]}: <tspan>${d.data[this.variable]}</tspan>`;
-                            })
-                            .attr('transform', d => {
-                              const pos = outerArc.centroid(d);
-                              pos[0] = radius * 0.95 * (this.midAngle(d) < Math.PI ? 1 : -1);
-                              return `translate('${pos})`;
-                            })
-                            .style('text-anchor', d => {
-                              return (this.midAngle(d)) < Math.PI ? 'start' : 'end';
-                            })
 
+    const label = this.drawLabels(labelGroup, pie, outerArc, radius);
   }
 
   private drawSlices(sliceGroup, pie, arc, animate: boolean) {
@@ -149,6 +132,28 @@ export class DonutchartComponent implements OnInit, OnDestroy {
     } else {
       return slices.attr('d', arc);
     }
+  }
+
+  private drawLabels(labelGroup, pie, outerArc, radius) {
+    return labelGroup.datum(this.data)
+                            .select('.labelName')
+                            .selectAll('text')
+                            .data(pie)
+                            .enter()
+                            .append('text')
+                            .attr('dy', '.35em')
+                            .html( d => {
+                              return `${d.data[this.category]}: <tspan>${d.data[this.variable]}</tspan>`;
+                            })
+                            .attr('transform', d => {
+                              const pos = outerArc.centroid(d);
+                              pos[0] = radius * 0.95 * (this.midAngle(d) < Math.PI ? 1 : -1);
+                              // return `translate('${pos}')`;
+                              return 'translate(' + pos + ')';
+                            })
+                            .style('text-anchor', d => {
+                              return (this.midAngle(d)) < Math.PI ? 'start' : 'end';
+                            })
   }
 
   private midAngle(d) {
