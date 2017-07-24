@@ -90,9 +90,12 @@ export class ScatterchartComponent implements OnInit {
                   .range([this.height, 0])
                   .domain(d3.extent(this.data, d => d[this.yAxis] ));
 
+    const min = element.offsetWidth/120;
+    const max = element.offsetWidth/30;
+
     const rScale = d3.scaleSqrt()
                   .domain([0, d3.max(this.data, d => d[this.radius])])
-                  .range([0,30]);
+                  .range([min,max]);
 
     const svg = d3.select(element).append('svg')
         .attr('width', this.width + this.margin.left + this.margin.right)
