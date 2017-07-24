@@ -107,8 +107,12 @@ export class DonutchartComponent implements OnInit, OnDestroy {
     const labelGroup = svg.append('g').attr('class', 'labelGroup');
     labelGroup.append('g').attr('class', 'labelName');
     labelGroup.append('g').attr('class', 'lines');
+    labelGroup.datum(this.data);
 
-    const label = this.drawLabels(labelGroup, pie, outerArc, radius);
+    const labels = this.drawLabels(labelGroup, pie, outerArc, radius, animate);
+    const lines = this.drawLines(labelGroup, pie, arc, outerArc, radius, animate);
+
+    this.toolTip(d3.selectAll('.labelName text, .slices path'), svg, radius);
   }
 
   private drawSlices(sliceGroup, pie, arc, animate: boolean) {
@@ -134,27 +138,102 @@ export class DonutchartComponent implements OnInit, OnDestroy {
     }
   }
 
-  private drawLabels(labelGroup, pie, outerArc, radius) {
-    return labelGroup.datum(this.data)
-                            .select('.labelName')
-                            .selectAll('text')
-                            .data(pie)
-                            .enter()
-                            .append('text')
-                            .attr('dy', '.35em')
-                            .html( d => {
-                              return `${d.data[this.category]}: <tspan>${d.data[this.variable]}</tspan>`;
-                            })
-                            .attr('transform', d => {
-                              const pos = outerArc.centroid(d);
-                              pos[0] = radius * 0.95 * (this.midAngle(d) < Math.PI ? 1 : -1);
-                              // return `translate('${pos}')`;
-                              return 'translate(' + pos + ')';
-                            })
-                            .style('text-anchor', d => {
-                              return (this.midAngle(d)) < Math.PI ? 'start' : 'end';
-                            })
+  private drawLabels(labelGroup, pie, outerArc, radius, animate: boolean) {
+    const labels = labelGroup.select('.labelName')
+                              .selectAll('text')
+                              .data(pie)
+                              .enter()
+                              .append('text')
+                              .attr('dy', '.35em')
+                              .html( d => {
+                                return `${d.data[this.category]}: <tspan>${d.data[this.variable]}</tspan>`;
+                              })
+                              .attr('transform', d => {
+                                const pos = outerArc.centroid(d);
+                                pos[0] = radius * 0.95 * (this.midAngle(d) < Math.PI ? 1 : -1);
+                                return `translate(${pos})`;
+                              })
+                              .style('text-anchor', d => {
+                                return (this.midAngle(d)) < Math.PI ? 'start' : 'end';
+                              });
+    if (animate) {
+      labels.attr('fill-opacity', 0)
+              .transition()
+              .delay((d, i) => i * 150)
+              .attr('fill-opacity', 1);
+    }
+
+    return labels;
   }
+
+  private drawLines(labelGroup, pie, arc, outerArc, radius, animate: boolean) {
+    const lines = labelGroup.select('.lines')
+                      .selectAll('polyline')
+                      .data(pie)
+                      .enter()
+                      .append('polyline')
+                      .attr('points', d => {
+                        const pos = outerArc.centroid(d);
+                        pos[0] = radius * 0.95 * (this.midAngle(d) < Math.PI ? 1 : -1);
+                        return [arc.centroid(d), outerArc.centroid(d), pos]
+                      });
+    if (animate) {
+      lines.style('opacity', 0)
+            .transition()
+            .delay((d, i) => i * 150)
+            .style('opacity', 0.3);
+    }
+
+    return lines;
+  }
+
+  private toolTip(selection, svg, radius) {
+    selection.on('mouseenter',  data => {
+
+                    svg.append('text')
+                        .attr('class', 'toolCircle')
+                        .attr('dy', -15) // hard-coded. can adjust this to adjust text vertical alignment in tooltip
+                        .html(this.toolTipHTML(data)) // add text to the circle.
+                        .style('font-size', '.9em')
+                        .style('text-anchor', 'middle'); // centres text in tooltip
+
+                    svg.append('circle')
+                        .attr('class', 'toolCircle')
+                        .attr('r', radius * 0.55) // radius of tooltip circle
+                        .style('fill', this.colour(data.data[this.category])) // colour based on category mouse is over
+                        .style('fill-opacity', 0.35);
+
+                });
+
+                // remove the tooltip when mouse leaves the slice/label
+                selection.on('mouseout', function () {
+                    d3.selectAll('.toolCircle').remove();
+                });
+            }
+
+            // function to create the HTML string for the tool tip. Loops through each key in data object
+            // and returns the html string key: value
+
+  private toolTipHTML(data) {
+
+                var tip = '',
+                    i   = 0;
+
+                for (var key in data.data) {
+
+                    // if value is a number, format it as a percentage
+                    var value = data.data[key];
+
+                    // leave off 'dy' attr for first tspan so the 'dy' attr on text element works. The 'dy' attr on
+                    // tspan effectively imitates a line break.
+                    if (i === 0) tip += '<tspan x="0">' + key + ': ' + value + '</tspan>';
+                    else tip += '<tspan x="0" dy="1.2em">' + key + ': ' + value + '</tspan>';
+                    i++;
+                }
+
+                return tip;
+            }
+              
 
   private midAngle(d) {
     return d.startAngle + (d.endAngle - d.startAngle) / 2;
