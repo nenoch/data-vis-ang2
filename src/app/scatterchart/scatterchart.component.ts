@@ -151,11 +151,13 @@ export class ScatterchartComponent implements OnInit {
 
       if (this.radius !== '') {
 
-        circles.append('text')
-          .attr('text-anchor', 'middle')
-          .attr('class', 'circle-tip')
-          .text(d => `${this.radius}: ${d[this.radius]}`);
-
+        // circles.append('text')
+        //   .attr('text-anchor', 'middle')
+        //   .attr('class', 'circle-tip')
+        //   .text(d => `${this.radius}: ${d[this.radius]}`);
+        circles.append("div")
+          .attr("class", "tooltip")
+          .text(d => `${this.radius}:${d[this.radius]}`);
       }
 
   }
