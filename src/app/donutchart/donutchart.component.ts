@@ -91,8 +91,8 @@ export class DonutchartComponent implements OnInit, OnDestroy {
       .padAngle(this.padAngle);
 
     const outerArc = d3.arc()
-      .outerRadius(radius * 0.9)
-      .innerRadius(radius * 0.9);
+      .outerRadius(radius * 1.05)
+      .innerRadius(radius * 1.05);
 
     const svg = d3.select(element).append('svg')
         .attr('width', this.width + this.margin.left + this.margin.right)
@@ -109,14 +109,15 @@ export class DonutchartComponent implements OnInit, OnDestroy {
     labelGroup.append('g').attr('class', 'lines');
     labelGroup.datum(this.data);
 
-    const labels = this.drawLabels(labelGroup, pie, outerArc, radius, animate);
-    const lines = this.drawLines(labelGroup, pie, arc, outerArc, radius, animate);
+    const labels = this.drawLabels(labelGroup, pie, arc, radius, animate);
+    // const lines = this.drawLines(labelGroup, pie, arc, outerArc, radius, animate);
 
     this.toolTip(d3.selectAll('.labelName text, .slices path'), svg, radius);
+
+    // this.relax(labels, lines);
   }
 
   private drawSlices(sliceGroup, pie, arc, animate: boolean) {
-    console.log(pie);
     const slices = sliceGroup.datum(this.data)
       .selectAll('path')
       .data(pie)
@@ -147,17 +148,20 @@ export class DonutchartComponent implements OnInit, OnDestroy {
                               .append('text')
                               .attr('dy', '.35em')
                               .html( d => {
+                                if (d.endAngle - d.startAngle > 0.08) {
                                   return `${d.data[this.category]}: <tspan>${d.data[this.variable]}</tspan>`;
                                 }
-                              )
+                              })
                               .attr('transform', d => {
                                 const pos = outerArc.centroid(d);
-                                pos[0] = radius * 0.95 * (this.midAngle(d) < Math.PI ? 1 : -1);
-                                return `translate(${pos})`;
+                                const midAngle = d.startAngle < Math.PI ? d.startAngle/2 + d.endAngle/2 : d.startAngle/2  + d.endAngle/2 + Math.PI ;
+                                // pos[0] = radius * 0.95 * (this.midAngle(d) < Math.PI ? 1 : -1);
+                                return `translate(${pos}) rotate(-90) rotate(${midAngle * 180/Math.PI})`;
                               })
-                              .style('text-anchor', d => {
-                                return (this.midAngle(d)) < Math.PI ? 'start' : 'end';
-                              });
+                              .attr('text-anchor', 'middle')
+                              // .style('text-anchor', d => {
+                              //   return (this.midAngle(d)) < Math.PI ? 'start' : 'end';
+                              // });
     if (animate) {
       labels.attr('fill-opacity', 0)
               .transition()
@@ -175,9 +179,11 @@ export class DonutchartComponent implements OnInit, OnDestroy {
                       .enter()
                       .append('polyline')
                       .attr('points', d => {
-                        const pos = outerArc.centroid(d);
-                        pos[0] = radius * 0.95 * (this.midAngle(d) < Math.PI ? 1 : -1);
-                        return [arc.centroid(d), outerArc.centroid(d), pos]
+                        if (d.endAngle - d.startAngle > 0.07) {
+                          const pos = outerArc.centroid(d);
+                          // pos[0] = radius * 0.95 * (this.midAngle(d) < Math.PI ? 1 : -1);
+                          return [arc.centroid(d), outerArc.centroid(d), pos]
+                        }
                       });
     if (animate) {
       lines.style('opacity', 0)
@@ -230,6 +236,57 @@ export class DonutchartComponent implements OnInit, OnDestroy {
     }
     return tip;
   }
+
+  // TODO remove when sure not using
+//   private relax(labels, lines) {
+
+//     const alpha = 0.5;
+//     const spacing = 12;
+//     console.log(labels.nodes());
+//     let again = false;
+//     labels.each(function (d, i) {
+//         const a = this;
+//       console.log(a);
+//         const da = d3.select(a);
+//         const y1 = da.attr("y");
+//         labels.each(function (d, j) {
+//             const b = this;
+//             // a & b are the same element and don't collide.
+//             if (a == b) return;
+//             const db = d3.select(b);
+//             // a & b are on opposite sides of the chart and
+//             // don't collide
+//             if (da.attr("text-anchor") != db.attr("text-anchor")) return;
+//             // Now let's calculate the distance between
+//             // these elements. 
+//             const y2 = db.attr("y");
+//             const deltaY = y1 - y2;
+            
+//             // Our spacing is greater than our specified spacing,
+//             // so they don't collide.
+//             if (Math.abs(deltaY) > spacing) return;
+            
+//             // If the labels collide, we'll push each 
+//             // of the two labels up and down a little bit.
+//             again = true;
+//             const sign = deltaY > 0 ? 1 : -1;
+//             const adjust = sign * alpha;
+//             da.attr("y",+y1 + adjust);
+//             db.attr("y",+y2 - adjust);
+//         });
+//     });
+//     // Adjust our line leaders here
+//     // so that they follow the labels. 
+//     if (again) {
+//       console.log(labels);
+//         const labelElements = labels.nodes();
+//         lines.attr("y2",function(d,i) {
+//             const labelForLine = d3.select(labelElements[i]);
+//             return labelForLine.attr("y");
+//         });
+//         setTimeout(this.relax(labels, lines), 20)
+//     }
+// }
 
   private midAngle(d) {
     return d.startAngle + (d.endAngle - d.startAngle) / 2;

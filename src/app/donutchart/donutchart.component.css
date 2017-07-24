@@ -26,5 +26,4 @@ body {
 /* In biology we generally italicise species names. */
 :host /deep/ .labelName {
     font-size: 0.9em;
-    font-style: italic;
 }
