@@ -92,7 +92,7 @@ export class ScatterchartComponent implements OnInit {
 
     const rScale = d3.scaleSqrt()
                   .domain([0, d3.max(this.data, d => d[this.radius])])
-                  .range([0,10]);
+                  .range([0,30]);
 
     const svg = d3.select(element).append('svg')
         .attr('width', this.width + this.margin.left + this.margin.right)
@@ -115,11 +115,9 @@ export class ScatterchartComponent implements OnInit {
       svg.select('g')
           .append('text')
             .attr('class', 'label-style')
-            .attr('x', 8)
-            .attr('y', -this.width)
-            .attr('dy', -6)
-            .attr('transform', 'rotate(90)' )
-            .attr('text-anchor', 'middle')
+            .attr("x", this.width)
+            .attr("y", -6)
+            .style("text-anchor", "end")
             .text(this.xAxis);
 
       // Y Axis
@@ -127,8 +125,10 @@ export class ScatterchartComponent implements OnInit {
           .call(d3.axisLeft(yScale))
         .append('text')
           .attr('class', 'label-style')
-          .attr('y', -6)
-          .attr('text-anchor', 'middle')
+          .attr("transform", "rotate(-90)")
+          .attr("y", 6)
+          .attr("dy", ".71em")
+          .style("text-anchor", "end")
           .text(this.yAxis);
 
       var circles = svg.selectAll('.circle')
