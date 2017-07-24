@@ -116,6 +116,7 @@ export class DonutchartComponent implements OnInit, OnDestroy {
   }
 
   private drawSlices(sliceGroup, pie, arc, animate: boolean) {
+    console.log(pie);
     const slices = sliceGroup.datum(this.data)
       .selectAll('path')
       .data(pie)
@@ -146,8 +147,9 @@ export class DonutchartComponent implements OnInit, OnDestroy {
                               .append('text')
                               .attr('dy', '.35em')
                               .html( d => {
-                                return `${d.data[this.category]}: <tspan>${d.data[this.variable]}</tspan>`;
-                              })
+                                  return `${d.data[this.category]}: <tspan>${d.data[this.variable]}</tspan>`;
+                                }
+                              )
                               .attr('transform', d => {
                                 const pos = outerArc.centroid(d);
                                 pos[0] = radius * 0.95 * (this.midAngle(d) < Math.PI ? 1 : -1);
@@ -189,51 +191,45 @@ export class DonutchartComponent implements OnInit, OnDestroy {
 
   private toolTip(selection, svg, radius) {
     selection.on('mouseenter',  data => {
+      svg.append('text')
+          .attr('class', 'toolCircle')
+          .attr('dy', -15) // hard-coded. can adjust this to adjust text vertical alignment in tooltip
+          .html(this.toolTipHTML(data)) // add text to the circle.
+          .style('font-size', '.9em')
+          .style('text-anchor', 'middle'); // centres text in tooltip
 
-                    svg.append('text')
-                        .attr('class', 'toolCircle')
-                        .attr('dy', -15) // hard-coded. can adjust this to adjust text vertical alignment in tooltip
-                        .html(this.toolTipHTML(data)) // add text to the circle.
-                        .style('font-size', '.9em')
-                        .style('text-anchor', 'middle'); // centres text in tooltip
+      svg.append('circle')
+          .attr('class', 'toolCircle')
+          .attr('r', radius * 0.55) // radius of tooltip circle
+          .style('fill', this.colour(data.data[this.category])) // colour based on category mouse is over
+          .style('fill-opacity', 0.35);
+    });
 
-                    svg.append('circle')
-                        .attr('class', 'toolCircle')
-                        .attr('r', radius * 0.55) // radius of tooltip circle
-                        .style('fill', this.colour(data.data[this.category])) // colour based on category mouse is over
-                        .style('fill-opacity', 0.35);
-
-                });
-
-                // remove the tooltip when mouse leaves the slice/label
-                selection.on('mouseout', function () {
-                    d3.selectAll('.toolCircle').remove();
-                });
-            }
-
-            // function to create the HTML string for the tool tip. Loops through each key in data object
-            // and returns the html string key: value
+    // remove the tooltip when mouse leaves the slice/label
+    selection.on('mouseout', function () {
+        d3.selectAll('.toolCircle').remove();
+    });
+  }
 
   private toolTipHTML(data) {
+    let tip = '',
+        i   = 0;
 
-                var tip = '',
-                    i   = 0;
-
-                for (var key in data.data) {
-
-                    // if value is a number, format it as a percentage
-                    var value = data.data[key];
-
-                    // leave off 'dy' attr for first tspan so the 'dy' attr on text element works. The 'dy' attr on
-                    // tspan effectively imitates a line break.
-                    if (i === 0) tip += '<tspan x="0">' + key + ': ' + value + '</tspan>';
-                    else tip += '<tspan x="0" dy="1.2em">' + key + ': ' + value + '</tspan>';
-                    i++;
-                }
-
-                return tip;
-            }
-              
+    for (const key in data.data) {
+      if (data.data.hasOwnProperty(key)) {
+          const value = data.data[key];
+          // leave off 'dy' attr for first tspan so the 'dy' attr on text element works. The 'dy' attr on
+          // tspan effectively imitates a line break.
+          if (i === 0) {
+            tip += '<tspan x="0">' + key + ': ' + value + '</tspan>';
+          } else {
+            tip += '<tspan x="0" dy="1.2em">' + key + ': ' + value + '</tspan>';
+          }
+          i++;
+      }
+    }
+    return tip;
+  }
 
   private midAngle(d) {
     return d.startAngle + (d.endAngle - d.startAngle) / 2;
