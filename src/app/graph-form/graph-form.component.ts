@@ -18,6 +18,7 @@ export class GraphFormComponent implements OnInit {
 
   public barFocusTrigger = new EventEmitter<boolean>();
   public lineFocusTrigger = new EventEmitter<boolean>();
+  public scatterFocusTrigger = new EventEmitter<boolean>();
   private axisData: AxisData;
 
   constructor(private dataService: DataService, private chartUtils: ChartUtilsService) {}
@@ -44,6 +45,8 @@ export class GraphFormComponent implements OnInit {
       this.lineFocusTrigger.emit(true);
     } else if (this.graphType === 'barchart'){
       this.barFocusTrigger.emit(true);
+    } else if (this.graphType === 'scatterchart'){
+      this.scatterFocusTrigger.emit(true);
     }
   }
 

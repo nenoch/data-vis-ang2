@@ -16,7 +16,7 @@
         <input class="form-control input-xy" name="y" #name="ngModel" [ngModel]="axisData.yColumn" [(ngModel)]="axisData.yColumn" type="text"  placeholder="Drop value here" dnd-droppable (onDropSuccess)="transferDataSuccess($event)">
       </div>
     </div>
-    <div *ngIf="graphType === 'scatter'">
+    <div *ngIf="graphType === 'scatterchart'">
       <div class="form-group form-element">
         <label class="sr-only" for="R">Value for the radius</label>
         <div class="input-group">
@@ -35,8 +35,11 @@
       <button [ngClass]="{'btn-chart-focus': this.graphType === 'barchart' }" [focus]="barFocusTrigger" type="button" (click)="changeGraph('barchart')" class="btn btn-chart" aria-label="barchart">
         <i class="fa fa-bar-chart" aria-hidden="true"></i>
       </button>
-      <button [ngClass]="{'btn-chart-focus': this.graphType === 'linechart' }"[focus]="lineFocusTrigger" type="button" (click)="changeGraph('linechart')" class="btn btn-chart" aria-label="linechart">
+      <button [ngClass]="{'btn-chart-focus': this.graphType === 'linechart' }" [focus]="lineFocusTrigger" type="button" (click)="changeGraph('linechart')" class="btn btn-chart" aria-label="linechart">
         <i class="fa fa-line-chart" aria-hidden="true"></i>
+      </button>
+      <button [ngClass]="{'btn-chart-focus': this.graphType === 'scatterchart' }" [focus]="scatterFocusTrigger" type="button" (click)="changeGraph('scatterchart')" class="btn btn-chart" aria-label="scatterchart">
+        <i class="fa fa-area-chart" aria-hidden="true"></i>
       </button>
     </div>
   </div>
