@@ -134,7 +134,11 @@ export class ScatterchartComponent implements OnInit {
           .style("text-anchor", "end")
           .text(this.yAxis);
 
-      var circles = svg.selectAll('.circle')
+      let div = d3.select("body").append("div")
+                  .attr("class", "tooltip")
+                  .style("opacity", 0);
+
+      let circles = svg.selectAll('.circle')
                         .data(this.data)
                         .enter()
                         .append('g')
@@ -149,17 +153,27 @@ export class ScatterchartComponent implements OnInit {
         .attr('r', d => this.setCircleRadius(rScale,d))
         .style('fill', this.circleColour);
 
-      if (this.radius !== '') {
 
-        // circles.append('text')
-        //   .attr('text-anchor', 'middle')
-        //   .attr('class', 'circle-tip')
-        //   .text(d => `${this.radius}: ${d[this.radius]}`);
-        circles.append("div")
-          .attr("class", "tooltip")
-          .text(d => `${this.radius}:${d[this.radius]}`);
+      if (this.radius !== '') {
+        this.applyTooltips(circles, div, this.radius);
       }
 
+  }
+
+  private applyTooltips(circles, tooltip, value){
+    circles.on("mouseover", function(d) {
+      tooltip.transition()
+        .duration(200)
+        .style("opacity", .9);
+      tooltip.html(value+'<br>'+ d[value])
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY - 28) + "px");
+      })
+    .on("mouseout", function(d) {
+      tooltip.transition()
+        .duration(500)
+        .style("opacity", 0);
+      });
   }
 
   private setCircleRadius(rScale,d) {
