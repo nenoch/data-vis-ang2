@@ -77,6 +77,8 @@ export class ScatterchartComponent implements OnInit {
   }
 
   private createScatterchart() {
+
+    console.log(this.data);
     this.resetScatterchart();
     this.setSize();
 
@@ -91,9 +93,7 @@ export class ScatterchartComponent implements OnInit {
     const min = element.offsetWidth/120;
     const max = element.offsetWidth/30;
 
-    const rScale = d3.scaleSqrt()
-                  .domain([0, d3.max(this.data, d => d[this.radius])])
-                  .range([min,max]);
+    let rScale = this.setRadius(min,max);
 
     const svg = d3.select(element).append('svg')
         .attr('width', this.width + this.margin.left + this.margin.right)
@@ -198,6 +198,18 @@ export class ScatterchartComponent implements OnInit {
 
   private resetScatterchart() {
     this.chartUtils.resetSVG();
+  }
+
+  private setRadius(min,max) {
+  let error = { title: 'R Error', content: 'Please enter a numeric value for the radius.'};
+    if (this.isNumber(this.data[0][this.radius]) || this.radius === '') {
+      return d3.scaleSqrt()
+                .domain([0, d3.max(this.data, d => d[this.radius])])
+                .range([min,max]);
+    } else {
+      this.errorService.handleError(error);
+      this.resetScatterchart();
+    }
   }
 
   private isNumber(item) {
