@@ -132,10 +132,6 @@ export class ScatterchartComponent implements OnInit {
           .style("text-anchor", "end")
           .text(this.yAxis);
 
-      let div = d3.select("body").append("div")
-                  .attr("class", "tooltip")
-                  .style("opacity", 0);
-
       let circles = svg.selectAll('.circle')
                         .data(this.data)
                         .enter()
@@ -153,7 +149,7 @@ export class ScatterchartComponent implements OnInit {
 
 
       if (this.radius !== '') {
-        this.applyTooltips(circles, div, this.radius);
+        this.applyTooltips(circles, this.radius);
       }
 
   }
@@ -171,17 +167,22 @@ export class ScatterchartComponent implements OnInit {
     }
   }
 
-  private applyTooltips(circles, tooltip, value){
+  private applyTooltips(circles, value){
+
+    let div = d3.select("body").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
+
     circles.on("mouseover", function(d) {
-      tooltip.transition()
+      div.transition()
         .duration(200)
         .style("opacity", .9);
-      tooltip.html(value+'<br>'+ d[value])
+      div.html(value+'<br>'+ d[value])
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY - 28) + "px");
       })
     .on("mouseout", function(d) {
-      tooltip.transition()
+      div.transition()
         .duration(500)
         .style("opacity", 0);
       });
