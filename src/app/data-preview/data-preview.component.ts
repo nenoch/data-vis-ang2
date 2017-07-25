@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DataService } from '../shared/data.service';
+import { DataFilter } from './data-filter';
 
 @Component({
   selector: 'app-data-preview',
   templateUrl: './data-preview.component.html',
-  styleUrls: ['./data-preview.component.css']
+  styleUrls: ['./data-preview.component.css'],
 })
 export class DataPreviewComponent implements OnInit {
 
@@ -15,6 +16,7 @@ export class DataPreviewComponent implements OnInit {
   private rowsToDisplay: Array<any> = [];
   private initialRows = 25;
   private currentRow: number = this.initialRows;
+  private filter: DataFilter;
 
   constructor(private dataService: DataService) {
     this.scrollCallback = this.displayRows.bind(this);
@@ -22,6 +24,7 @@ export class DataPreviewComponent implements OnInit {
 
   ngOnInit() {
     this.getCSV();
+    this.filter = new DataFilter(null, null);
   }
 
   private getCSV() {
@@ -48,5 +51,12 @@ export class DataPreviewComponent implements OnInit {
       rows[i] = Object.keys(rows[i]).map(k => rows[i][k]);
     }
     return rows;
+  }
+
+  private filterKeyUp(column, filterString) {
+    this.filter.column = this.columns.findIndex(el => {
+      return el === column;
+    });
+    this.filter.filterString = filterString;
   }
 }
