@@ -82,9 +82,7 @@ export class ScatterchartComponent implements OnInit {
 
     const element = this.scatterContainer.nativeElement;
 
-    const xScale = d3.scaleLinear()
-                  .range([0, this.width])
-                  .domain(d3.extent(this.data, d => d[this.xAxis]));
+    const xScale = this.setXScale();
 
     const yScale = d3.scaleLinear()
                   .range([this.height, 0])
@@ -160,6 +158,19 @@ export class ScatterchartComponent implements OnInit {
 
   }
 
+  private setXScale(){
+    if (this.isNumber(this.data[0][this.xAxis])){
+      return d3.scaleLinear()
+                    .range([0, this.width])
+                    .domain(d3.extent(this.data, d => d[this.xAxis]));
+    } else {
+      return d3.scaleBand()
+                .rangeRound([0, this.width])
+                .padding(1)
+                .domain(this.data.map(d => d[this.xAxis]));
+    }
+  }
+
   private applyTooltips(circles, tooltip, value){
     circles.on("mouseover", function(d) {
       tooltip.transition()
@@ -186,6 +197,14 @@ export class ScatterchartComponent implements OnInit {
 
   private resetScatterchart() {
     this.chartUtils.resetSVG();
+  }
+
+  private isNumber(item) {
+    if (item == +item) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }
