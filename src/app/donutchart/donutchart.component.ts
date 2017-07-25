@@ -109,7 +109,7 @@ export class DonutchartComponent implements OnInit, OnDestroy {
     labelGroup.append('g').attr('class', 'lines');
     labelGroup.datum(this.data);
 
-    const labels = this.drawLabels(labelGroup, pie, arc, radius, animate);
+    // const labels = this.drawLabels(labelGroup, pie, arc, radius, animate);
     // const lines = this.drawLines(labelGroup, pie, arc, outerArc, radius, animate);
 
     this.toolTip(d3.selectAll('.labelName text, .slices path'), svg, radius);
@@ -148,7 +148,7 @@ export class DonutchartComponent implements OnInit, OnDestroy {
                               .append('text')
                               .attr('dy', '.35em')
                               .html( d => {
-                                if (d.endAngle - d.startAngle > 0.08) {
+                                if (this.sliceSize(d) > 0.08) {
                                   return `${d.data[this.category]}: <tspan>${d.data[this.variable]}</tspan>`;
                                 }
                               })
@@ -156,7 +156,7 @@ export class DonutchartComponent implements OnInit, OnDestroy {
                                 const pos = outerArc.centroid(d);
                                 const midAngle = d.startAngle < Math.PI ? d.startAngle/2 + d.endAngle/2 : d.startAngle/2  + d.endAngle/2 + Math.PI ;
                                 // pos[0] = radius * 0.95 * (this.midAngle(d) < Math.PI ? 1 : -1);
-                                return `translate(${pos}) rotate(-90) rotate(${midAngle * 180/Math.PI})`;
+                                return `translate(${pos}) rotate(-90) rotate(${midAngle * 180 / Math.PI})`;
                               })
                               .attr('text-anchor', 'middle')
                               // .style('text-anchor', d => {
@@ -179,7 +179,7 @@ export class DonutchartComponent implements OnInit, OnDestroy {
                       .enter()
                       .append('polyline')
                       .attr('points', d => {
-                        if (d.endAngle - d.startAngle > 0.07) {
+                        if (this.sliceSize(d) > 0.07) {
                           const pos = outerArc.centroid(d);
                           // pos[0] = radius * 0.95 * (this.midAngle(d) < Math.PI ? 1 : -1);
                           return [arc.centroid(d), outerArc.centroid(d), pos]
@@ -290,6 +290,10 @@ export class DonutchartComponent implements OnInit, OnDestroy {
 
   private midAngle(d) {
     return d.startAngle + (d.endAngle - d.startAngle) / 2;
+  }
+
+  private sliceSize(d) {
+    return d.endAngle - d.startAngle;
   }
 
   private resetBarchart() {
