@@ -18,7 +18,7 @@
                 <input #filter type="text" class="form-control" id="{{column}}" (keyup)="filterKeyUp(filter.id, filter.value)" placeholder="Filter by {{column}}">
               </td>
             </tr>
-            <tr *ngFor="let row of rowsToDisplay | tableFilter:filter">
+            <tr *ngFor="let row of rowsToDisplay">
               <td *ngFor="let data of row">{{ data }}</td>
             </tr>
           </tbody>

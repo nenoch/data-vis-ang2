@@ -23,12 +23,12 @@ export class DataPreviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getCSV();
+    this.getCSV(null);
     this.filter = new DataFilter(null, null);
   }
 
-  private getCSV() {
-    this.dataService.getCSV().subscribe(
+  private getCSV(filter) {
+    this.dataService.getCSV(filter).subscribe(
       data => {
         this.columns = data.columns;
         this.rows = this.convertRows(data);
@@ -54,9 +54,8 @@ export class DataPreviewComponent implements OnInit {
   }
 
   private filterKeyUp(column, filterString) {
-    this.filter.column = this.columns.findIndex(el => {
-      return el === column;
-    });
+    this.filter.column = column;
     this.filter.filterString = filterString;
+    this.getCSV(this.filter);
   }
 }
