@@ -16,7 +16,7 @@ export class DonutchartComponent implements OnInit, OnDestroy {
   private data;
   private category;
   private variable;
-  private margin = {top: 50, right: 20, bottom: 100, left: 45};
+  private margin = {top: 50, right: 20, bottom: 100, left: 20};
   private width: number;
   private height: number;
   private colour = d3.scaleOrdinal(d3.schemeCategory20c);
@@ -95,6 +95,7 @@ export class DonutchartComponent implements OnInit, OnDestroy {
       .innerRadius(radius * 1.05);
 
     const svg = d3.select(element).append('svg')
+        .attr('id', 'chart')
         .attr('width', this.width + this.margin.left + this.margin.right)
         .attr('height', this.height + this.margin.top + this.margin.bottom)
       .append('g')
@@ -109,7 +110,7 @@ export class DonutchartComponent implements OnInit, OnDestroy {
     labelGroup.append('g').attr('class', 'lines');
     labelGroup.datum(this.data);
 
-    // const labels = this.drawLabels(labelGroup, pie, arc, radius, animate);
+    const labels = this.drawLabels(labelGroup, pie, arc, radius, animate);
     // const lines = this.drawLines(labelGroup, pie, arc, outerArc, radius, animate);
 
     this.toolTip(d3.selectAll('.labelName text, .slices path'), svg, radius);
@@ -149,7 +150,8 @@ export class DonutchartComponent implements OnInit, OnDestroy {
                               .attr('dy', '.35em')
                               .html( d => {
                                 if (this.sliceSize(d) > 0.08) {
-                                  return `${d.data[this.category]}: <tspan>${d.data[this.variable]}</tspan>`;
+                                  // return `${d.data[this.category]}: <tspan>${d.data[this.variable]}</tspan>`;
+                                  return `${d.data[this.category]}`;
                                 }
                               })
                               .attr('transform', d => {
