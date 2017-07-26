@@ -14,11 +14,18 @@ import { Constants } from '../shared/constant';
 export class GraphFormComponent implements OnInit {
 
   @Output()
-  graphType: String = Constants.DEFAULT_GRAPH;
+  graphType: string = Constants.DEFAULT_GRAPH;
 
   public barFocusTrigger = new EventEmitter<boolean>();
   public lineFocusTrigger = new EventEmitter<boolean>();
+  public donutFocusTrigger = new EventEmitter<boolean>();
+
   private axisData: AxisData;
+  private toggleChartObj = {
+    linechart: this.lineFocusTrigger,
+    barchart: this.barFocusTrigger,
+    donutchart: this.donutFocusTrigger
+  }
 
   constructor(private dataService: DataService, private chartUtils: ChartUtilsService) {}
 
@@ -39,12 +46,8 @@ export class GraphFormComponent implements OnInit {
     this.toggleChartBtn();
   }
 
-  private toggleChartBtn(){
-    if (this.graphType === 'linechart'){
-      this.lineFocusTrigger.emit(true);
-    } else if (this.graphType === 'barchart'){
-      this.barFocusTrigger.emit(true);
-    }
+  private toggleChartBtn() {
+    this.toggleChartObj[this.graphType].emit(true)
   }
 
   private changeGraph(graph) {
