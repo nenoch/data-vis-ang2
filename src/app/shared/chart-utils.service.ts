@@ -13,16 +13,16 @@ export class ChartUtilsService {
     svg.remove();
   }
 
-  public checkYAxis(data, yAxis) {
+  public checkYAxisError(data, yAxis) {
     const error = { title: 'Y Axis Error', content: 'Please enter a numeric value for the Y Axis.'};
+    let flag = false;
     data.forEach(d => {
       if (isNaN(d[yAxis])) {
         this.errorService.handleError(error);
-        return false;
-      } else {
-        return true;
+        flag = true;
       }
     });
+    return flag;
   }
 
 }

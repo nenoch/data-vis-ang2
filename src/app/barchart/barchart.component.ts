@@ -75,7 +75,7 @@ export class BarchartComponent implements OnInit, OnDestroy {
 
   private createBarchart(animate: Boolean = false) {
     this.resetBarchart();
-    if (!this.chartUtils.checkYAxis(this.data, this.yAxis)) { return }; // Return if yaxis is a string
+    if (this.chartUtils.checkYAxisError(this.data, this.yAxis)) { return } // Return if yaxis is a string
     this.setSize();
 
     // Grab the element in the DOM
