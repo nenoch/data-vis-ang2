@@ -78,7 +78,8 @@ export class ScatterchartComponent implements OnInit {
 
   private createScatterchart() {
     this.resetScatterchart();
-    if (this.chartUtils.checkRadiusError(this.data, this.radius)) { return }
+    if (this.chartUtils.checkYAxisError(this.data, this.yAxis)
+        || this.chartUtils.checkRadiusError(this.data, this.radius)) { return };
     this.setSize();
 
     const element = this.scatterContainer.nativeElement;
@@ -97,6 +98,7 @@ export class ScatterchartComponent implements OnInit {
               .range([min,max]);
 
     const svg = d3.select(element).append('svg')
+        .attr('id', 'chart')
         .attr('width', this.width + this.margin.left + this.margin.right)
         .attr('height', this.height + this.margin.top + this.margin.bottom)
       .append('g')
