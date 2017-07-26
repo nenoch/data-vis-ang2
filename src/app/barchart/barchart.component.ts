@@ -94,6 +94,7 @@ export class BarchartComponent implements OnInit, OnDestroy {
               .range([this.height, 0]);
 
     const svg = d3.select(element).append('svg')
+        .attr('id', 'chart')
         .attr('width', this.width + this.margin.left + this.margin.right)
         .attr('height', this.height + this.margin.top + this.margin.bottom)
       .append('g')

@@ -9,10 +9,10 @@ export class ChartUtilsService {
   constructor(private errorService: ErrorHandlerService) { }
 
   public resetSVG() {
-    const svg = d3.select('svg');
-    svg.remove();
+    const chart = d3.select('svg#chart');
+    chart.remove();
   }
-
+  
   public checkYAxisError(data, yAxis) {
     const error = { title: 'Y Axis Error', content: 'Please enter a numeric value for the Y Axis.'};
     let flag = false;
