@@ -16,20 +16,19 @@ export class ChartUtilsService {
   public checkRadiusError(data, radius) {
     let error = { title: 'R Error', content: 'Please enter a numeric value that hasn\'t been assigned to X or Y for the radius.'};
     let flag = false;
-
-    if (!this.isNumber(data[0][radius])) {
+    if (radius !== '' && !this.isNumber(data[0][radius])) {
         this.errorService.handleError(error);
         flag = true;
     }
     return flag;
    }
 
-   private isNumber(item) {
-     if (item == +item) {
-       return true;
-     } else {
-       return false;
-     }
-   }
+  private isNumber(item) {
+    if (item == +item) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
 }
