@@ -30,7 +30,7 @@ export class LinechartComponent implements OnInit, OnDestroy {
       }
   }
 
-  constructor(private dataService: DataService, private errorService: ErrorHandlerService, private chartUtils: ChartUtilsService) {}
+  constructor(private dataService: DataService, private chartUtils: ChartUtilsService) {}
 
   ngOnInit() {
     this.getData();
@@ -74,6 +74,7 @@ export class LinechartComponent implements OnInit, OnDestroy {
 
   private createLinechart(animate: Boolean = false) {
     this.resetLinechart();
+    if (this.chartUtils.checkYAxisError(this.data, this.yAxis)) { return }; // Return if yaxis is a string
     this.setSize();
 
     const element = this.lineContainer.nativeElement;
@@ -90,6 +91,7 @@ export class LinechartComponent implements OnInit, OnDestroy {
       .y(d => this.setLineY(d, y));
 
     const svg = d3.select(element).append('svg')
+        .attr('id', 'chart')
         .attr('width', this.width + this.margin.left + this.margin.right)
         .attr('height', this.height + this.margin.top + this.margin.bottom)
       .append('g')
@@ -145,7 +147,6 @@ export class LinechartComponent implements OnInit, OnDestroy {
 
     if (animate) {
       const totalLength = path.node().getTotalLength();
-
       path
         .attr('stroke-dasharray', totalLength + ' ' + totalLength)
         .attr('stroke-dashoffset', totalLength)
@@ -156,13 +157,7 @@ export class LinechartComponent implements OnInit, OnDestroy {
   }
 
   private setLineY(d, y) {
-    const error = { title: 'Y Axis Error', content: 'Please enter a numeric value for the Y Axis.'};
-    if (isNaN(y(d[this.yAxis]))) {
-      this.errorService.handleError(error);
-      this.resetLinechart();
-    } else {
       return y(d[this.yAxis]);
-    }
   }
 
   private resetLinechart() {

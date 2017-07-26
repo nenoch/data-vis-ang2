@@ -24,10 +24,10 @@
   <div class="col-md-12 col-sm-12 col-lg-12 text-center ">
     <div class="btn-group margin-top10">
       <button [ngClass]="{'btn-chart-focus': this.graphType === 'barchart' }" [focus]="barFocusTrigger" type="button" (click)="changeGraph('barchart')" class="btn btn-chart" aria-label="barchart">
-        <i class="fa fa-bar-chart" aria-hidden="true"></i>
+        <md-icon svgIcon="barchart" class="svg-icon"></md-icon>
       </button>
       <button [ngClass]="{'btn-chart-focus': this.graphType === 'linechart' }"[focus]="lineFocusTrigger" type="button" (click)="changeGraph('linechart')" class="btn btn-chart" aria-label="linechart">
-        <i class="fa fa-line-chart" aria-hidden="true"></i>
+        <md-icon svgIcon="linechart" class="svg-icon"></md-icon>
       </button>
       <button [ngClass]="{'btn-chart-focus': this.graphType === 'donutchart' }"[focus]="donutFocusTrigger" type="button" (click)="changeGraph('donutchart')" class="btn btn-chart" aria-label="donutchart">
         <i class="fa fa-pie-chart" aria-hidden="true"></i>
@@ -35,6 +35,7 @@
     </div>
   </div>
 </div>
+<app-error-modal></app-error-modal>
 <div class="row">
     <app-graph-area [graph]="graphType"></app-graph-area>
 </div>

@@ -2,3 +2,29 @@
   opacity: 0.5;
   pointer-events: none
 }
+
+.loading-state {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.loading-state:before {
+  display: table;
+  font-size: 7em;
+  font-family: "FontAwesome";
+  content: "\f021";
+  color: #333F48;
+  position: absolute;
+  height: 0;
+  width: 0;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  -webkit-animation: fa-spin 2s infinite linear;
+  -moz-animation: fa-spin 2s infinite linear;
+  -ms-animation: fa-spin 2s infinite linear;
+  -o-animation: fa-spin 2s infinite linear;
+  animation: fa-spin 2s infinite linear;
+}
