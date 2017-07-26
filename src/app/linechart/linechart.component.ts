@@ -73,6 +73,7 @@ export class LinechartComponent implements OnInit, OnDestroy {
 
 
   private createLinechart(animate: Boolean = false) {
+    console.log("creating chart");
     this.resetLinechart();
     this.setSize();
 
