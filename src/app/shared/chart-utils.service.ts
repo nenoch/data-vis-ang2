@@ -8,8 +8,8 @@ export class ChartUtilsService {
   constructor() { }
 
   resetSVG(){
-    let svg = d3.select('svg');
-    svg.remove();
+    let chart = d3.select('svg#chart');
+    chart.remove();
   }
 
 }
