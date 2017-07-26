@@ -26,6 +26,7 @@ import { LinechartComponent } from './linechart/linechart.component';
 import { FocusDirective } from './directives/focus.directive';
 import { InfiniteScrollerDirective } from './directives/infinite-scroller.directive';
 import { MdIconModule } from '@angular/material';
+import { TableFilterPipe } from './pipes/table-filter.pipe';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { MdIconModule } from '@angular/material';
     TabMenuComponent,
     TabComponent,
     DataPreviewComponent,
-    InfiniteScrollerDirective
+    InfiniteScrollerDirective,
+    TableFilterPipe
   ],
   imports: [
     FormsModule,
