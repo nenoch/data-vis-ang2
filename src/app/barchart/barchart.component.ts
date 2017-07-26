@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener} from '@angular/core';
 import { DataService } from '../shared/data.service';
-import { ErrorHandlerService } from '../error-handler/error-handler.service';
 import { ChartUtilsService } from '../shared/chart-utils.service';
 import { ISubscription } from 'rxjs/Subscription';
 
@@ -31,7 +30,7 @@ export class BarchartComponent implements OnInit, OnDestroy {
       }
   }
 
-  constructor(private dataService: DataService, private errorService: ErrorHandlerService, private chartUtils: ChartUtilsService) {}
+  constructor(private dataService: DataService, private chartUtils: ChartUtilsService) {}
 
 
   ngOnInit() {
@@ -75,10 +74,11 @@ export class BarchartComponent implements OnInit, OnDestroy {
 
 
   private createBarchart(animate: Boolean = false) {
-    // Grab the element in the DOM
     this.resetBarchart();
+    if (this.chartUtils.checkYAxisError(this.data, this.yAxis)) { return } // Return if yaxis is a string
     this.setSize();
 
+    // Grab the element in the DOM
     const element = this.barContainer.nativeElement;
 
     this.barColours = d3.scaleLinear()
@@ -94,6 +94,7 @@ export class BarchartComponent implements OnInit, OnDestroy {
               .range([this.height, 0]);
 
     const svg = d3.select(element).append('svg')
+        .attr('id', 'chart')
         .attr('width', this.width + this.margin.left + this.margin.right)
         .attr('height', this.height + this.margin.top + this.margin.bottom)
       .append('g')
@@ -172,13 +173,7 @@ export class BarchartComponent implements OnInit, OnDestroy {
   }
 
   private setBarHeight(d, y) {
-    const error = { title: 'Y Axis Error', content: 'Please enter a numeric value for the Y Axis.'};
-    if (isNaN(this.height - y(d[this.yAxis]))) {
-      this.errorService.handleError(error);
-      this.resetBarchart();
-    } else {
       return this.height - y(d[this.yAxis]);
-    }
   }
 
   private resetBarchart() {

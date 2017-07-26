@@ -62,3 +62,13 @@ div.tooltip {
   border-radius: 8px;
   pointer-events: none;
 }
+
+.chart-container {
+  height: 500px;
+}
+
+button .svg-icon {
+  display: block;
+  height: 15px;
+  width: 15px;
+}

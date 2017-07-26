@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { MdIconModule } from '@angular/material';
 import { DndModule } from 'ng2-dnd';
 
 import { DataService } from './shared/data.service';
@@ -22,10 +23,14 @@ import { DataPreviewComponent } from './data-preview/data-preview.component';
 
 import { BarchartComponent } from './barchart/barchart.component';
 import { LinechartComponent } from './linechart/linechart.component';
+import { DonutchartComponent } from './donutchart/donutchart.component';
 
 import { FocusDirective } from './directives/focus.directive';
 import { InfiniteScrollerDirective } from './directives/infinite-scroller.directive';
 import { ScatterchartComponent } from './scatterchart/scatterchart.component';
+
+import { TableFilterPipe } from './pipes/table-filter.pipe';
+
 
 
 @NgModule({
@@ -36,6 +41,7 @@ import { ScatterchartComponent } from './scatterchart/scatterchart.component';
     ColumnsListComponent,
     FileSelectorComponent,
     BarchartComponent,
+    DonutchartComponent,
     ErrorModalComponent,
     LinechartComponent,
     FocusDirective,
@@ -43,12 +49,14 @@ import { ScatterchartComponent } from './scatterchart/scatterchart.component';
     TabComponent,
     DataPreviewComponent,
     InfiniteScrollerDirective,
-    ScatterchartComponent
+    ScatterchartComponent,
+    TableFilterPipe
   ],
   imports: [
     FormsModule,
     BrowserModule,
     HttpModule,
+    MdIconModule,
     DndModule.forRoot()
   ],
   providers: [
