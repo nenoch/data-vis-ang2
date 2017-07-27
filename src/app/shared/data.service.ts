@@ -40,6 +40,7 @@ export class DataService {
 
   public setD3data(data) {
     this.observable.next(this.d3Data = data);
+    console.log('data', this.d3Data);
   }
 
   private extractColumns(response: Response) {

@@ -30,6 +30,7 @@ import { InfiniteScrollerDirective } from './directives/infinite-scroller.direct
 import { ScatterchartComponent } from './scatterchart/scatterchart.component';
 
 import { TableFilterPipe } from './pipes/table-filter.pipe';
+import { StackbarchartComponent } from './stackbarchart/stackbarchart.component';
 
 
 
@@ -50,7 +51,8 @@ import { TableFilterPipe } from './pipes/table-filter.pipe';
     DataPreviewComponent,
     InfiniteScrollerDirective,
     ScatterchartComponent,
-    TableFilterPipe
+    TableFilterPipe,
+    StackbarchartComponent
   ],
   imports: [
     FormsModule,

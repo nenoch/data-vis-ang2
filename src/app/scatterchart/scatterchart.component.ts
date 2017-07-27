@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener} from '@angular/core';
 import { DataService } from '../shared/data.service';
-import { ErrorHandlerService } from '../error-handler/error-handler.service';
 import { ChartUtilsService } from '../shared/chart-utils.service';
 import { ISubscription } from 'rxjs/Subscription';
 
@@ -33,7 +32,7 @@ export class ScatterchartComponent implements OnInit {
       }
   }
 
-  constructor(private dataService: DataService, private errorService: ErrorHandlerService, private chartUtils: ChartUtilsService) {}
+  constructor(private dataService: DataService, private chartUtils: ChartUtilsService) {}
 
   ngOnInit() {
     this.getData();
