@@ -6,177 +6,212 @@ import { ISubscription } from 'rxjs/Subscription';
 import * as d3 from 'd3';
 
 @Component({
-  selector: 'app-barchart',
-  templateUrl: './barchart.component.html',
-  styleUrls: ['./barchart.component.css']
+    selector: 'app-barchart',
+    templateUrl: './barchart.component.html',
+    styleUrls: ['./barchart.component.css']
 })
 export class BarchartComponent implements OnInit, OnDestroy {
-  @ViewChild('barchart') private barContainer: ElementRef;
-  private data;
-  private xAxis;
-  private yAxis;
-  private margin = {top: 50, right: 20, bottom: 100, left: 45};
-  private width: number;
-  private height: number;
-  private aspectRatio = 0.7;
-  private barColours;
-  private subscription: ISubscription;
-  private animate: Boolean = true;
+    @ViewChild('barchart') private barContainer: ElementRef;
+    private data;
+    private xAxis;
+    private yAxis;
+    private margin = {top: 50, right: 50, bottom: 100, left: 50};
+    private width: number;
+    private height: number;
+    private aspectRatio = 0.7;
+    private barColours;
+    private subscription: ISubscription;
+    private animate = true;
+    private style = 'horizontal';
 
-  @HostListener('window:resize', ['$event'])
-  onKeyUp(ev: UIEvent) {
-    if (this.dataExists()) {
-        this.createBarchart();
-      }
-  }
-
-  constructor(private dataService: DataService, private chartUtils: ChartUtilsService) {}
-
-
-  ngOnInit() {
-    this.getData();
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
-  private getData() {
-    this.subscription = this.dataService.dataStream.subscribe((data) => {
-      this.data = data;
-      if (this.dataExists()) {
-        this.setAxes();
-        this.createBarchart(this.animate);
-      }
-    });
-  }
-
-  private dataExists() {
-    return this.data.length !== 0;
-  }
-
-  private setAxes() {
-    const axes = [];
-    for (const k in this.data[0]) {
-      if (this.data[0].hasOwnProperty(k)) {
-      axes.push(k)
-      }
+    @HostListener('window:resize', ['$event'])
+    onKeyUp(ev: UIEvent) {
+        if (this.dataExists()) {
+            this.createBarchart(false, this.style);
+        }
     }
-    this.xAxis = axes[0];
-    this.yAxis = axes[1];
-  }
 
-  private setSize() {
-    const container = this.barContainer.nativeElement;
-    this.width = container.offsetWidth - this.margin.left - this.margin.right;
-    this.height = this.aspectRatio * this.width - this.margin.top - this.margin.bottom;
-  }
+    constructor(private dataService: DataService, private chartUtils: ChartUtilsService) {}
 
 
-  private createBarchart(animate: Boolean = false) {
-    this.resetBarchart();
-    if (this.chartUtils.checkYAxisError(this.data, this.yAxis)) { return } // Return if yaxis is a string
-    this.setSize();
-
-    // Grab the element in the DOM
-    const element = this.barContainer.nativeElement;
-
-    this.barColours = d3.scaleLinear()
-                    .domain([0, this.data.length])
-                    .range(['#0056b8', '#7ECEFC']);
-
-
-    // Set the range
-    const x = d3.scaleBand()
-              .range([0, this.width])
-              .padding(0.1);
-    const y = d3.scaleLinear()
-              .range([this.height, 0]);
-
-    const svg = d3.select(element).append('svg')
-        .attr('id', 'chart')
-        .attr('width', this.width + this.margin.left + this.margin.right)
-        .attr('height', this.height + this.margin.top + this.margin.bottom)
-      .append('g')
-        .attr('transform',
-              'translate(' + this.margin.left + ',' + this.margin.top + ')');
-
-
-      // Scale the range of the data in the domains
-      x.domain(this.data.map((d) => d[this.xAxis] ));
-      y.domain([0, d3.max(this.data, (d) => d[this.yAxis])]);
-
-
-      // X Axis
-      svg.append('g')
-          .attr('transform', 'translate(0,' + this.height + ')')
-          .call(d3.axisBottom(x))
-          .selectAll('text')
-              .style('text-anchor', 'end')
-              .attr('dx', '-.8em')
-              .attr('dy', '.15em')
-              .attr('transform', 'rotate(-65)' );
-
-      // X Axis label
-      svg.select('g')
-        .append('text')
-          .attr('class', 'label-style')
-          .attr('x', 8)
-          .attr('y', -this.width)
-          .attr('dy', -6)
-          .attr('transform', 'rotate(90)' )
-          .attr('text-anchor', 'middle')
-          .text(this.xAxis);
-
-      // Y Axis
-      svg.append('g')
-          .call(d3.axisLeft(y))
-        .append('text')
-          .attr('class', 'label-style')
-          .attr('y', -6)
-          .attr('text-anchor', 'middle')
-          .text(this.yAxis);
-
-      this.appendBars(svg, x, y, animate);
-  }
-
-  private appendBars(svg, x, y, animate: Boolean) {
-    if (animate) {
-      svg.selectAll('.bar')
-          .data(this.data)
-        .enter().append('rect')
-          .attr('class', 'bar')
-          .style('fill', (d, i) => this.barColours(i) )
-          .attr('x', (d) => x(d[this.xAxis]) )
-          .attr('y', (d) => this.height)
-          .attr('width', x.bandwidth())
-          // Animation Start
-          .attr('height', 0)
-          .transition()
-          .duration(1000)
-          .delay(function (d, i) {
-              return i * 125;
-          })
-          .attr('height', (d) => this.setBarHeight(d, y) )
-          .attr('y', (d) => y(d[this.yAxis]) );
-    } else {
-      svg.selectAll('.bar')
-          .data(this.data)
-        .enter().append('rect')
-          .attr('class', 'bar')
-          .style('fill', (d, i) => this.barColours(i) )
-          .attr('x', (d) => x(d[this.xAxis]) )
-          .attr('width', x.bandwidth())
-          .attr('y', (d) => y(d[this.yAxis]) )
-          .attr('height', (d) => this.setBarHeight(d, y) );
+    ngOnInit() {
+        this.getData();
     }
-  }
 
-  private setBarHeight(d, y) {
-      return this.height - y(d[this.yAxis]);
-  }
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
 
-  private resetBarchart() {
-    this.chartUtils.resetSVG();
-  }
+    private getData() {
+        this.subscription = this.dataService.dataStream.subscribe((data) => {
+            this.data = data;
+            if (this.dataExists()) {
+                this.setAxes();
+                this.createBarchart(this.animate, this.style);
+            }
+        });
+    }
+
+    private dataExists(): boolean {
+        return this.data.length !== 0;
+    }
+
+    private setAxes() {
+        const axes = [];
+        for (const axis in this.data[0]) {
+            if (this.data[0].hasOwnProperty(axis)) {
+                axes.push(axis)
+            }
+        }
+        if (this.isHorizontal(this.style)) {
+            [this.yAxis, this.xAxis] = axes;
+            return;
+        }
+        [this.xAxis, this.yAxis] = axes;
+    }
+
+    private setSize() {
+        const container = this.barContainer.nativeElement;
+        this.width = container.offsetWidth - this.margin.left - this.margin.right;
+        this.height = this.aspectRatio * this.width - this.margin.top - this.margin.bottom;
+    }
+
+
+    private createBarchart(animate: boolean, style: string) {
+        this.resetBarchart();
+
+        // Check correct data types for relevant axis
+        if (this.isHorizontal(style)) {
+            if (this.chartUtils.checkAxisError(this.data, this.xAxis, 'Y')) { return }; // Return if xaxis is a string
+        } else {
+            if (this.chartUtils.checkAxisError(this.data, this.yAxis, 'Y')) { return }; // Return if yaxis is a string
+        }
+
+        // Grab the element in the DOM
+        const element = this.barContainer.nativeElement;
+
+        // Prepare svg
+        this.setSize();
+        const svg = d3.select(element)
+            .append('svg')
+                .attr('id', 'chart')
+                .attr('width', this.width + this.margin.left + this.margin.right)
+                .attr('height', this.height + this.margin.top + this.margin.bottom)
+            .append('g')
+                .attr('transform',
+                    'translate(' + this.margin.left + ',' + this.margin.top + ')');
+
+        // Set colours
+        this.barColours = d3.scaleLinear()
+            .domain([0, this.data.length])
+            .range(['#0056b8', '#7ECEFC']);
+
+        // Set the range
+        let axes = {x: '', y: ''};
+        axes = this.defineScales(style, axes)
+
+        // Scale the range of the data in the domains
+        axes = this.defineDomains(style, axes);
+
+        // X Axis
+        svg.append('g')
+            .attr('transform', 'translate(0,' + this.height + ')')
+            .call(d3.axisBottom(axes.x))
+            .selectAll('text')
+                .style('text-anchor', 'end')
+                .attr('dx', '-.8em')
+                .attr('dy', '.15em')
+                .attr('transform', 'rotate(-65)' );
+
+        // X Axis label
+        svg.select('g')
+            .append('text')
+                .attr('class', 'label-style')
+                .attr('x', 8)
+                .attr('y', -this.width)
+                .attr('dy', -6)
+                .attr('transform', 'rotate(90)' )
+                .attr('text-anchor', 'middle')
+                .text(this.xAxis);
+
+        // Y Axis
+        svg.append('g')
+            .call(d3.axisLeft(axes.y))
+        .append('text')
+            .attr('class', 'label-style')
+            .attr('y', -6)
+            .attr('text-anchor', 'middle')
+            .text(this.yAxis);
+
+        this.appendBars(style, svg, axes, animate);
+    }
+
+    private defineScales(style, axes) {
+        if (this.isHorizontal(style)) {
+            axes.x = d3.scaleLinear().rangeRound([0, this.width]);
+            axes.y = d3.scaleBand().rangeRound([this.height, 0]).padding(0.1);
+            return axes;
+        }
+        axes.x = d3.scaleBand().range([0, this.width]).padding(0.1);
+        axes.y = d3.scaleLinear().range([this.height, 0]);
+        return axes;
+    }
+
+    private defineDomains(style, axes) {
+        if (this.isHorizontal(style)) {
+            axes.x.domain([0, d3.max(this.data, (d) =>  d[this.xAxis])]);
+            axes.y.domain(this.data.map((d) =>  d[this.yAxis]));
+            return axes;
+        }
+        axes.x.domain(this.data.map((d) =>  d[this.xAxis]));
+        axes.y.domain([0, d3.max(this.data, (d) =>  d[this.yAxis])]);
+        return axes;
+    }
+
+    private appendBars(style: string, svg, axes, animate: boolean) {
+        let bars = svg.selectAll('.bar')
+            .data(this.data)
+            .enter()
+            .append('rect')
+                .attr('class', 'bar')
+                .style('fill', (d, i) => this.barColours(i) );
+        if (this.isHorizontal(style)) {
+            bars.attr('x', 0)
+                .attr('y', (d) => axes.y(d[this.yAxis]))
+                .attr('height', axes.y.bandwidth());
+            if (animate) { bars = this.animation(style, bars)};
+            bars.attr('width', (d) => axes.x(d[this.xAxis]))
+            return;
+        }
+        bars.attr('x', (d) => axes.x(d[this.xAxis]))
+            .attr('width', axes.x.bandwidth())
+            .attr('y', (d) => this.height);
+            if (animate) { bars = this.animation(style, bars)};
+            bars.attr('height', (d) => this.height - axes.y(d[this.yAxis]))
+                .attr('y', (d) => axes.y(d[this.yAxis]));
+        return;
+    }
+
+    private animation(style, bars) {
+        let direction;
+        (this.isHorizontal(style)) ? direction = 'width' : direction = 'height';
+        return bars.attr(direction, 0)
+            .transition()
+            .duration(1000)
+            .delay(function (d, i) {
+                return i * 125;
+            })
+    }
+
+    private setBarHeight(d, y): number {
+        return this.height - y(d[this.yAxis]);
+    }
+
+    private resetBarchart() {
+        this.chartUtils.resetSVG();
+    }
+
+    private isHorizontal(style: string): boolean {
+        return (style === 'horizontal');
+    }
 }

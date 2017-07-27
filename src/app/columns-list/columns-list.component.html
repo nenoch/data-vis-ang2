@@ -1,8 +1,16 @@
-<div class="col-md-4 col-sm-4 col-lg-4">
+<div class="col-md-3 col-sm-3 col-lg-3">
   <div class="list-group">
     <div *ngFor="let column of columns" dnd-draggable [dragEnabled]="true" [dragData]="column" id="{{ column }}" class="list-group-item table-field">
-      {{ column }}
-      <span class="glyphicon glyphicon-menu-hamburger pull-right" aria-hidden="true"></span>
+       <span  style="float: left; width: 90%; word-wrap: break-word;">
+        {{ column }}
+      </span>
+      <span style="float: left; width: 10%">
+        <span class="glyphicon glyphicon-menu-hamburger pull-right burger" aria-hidden="true"></span>
+      </span> 
+       <div style="clear:both;"></div>
+      <!--  {{ column }}
+       <span class="glyphicon glyphicon-menu-hamburger pull-right burger" aria-hidden="true"></span> -->
     </div>
+     
   </div>
 </div>
