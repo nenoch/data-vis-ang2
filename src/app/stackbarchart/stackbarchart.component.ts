@@ -27,9 +27,39 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
   constructor(private dataService: DataService, private chartUtils: ChartUtilsService) { }
 
   ngOnInit() {
+    this.getData();
   }
 
   ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  private getData() {
+    this.subscription = this.dataService.dataStream.subscribe((data) => {
+      this.data = data;
+      if (this.dataExists()) {
+        this.setAxes();
+        console.log('data', this.data);
+        console.log('x', this.xAxis);
+        console.log('z', this.zKey);
+        this.createStackbarchart();
+      }
+    });
+  }
+
+  private dataExists() {
+    return this.data.length !== 0;
+  }
+
+  private setAxes() {
+    const axes = [];
+    for (const k in this.data[0]) {
+      if (this.data[0].hasOwnProperty(k)) {
+      axes.push(k)
+      }
+    }
+    this.xAxis = axes[0];
+    this.zKey = axes[1];
   }
 
   private setSize() {
