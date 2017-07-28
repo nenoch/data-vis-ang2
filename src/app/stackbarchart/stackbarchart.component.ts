@@ -75,8 +75,10 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
 
   private createStackbarchart(animate: Boolean) {
     this.resetStackbarchart();
-    // if (this.chartUtils.checkYAxisError(this.data, this.yAxis)) { return } // Return if yaxis is a string
+    if (this.chartUtils.checkZKeyError(this.data, this.zKey)) { return } // Return if yaxis is a string
     this.setSize();
+
+    console.log('data',this.data);
 
     const element = this.stackbarContainer.nativeElement;
 
@@ -234,7 +236,6 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
     let legend = svg.selectAll(".legend-key")
               .data(this.zValues)
               .enter().append("g")
-              .attr("class", "legend-key")
               .attr("transform", (d, i) => `translate(0,${i*13})`);
               // .attr("transform", (d, i) => `translate(${-this.width},${(this.height+30)+(i*13)})`);
 
@@ -242,6 +243,7 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
           .attr("x", this.width - 24)
           .attr("dy", ".35em")
           .style("text-anchor", "end")
+          .attr("class", "label-style")
           .text(function(d) { return d; });
 
     legend.append("rect")

@@ -14,10 +14,22 @@ export class ChartUtilsService {
   }
 
   public checkYAxisError(data, yAxis) {
-    const error = { title: 'Y Axis Error', content: 'Please enter a numeric value for the Y Axis.'};
+    const error = { title: 'Y Axis Error', content: 'Please enter a numeric value for the Y Axis. Make sure it is different from X.'};
     let flag = false;
     data.forEach(d => {
       if (isNaN(d[yAxis])) {
+        this.errorService.handleError(error);
+        flag = true;
+      }
+    });
+    return flag;
+  }
+
+  public checkZKeyError(data, zKey) {
+    const error = { title: 'Input Error on Y field', content: 'Please enter a string value to generate stack or group barchart.'};
+    let flag = false;
+    data.forEach(d => {
+      if (!isNaN(d[zKey])) {
         this.errorService.handleError(error);
         flag = true;
       }
