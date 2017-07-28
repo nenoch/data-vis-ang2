@@ -134,30 +134,6 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
         .attr("transform", "translate(0,0)")
         .call(d3.axisLeft(y));
 
-    // let layer = svg.selectAll(".layer")
-    //     .data(layers)
-    //   .enter().append("g")
-    //     .attr("class", "layer")
-    //     .style("fill", (d, i) => this.stackbarColours(i));
-
-    // let rect = layer.selectAll("rect")
-    //     .data(function(d) { return d; })
-    //   .enter().append("rect")
-    //     .attr("x", function(d) {
-    //       return x(d.xkey); })
-    //     .attr("y", this.height)
-    //     .attr("width", x.bandwidth())
-    //     .attr("height", 0);
-    //
-    // rect.transition()
-    //     .delay(function(d, i) { return i * 10; })
-    //     .attr("y", function(d) {
-    //         return y(d[1]);
-    //     })
-    //     .attr("height", function(d) {
-    //         return y(d[0]) - y(d[1]);
-    //     });
-
     this.appendBars(x,y,svg,layers,animate);
     this.addLegenda(svg);
   }
