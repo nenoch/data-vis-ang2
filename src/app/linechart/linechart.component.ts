@@ -73,6 +73,7 @@ export class LinechartComponent implements OnInit, OnDestroy {
 
 
   private createLinechart(animate: Boolean = false) {
+    console.log("creating chart");
     this.resetLinechart();
     if (this.chartUtils.checkAxisError(this.data, this.yAxis, 'Y')) { return }; // Return if yaxis is a string
     this.setSize();
@@ -116,11 +117,9 @@ export class LinechartComponent implements OnInit, OnDestroy {
       svg.select('g')
           .append('text')
             .attr('class', 'label-style')
-            .attr('x', 8)
-            .attr('y', -this.width)
-            .attr('dy', -6)
-            .attr('transform', 'rotate(90)' )
-            .attr('text-anchor', 'middle')
+            .attr("x", this.width)
+            .attr("y", -6)
+            .style("text-anchor", "end")
             .text(this.xAxis);
 
       // Y Axis
@@ -128,8 +127,10 @@ export class LinechartComponent implements OnInit, OnDestroy {
           .call(d3.axisLeft(y))
         .append('text')
           .attr('class', 'label-style')
-          .attr('y', -6)
-          .attr('text-anchor', 'middle')
+          .attr("transform", "rotate(-90)")
+          .attr("y", 6)
+          .attr("dy", ".71em")
+          .style("text-anchor", "end")
           .text(this.yAxis);
 
       this.drawLine(svg, line, animate);

@@ -19,18 +19,20 @@ export class GraphFormComponent implements OnInit {
   public barFocusTrigger = new EventEmitter<boolean>();
   public lineFocusTrigger = new EventEmitter<boolean>();
   public donutFocusTrigger = new EventEmitter<boolean>();
+  public scatterFocusTrigger = new EventEmitter<boolean>();
 
   private axisData: AxisData;
   private toggleChartObj = {
     linechart: this.lineFocusTrigger,
     barchart: this.barFocusTrigger,
-    donutchart: this.donutFocusTrigger
+    donutchart: this.donutFocusTrigger,
+    scatterchart: this.scatterFocusTrigger
   }
 
   constructor(private dataService: DataService, private chartUtils: ChartUtilsService) {}
 
   ngOnInit() {
-    this.axisData = new AxisData('', '');
+    this.axisData = new AxisData('', '', '');
   }
 
   private transferDataSuccess(event) {

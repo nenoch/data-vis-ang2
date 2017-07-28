@@ -27,6 +27,7 @@ import { DonutchartComponent } from './donutchart/donutchart.component';
 
 import { FocusDirective } from './directives/focus.directive';
 import { InfiniteScrollerDirective } from './directives/infinite-scroller.directive';
+import { ScatterchartComponent } from './scatterchart/scatterchart.component';
 
 import { TableFilterPipe } from './pipes/table-filter.pipe';
 
@@ -48,6 +49,7 @@ import { TableFilterPipe } from './pipes/table-filter.pipe';
     TabComponent,
     DataPreviewComponent,
     InfiniteScrollerDirective,
+    ScatterchartComponent,
     TableFilterPipe
   ],
   imports: [
