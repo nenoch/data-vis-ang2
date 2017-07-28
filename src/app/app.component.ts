@@ -18,7 +18,8 @@ export class AppComponent {
     iconReg.addSvgIcon('barchart', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/barchart.svg'))
           .addSvgIcon('donutchart', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/donutchart.svg'))
           .addSvgIcon('linechart', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/linechart.svg'))
-          .addSvgIcon('scatterchart', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/scatterchart.svg'));
+          .addSvgIcon('scatterchart', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/scatterchart.svg'))
+          .addSvgIcon('stackbarchart', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/stackbarchart.svg'));
   }
 
   private toggleGraphCreator(bool) {

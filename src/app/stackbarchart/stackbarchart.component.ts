@@ -101,6 +101,7 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
 
     const z = d3.scaleBand().domain(this.zValues).rangeRound([0, x.bandwidth()]);
 
+
     const svg = d3.select(element).append('svg')
         .attr('id', 'chart')
         .attr('width', this.width + this.margin.left + this.margin.right)
@@ -108,6 +109,7 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
       .append('g')
         .attr('transform',
               'translate(' + this.margin.left + ',' + this.margin.top + ')');
+
     // X Axis
     svg.append('g')
         .attr('transform', 'translate(0,' + this.height + ')')
@@ -135,7 +137,8 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
         .call(d3.axisLeft(y));
 
     this.appendBars(x,y,svg,layers,animate);
-    this.addLegenda(svg);
+    this.addLegend(svg);
+
   }
 
   private appendBars(x,y,svg,layers, animate: Boolean){
@@ -176,6 +179,8 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
 
   private generateStackData(){
     let groups = {};
+    let barValues = [];
+
     this.data.forEach((d) => {
       if(!groups[d[this.xAxis]]) {
         groups[d[this.xAxis]] = [d];
@@ -193,8 +198,6 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
       }
     });
 
-    let barValues = [];
-
     this.xValues.forEach((value,i) => {
       var xdata = {};
       groups[value].forEach((item) => {
@@ -205,7 +208,7 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
         }
       })
       // "result" is an ordered array with a count for each x by z categories
-      var result = {};
+      let result = {};
       this.zValues.forEach(function(g) {
         result[g]= xdata[g]||0;
       })
@@ -227,25 +230,26 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
     return layers;
   }
 
-  private addLegenda(svg){
-    var legend = svg.selectAll(".legend")
-        .data(this.zValues)
-      .enter().append("g")
-        .attr("class", "legend")
-        .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+  private addLegend(svg){
+    let legend = svg.selectAll(".legend-key")
+              .data(this.zValues)
+              .enter().append("g")
+              .attr("class", "legend-key")
+              .attr("transform", (d, i) => `translate(0,${i*13})`);
+              // .attr("transform", (d, i) => `translate(${-this.width},${(this.height+30)+(i*13)})`);
+
+    legend.append("text")
+          .attr("x", this.width - 24)
+          .attr("dy", ".35em")
+          .style("text-anchor", "end")
+          .text(function(d) { return d; });
 
     legend.append("rect")
         .attr("x", this.width - 18)
         .attr("width", 18)
-        .attr("height", 18)
+        .attr("height", 5)
         .style("fill", (d, i) => this.stackbarColours(i));
 
-    legend.append("text")
-        .attr("x", this.width - 24)
-        .attr("y", 9)
-        .attr("dy", ".35em")
-        .style("text-anchor", "end")
-        .text(function(d) { return d; });
   }
 
   private resetStackbarchart() {
