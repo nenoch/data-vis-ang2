@@ -33,7 +33,6 @@ export class BarchartComponent implements OnInit, OnDestroy {
 
     constructor(private dataService: DataService, private chartUtils: ChartUtilsService) {}
 
-
     ngOnInit() {
         this.getData();
     }
@@ -209,12 +208,15 @@ export class BarchartComponent implements OnInit, OnDestroy {
 
     private animation(style, bars) {
         let direction;
-        (this.isHorizontal(style)) ? direction = 'width' : direction = 'height';
+        const growthDuration = 100 * (175 / this.data.length),
+              barDelay = 10 * (200 / this.data.length);
+
+        this.isHorizontal(style) ? direction = 'width' : direction = 'height';
         return bars.attr(direction, 0)
             .transition()
-            .duration(1000)
-            .delay(function (d, i) {
-                return i * 125;
+            .duration(growthDuration)
+            .delay((d, i) => {
+                return i * barDelay;
             })
     }
 
