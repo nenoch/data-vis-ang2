@@ -1,5 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
+/* Common Styles */
 
 body{
   background: #eee;
@@ -7,9 +8,6 @@ body{
   color: #333F48;
 }
 
-button:focus {
-  outline:0 !important;
-}
 
 .divider {
   margin-top: 10px;
@@ -32,6 +30,20 @@ button:focus {
 
 .no-border {
   border: 0;
+}
+
+.float-left {
+  float: left;
+}
+
+.clear-both {
+  clear: both;
+}
+
+/* Global Button Styles */
+
+button:focus {
+  outline:0 !important;
 }
 
 .btn-green {
@@ -72,3 +84,12 @@ button .svg-icon {
   height: 15px;
   width: 15px;
 }
+
+/* Fixed Chart Height */
+
+.chart-container {
+  height: 500px;
+}
+
+
+

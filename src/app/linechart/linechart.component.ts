@@ -75,7 +75,7 @@ export class LinechartComponent implements OnInit, OnDestroy {
   private createLinechart(animate: Boolean = false) {
     console.log("creating chart");
     this.resetLinechart();
-    if (this.chartUtils.checkYAxisError(this.data, this.yAxis)) { return }; // Return if yaxis is a string
+    if (this.chartUtils.checkAxisError(this.data, this.yAxis, 'Y')) { return }; // Return if yaxis is a string
     this.setSize();
 
     const element = this.lineContainer.nativeElement;
