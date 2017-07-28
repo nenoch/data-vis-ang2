@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataService } from '../shared/data.service';
 import { DataFilter } from './data-filter';
 

@@ -1,3 +1,13 @@
-<div class="chart-container">
-  <div #barchart></div>
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-lg-12">
+    <button #vertical id="vertical" [ngClass]="{'btn-style-active': style === vertical.id}" (click)="switchStyle(vertical.id)" class="btn btn-style" type="button" aria-label="vertical">Vertical</button>
+    <button #horizontal id="horizontal" [ngClass]="{'btn-style-active': style === horizontal.id}" (click)="switchStyle(horizontal.id)" class="btn btn-style" type="button" aria-label="horizontal">Horizontal</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-lg-12">
+    <div class="chart-container">
+      <div #barchart></div>
+    </div>
+  </div>
 </div>

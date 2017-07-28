@@ -13,11 +13,11 @@ export class ChartUtilsService {
     chart.remove();
   }
 
-  public checkYAxisError(data, yAxis) {
-    const error = { title: 'Y Axis Error', content: 'Please enter a numeric value for the Y Axis. Make sure it is different from X.'};
+  public checkAxisError(data, column, axis) {
+    const error = { title: ` ${axis} Axis Error`, content: `Please enter a numeric value for the ${axis} Axis. Make it is unique.`};
     let flag = false;
     data.forEach(d => {
-      if (isNaN(d[yAxis])) {
+      if (isNaN(d[column])) {
         this.errorService.handleError(error);
         flag = true;
       }
@@ -54,5 +54,4 @@ export class ChartUtilsService {
       return false;
     }
   }
-
 }
