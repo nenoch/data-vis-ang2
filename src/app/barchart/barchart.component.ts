@@ -45,11 +45,15 @@ export class BarchartComponent implements OnInit, OnDestroy {
     private getData() {
         this.subscription = this.dataService.dataStream.subscribe((data) => {
             this.data = data;
-            if (this.dataExists()) {
-                this.setAxes();
-                this.createBarchart(this.animate, this.style);
-            }
+            this.drawGraph();
         });
+    }
+
+    private drawGraph() {
+        if (this.dataExists()) {
+            this.setAxes();
+            this.createBarchart(this.animate, this.style);
+        }
     }
 
     private dataExists(): boolean {
@@ -78,7 +82,7 @@ export class BarchartComponent implements OnInit, OnDestroy {
 
     private switchStyle(style: string) {
         this.style = style;
-        this.getData();
+        this.drawGraph();
     }
 
 
