@@ -14,7 +14,7 @@ export class ChartUtilsService {
   }
 
   public checkAxisError(data, column, axis) {
-    const error = { title: ` ${axis} Axis Error`, content: `Please enter a numeric value for the ${axis} Axis. Make it is unique.`};
+    const error = { title: ` ${axis} Axis Error`, content: `Please enter a numeric value for the ${axis} Axis. Make sure it is unique.`};
     let flag = false;
     data.forEach(d => {
       if (isNaN(d[column])) {
