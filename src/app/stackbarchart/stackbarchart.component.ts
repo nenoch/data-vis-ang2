@@ -25,6 +25,13 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
   private subscription: ISubscription;
   private animate: Boolean = true;
 
+  @HostListener('window:resize', ['$event'])
+  onKeyUp(ev: UIEvent) {
+    if (this.dataExists()) {
+        this.createStackbarchart(false);
+      }
+  }
+
   constructor(private dataService: DataService, private chartUtils: ChartUtilsService) { }
 
   ngOnInit() {
@@ -40,7 +47,7 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
       this.data = data;
       if (this.dataExists()) {
         this.setAxes();
-        this.createStackbarchart();
+        this.createStackbarchart(this.animate);
       }
     });
   }
@@ -66,7 +73,7 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
     this.height = this.aspectRatio * this.width - this.margin.top - this.margin.bottom;
   }
 
-  private createStackbarchart() {
+  private createStackbarchart(animate: Boolean) {
     this.resetStackbarchart();
     // if (this.chartUtils.checkYAxisError(this.data, this.yAxis)) { return } // Return if yaxis is a string
     this.setSize();
@@ -127,37 +134,72 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
         .attr("transform", "translate(0,0)")
         .call(d3.axisLeft(y));
 
+    // let layer = svg.selectAll(".layer")
+    //     .data(layers)
+    //   .enter().append("g")
+    //     .attr("class", "layer")
+    //     .style("fill", (d, i) => this.stackbarColours(i));
+
+    // let rect = layer.selectAll("rect")
+    //     .data(function(d) { return d; })
+    //   .enter().append("rect")
+    //     .attr("x", function(d) {
+    //       return x(d.xkey); })
+    //     .attr("y", this.height)
+    //     .attr("width", x.bandwidth())
+    //     .attr("height", 0);
+    //
+    // rect.transition()
+    //     .delay(function(d, i) { return i * 10; })
+    //     .attr("y", function(d) {
+    //         return y(d[1]);
+    //     })
+    //     .attr("height", function(d) {
+    //         return y(d[0]) - y(d[1]);
+    //     });
+
+    this.appendBars(x,y,svg,layers,animate);
+    this.addLegenda(svg);
+  }
+
+  private appendBars(x,y,svg,layers, animate: Boolean){
     let layer = svg.selectAll(".layer")
         .data(layers)
       .enter().append("g")
         .attr("class", "layer")
         .style("fill", (d, i) => this.stackbarColours(i));
 
-    let rect = layer.selectAll("rect")
-        .data(function(d) { return d; })
-      .enter().append("rect")
-        .attr("x", function(d) {
-          return x(d.xkey); })
-        .attr("y", this.height)
-        .attr("width", x.bandwidth())
-        .attr("height", 0);
+    if (animate) {
+      let rect = layer.selectAll("rect")
+          .data(function(d) { return d; })
+        .enter().append("rect")
+          .attr("x", function(d) {
+            return x(d.xkey); })
+          .attr("y", this.height)
+          .attr("width", x.bandwidth())
+          .attr("height", 0);
 
-    rect.transition()
-        .delay(function(d, i) { return i * 10; })
-        .attr("y", function(d) {
-            return y(d[1]);
-        })
-        .attr("height", function(d) {
-            return y(d[0]) - y(d[1]);
-        });
-
-    this.addLegenda();
+      rect.transition()
+          .delay(function(d, i) { return i * 10; })
+          .attr("y", function(d) {
+              return y(d[1]);
+          })
+          .attr("height", function(d) {
+              return y(d[0]) - y(d[1]);
+          });
+    } else {
+      let rect = layer.selectAll("rect")
+          .data(function(d) { return d; })
+        .enter().append("rect")
+          .attr("x", (d) => x(d.xkey))
+          .attr("y", (d) => y(d[1]))
+          .attr("height", (d) => y(d[0]) - y(d[1]))
+          .attr("width", x.bandwidth());
+    }
   }
 
   private generateStackData(){
-
     let groups = {};
-
     this.data.forEach((d) => {
       if(!groups[d[this.xAxis]]) {
         groups[d[this.xAxis]] = [d];
@@ -209,10 +251,7 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
     return layers;
   }
 
-  private addLegenda(){
-
-    let svg = d3.select('svg#chart');
-
+  private addLegenda(svg){
     var legend = svg.selectAll(".legend")
         .data(this.zValues)
       .enter().append("g")
