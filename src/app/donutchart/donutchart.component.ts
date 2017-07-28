@@ -74,7 +74,7 @@ export class DonutchartComponent implements OnInit, OnDestroy {
   }
 
   private createDonutchart(animate: boolean) {
-    this.resetBarchart();
+    this.resetDonutchart();
     this.setSize();
 
     const element = this.donutContainer.nativeElement;
@@ -260,15 +260,15 @@ export class DonutchartComponent implements OnInit, OnDestroy {
 //             // don't collide
 //             if (da.attr("text-anchor") != db.attr("text-anchor")) return;
 //             // Now let's calculate the distance between
-//             // these elements. 
+//             // these elements.
 //             const y2 = db.attr("y");
 //             const deltaY = y1 - y2;
-            
+
 //             // Our spacing is greater than our specified spacing,
 //             // so they don't collide.
 //             if (Math.abs(deltaY) > spacing) return;
-            
-//             // If the labels collide, we'll push each 
+
+//             // If the labels collide, we'll push each
 //             // of the two labels up and down a little bit.
 //             again = true;
 //             const sign = deltaY > 0 ? 1 : -1;
@@ -278,7 +278,7 @@ export class DonutchartComponent implements OnInit, OnDestroy {
 //         });
 //     });
 //     // Adjust our line leaders here
-//     // so that they follow the labels. 
+//     // so that they follow the labels.
 //     if (again) {
 //       console.log(labels);
 //         const labelElements = labels.nodes();
@@ -298,7 +298,7 @@ export class DonutchartComponent implements OnInit, OnDestroy {
     return d.endAngle - d.startAngle;
   }
 
-  private resetBarchart() {
+  private resetDonutchart() {
     this.chartUtils.resetSVG();
   }
 }
