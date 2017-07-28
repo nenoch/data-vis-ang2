@@ -78,7 +78,7 @@ export class ScatterchartComponent implements OnInit {
 
   private createScatterchart() {
     this.resetScatterchart();
-    if (this.chartUtils.checkYAxisError(this.data, this.yAxis)
+    if (this.chartUtils.checkAxisError(this.data, this.yAxis, 'Y')
         || this.chartUtils.checkRadiusError(this.data, this.radius)) { return };
     this.setSize();
 
