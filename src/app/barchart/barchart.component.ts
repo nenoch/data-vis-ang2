@@ -15,14 +15,14 @@ export class BarchartComponent implements OnInit, OnDestroy {
     private data;
     private xAxis;
     private yAxis;
-    private margin = {top: 50, right: 50, bottom: 100, left: 50};
+    private margin = {top: 50, right: 25, bottom: 100, left: 60};
     private width: number;
     private height: number;
     private aspectRatio = 0.7;
     private barColours;
     private subscription: ISubscription;
     private animate = true;
-    private style = 'horizontal';
+    private style = 'vertical';
 
     @HostListener('window:resize', ['$event'])
     onKeyUp(ev: UIEvent) {
@@ -76,6 +76,11 @@ export class BarchartComponent implements OnInit, OnDestroy {
         this.height = this.aspectRatio * this.width - this.margin.top - this.margin.bottom;
     }
 
+    private switchStyle(style: string) {
+        this.style = style;
+        this.getData();
+    }
+
 
     private createBarchart(animate: boolean, style: string) {
         this.resetBarchart();
@@ -114,32 +119,35 @@ export class BarchartComponent implements OnInit, OnDestroy {
         axes = this.defineDomains(style, axes);
 
         // X Axis
-        svg.append('g')
+        const xAxis = svg.append('g')
             .attr('transform', 'translate(0,' + this.height + ')')
-            .call(d3.axisBottom(axes.x))
-            .selectAll('text')
-                .style('text-anchor', 'end')
-                .attr('dx', '-.8em')
-                .attr('dy', '.15em')
-                .attr('transform', 'rotate(-65)' );
+            .call(d3.axisBottom(axes.x));
+        xAxis.selectAll('text')
+            .style('text-anchor', 'end')
+            .attr('dx', '-.8em')
+            .attr('dy', '.15em')
+            .attr('transform', 'rotate(-65)' );
 
         // X Axis label
-        svg.select('g')
-            .append('text')
-                .attr('class', 'label-style')
-                .attr('x', 8)
-                .attr('y', -this.width)
-                .attr('dy', -6)
-                .attr('transform', 'rotate(90)' )
-                .attr('text-anchor', 'middle')
-                .text(this.xAxis);
+        xAxis.append('text')
+            .attr('class', 'label-style')
+            .attr('x', 8)
+            .attr('y', -this.width)
+            .attr('dy', -6)
+            .attr('transform', 'rotate(90)' )
+            .attr('text-anchor', 'middle')
+            .text(this.xAxis);
 
         // Y Axis
-        svg.append('g')
-            .call(d3.axisLeft(axes.y))
-        .append('text')
+        const yAxis = svg.append('g')
+            .call(d3.axisLeft(axes.y));
+        yAxis.selectAll('text')
+            .attr('transform', 'rotate(20)');
+
+        // Y Axis label
+        yAxis.append('text')
             .attr('class', 'label-style')
-            .attr('y', -6)
+            .attr('y', -15)
             .attr('text-anchor', 'middle')
             .text(this.yAxis);
 
@@ -173,12 +181,14 @@ export class BarchartComponent implements OnInit, OnDestroy {
             .data(this.data)
             .enter()
             .append('rect')
-                .attr('class', 'bar')
-                .style('fill', (d, i) => this.barColours(i) );
+            .attr('class', 'bar')
+            .style('fill', (d, i) => this.barColours(i) );
+
         if (this.isHorizontal(style)) {
             bars.attr('x', 0)
                 .attr('y', (d) => axes.y(d[this.yAxis]))
                 .attr('height', axes.y.bandwidth());
+
             if (animate) { bars = this.animation(style, bars)};
             bars.attr('width', (d) => axes.x(d[this.xAxis]))
             return;
@@ -186,9 +196,10 @@ export class BarchartComponent implements OnInit, OnDestroy {
         bars.attr('x', (d) => axes.x(d[this.xAxis]))
             .attr('width', axes.x.bandwidth())
             .attr('y', (d) => this.height);
-            if (animate) { bars = this.animation(style, bars)};
-            bars.attr('height', (d) => this.height - axes.y(d[this.yAxis]))
-                .attr('y', (d) => axes.y(d[this.yAxis]));
+
+        if (animate) { bars = this.animation(style, bars)};
+        bars.attr('height', (d) => this.height - axes.y(d[this.yAxis]))
+            .attr('y', (d) => axes.y(d[this.yAxis]));
         return;
     }
 
