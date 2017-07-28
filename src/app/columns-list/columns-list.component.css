@@ -15,3 +15,14 @@
 .table-field:first-child {
   margin-top: 10px;
 }
+
+.list-text {
+  float: left;
+  width: 90%;
+  word-wrap: break-word;
+}
+
+.list-icon {
+  float: left;
+  width: 10%
+}
