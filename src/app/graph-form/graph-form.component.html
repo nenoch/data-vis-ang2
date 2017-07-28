@@ -44,6 +44,9 @@
       <button [ngClass]="{'btn-chart-focus': this.graphType === 'scatterchart' }" [focus]="scatterFocusTrigger" type="button" (click)="changeGraph('scatterchart')" class="btn btn-chart" aria-label="scatterchart">
         <md-icon svgIcon="scatterchart" class="svg-icon"></md-icon>
       </button>
+      <button [ngClass]="{'btn-chart-focus': this.graphType === 'stackbarchart' }" [focus]="stackFocusTrigger" type="button" (click)="changeGraph('stackbarchart')" class="btn btn-chart" aria-label="stackbarchart">
+        <md-icon svgIcon="stackbarchart" class="svg-icon"></md-icon>
+      </button>
     </div>
   </div>
 </div>

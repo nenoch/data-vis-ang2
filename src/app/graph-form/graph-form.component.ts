@@ -20,13 +20,16 @@ export class GraphFormComponent implements OnInit {
   public lineFocusTrigger = new EventEmitter<boolean>();
   public donutFocusTrigger = new EventEmitter<boolean>();
   public scatterFocusTrigger = new EventEmitter<boolean>();
+  public stackFocusTrigger = new EventEmitter<boolean>();
+
 
   private axisData: AxisData;
   private toggleChartObj = {
     linechart: this.lineFocusTrigger,
     barchart: this.barFocusTrigger,
     donutchart: this.donutFocusTrigger,
-    scatterchart: this.scatterFocusTrigger
+    scatterchart: this.scatterFocusTrigger,
+    stackbarchart: this.stackFocusTrigger
   }
 
   constructor(private dataService: DataService, private chartUtils: ChartUtilsService) {}

@@ -4,6 +4,8 @@ export class Constants {
   public static CHARTS: Array<string> = [
     'barchart',
     'linechart',
-    'donutchart'
+    'donutchart',
+    'scatterchart',
+    'stackbarchart'
   ]
 }
