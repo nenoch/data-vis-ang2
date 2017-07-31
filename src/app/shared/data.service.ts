@@ -33,8 +33,12 @@ export class DataService {
       .map(res => this.prepareCSVResponse(res, filter));
   }
 
-  public setAxes(axisObject) {
+  public setAxes(axisObject, graphType) {
     this.axes = axisObject;
+    if (graphType === 'linechart') {
+      this.sendD3Data();
+      return;
+    }
     this.convertD3data();
   }
 
@@ -50,16 +54,24 @@ export class DataService {
   }
 
   private convertD3data() {
-    d3.csv(Constants.CSV_DIR, function(d){
+    d3.csv(Constants.CSV_DIR, d => {
       const axisData = this.axes;
       return {
         [axisData.xColumn] : this.isNumber(d[axisData.xColumn]),
         [axisData.yColumn] : this.isNumber(d[axisData.yColumn]),
         [axisData.rColumn] : this.isNumber(d[axisData.rColumn])
       };
-    }.bind(this), function(data) {
+    }, data => {
+      data.axes = this.axes;
       this.setD3data(data);
-    }.bind(this));
+    });
+  }
+
+  private sendD3Data() {
+    d3.csv(Constants.CSV_DIR, data => {
+      data.axes = this.axes;
+      this.setD3data(data);
+    })
   }
 
   private isNumber(item) {

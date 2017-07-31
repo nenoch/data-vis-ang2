@@ -43,6 +43,7 @@ export class LinechartComponent implements OnInit, OnDestroy {
     private getData() {
         this.subscription = this.dataService.dataStream.subscribe((data) => {
         this.data = data;
+        console.log(data);
         if (this.dataExists()) {
             this.setAxes();
             this.createLinechart(this.animate);
@@ -55,14 +56,16 @@ export class LinechartComponent implements OnInit, OnDestroy {
     }
 
     private setAxes() {
-        const axes = [];
-        for (const k in this.data[0]) {
-            if (this.data[0].hasOwnProperty(k)) {
-                axes.push(k)
-            }
-        }
-        this.xAxis = axes[0];
-        this.yAxis.push(axes[1]);
+        // const axes = [];
+        // for (const k in this.data[0]) {
+        //     if (this.data[0].hasOwnProperty(k)) {
+        //         axes.push(k)
+        //     }
+        // }
+        // this.xAxis = axes[0];
+        // this.yAxis.push(axes[1]);
+        this.xAxis = this.data.axes.xColumn;
+        this.yAxis.push(this.data.axes.yColumn);
     }
 
     private setSize() {

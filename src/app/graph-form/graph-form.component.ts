@@ -47,7 +47,7 @@ export class GraphFormComponent implements OnInit {
     if (!this.axisData.xColumn || !this.axisData.yColumn) {
       return;
     }
-    this.dataService.setAxes(this.axisData);
+    this.dataService.setAxes(this.axisData, this.graphType);
     this.toggleChartBtn();
   }
 
