@@ -21,7 +21,7 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
   private width: number;
   private height: number;
   private aspectRatio = 0.7;
-  private stackbarColours;
+  private barsColours;
   private subscription: ISubscription;
   private animate: boolean = true;
   private style = 'stacked';
@@ -29,7 +29,7 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
   @HostListener('window:resize', ['$event'])
   onKeyUp(ev: UIEvent) {
     if (this.dataExists()) {
-        this.createStackbarchart(false, this.style);
+        this.createMultibarsChart(false, this.style);
       }
   }
 
@@ -52,7 +52,7 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
   private drawGraph() {
       if (this.dataExists()) {
           this.setAxes();
-          this.createStackbarchart(this.animate, this.style);
+          this.createMultibarsChart(this.animate, this.style);
       }
   }
 
@@ -82,15 +82,15 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
       this.drawGraph();
   }
 
-  private createStackbarchart(animate: boolean, style: string) {
+  private createMultibarsChart(animate: boolean, style: string) {
 
-    this.resetStackbarchart();
+    this.resetMultibarsChart();
     if (this.chartUtils.checkZKeyError(this.data, this.zKey)) { return } // Return if yaxis is a string
     this.setSize();
 
     const element = this.stackbarContainer.nativeElement;
 
-    this.stackbarColours = d3.scaleOrdinal(d3.schemeCategory20c);
+    this.barsColours = d3.scaleOrdinal(d3.schemeCategory20c);
 
     let layers = this.generateStackData();
 
@@ -163,34 +163,12 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
     }
   }
 
-  // private transitionGrouped(x, y, layers, svg){
-  //
-  //   let z = d3.scaleBand().domain(this.zValues).rangeRound([0, x.bandwidth()]);
-  //
-  //   let n = this.zValues.length;
-  //
-  //   rect.transition()
-  //       .duration(500)
-  //       .delay(function(d, i) { return i * 10; })
-  //       .attr("x", function(d) {
-  //                   return x(d.xkey)+ z(d.zkey);
-  //               })
-  //       .attr("width", x.bandwidth() / n)
-  //       .transition()
-  //       .attr("y", function(d) {
-  //                   return y(d.data[d.zkey]);
-  //               })
-  //       .attr("height", function(d) {
-  //                   return this.height - y(d.data[d.zkey]);
-  //               });
-  // }
-
   private appendBars(x,y,svg,layers, animate: boolean){
     let layer = svg.selectAll(".layer")
         .data(layers)
       .enter().append("g")
         .attr("class", "layer")
-        .style("fill", (d, i) => this.stackbarColours(i));
+        .style("fill", (d, i) => this.barsColours(i));
 
     this.toggleGroupStack(layer, x,y,animate);
 
@@ -328,11 +306,11 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
         .attr("x", this.width - 18)
         .attr("width", 18)
         .attr("height", 5)
-        .style("fill", (d, i) => this.stackbarColours(i));
+        .style("fill", (d, i) => this.barsColours(i));
 
   }
 
-  private resetStackbarchart() {
+  private resetMultibarsChart() {
     this.chartUtils.resetSVG();
   }
 
