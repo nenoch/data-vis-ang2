@@ -11,20 +11,28 @@ import { ConverterService } from './converter.service';
 })
 export class FileSelectorComponent implements OnInit {
 
-  public showFileSelector: Boolean = true;
-  public filesChosen: Boolean = false;
+  public showFileSelector = true;
+  public filesChosen = false;
 
   private files: any = [];
 
-  @Output() showState: EventEmitter<Boolean> = new EventEmitter();
-  @Output() loadingState: EventEmitter<Boolean> = new EventEmitter();
+  @Output() showState: EventEmitter<boolean> = new EventEmitter();
+  @Output() loadingState: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private uploadService: UploadService, private errorService: ErrorHandlerService, private converterService: ConverterService) { };
+  constructor(
+    private uploadService: UploadService,
+    private errorService: ErrorHandlerService,
+    private converterService: ConverterService
+  ) { };
 
   ngOnInit() {
   }
 
   private onSubmit(form: NgForm) {
+    if (!this.filesChosen) {
+      this.errorService.handleError({title: 'Upload Failed', content: 'Please select SQL files to convert'});
+      return;
+    }
     this.loadingState.emit(true);
     this.uploadService.postFiles(this.files).subscribe(data => {
       if (data.message === 'Success') {
@@ -33,11 +41,9 @@ export class FileSelectorComponent implements OnInit {
       }
     },
       err => {
-        console.log(err);
         this.loadingState.emit(false);
         this.errorService.handleError({title: 'Upload Failed', content: err.statusText});
       })
-
   }
 
   private onChange(event) {
@@ -45,15 +51,13 @@ export class FileSelectorComponent implements OnInit {
     this.files.length === 0 ? this.filesChosen = false : this.filesChosen = true;
   }
 
-  private fileConvertion(){
+  private fileConvertion() {
     this.converterService.convertFiles().subscribe(
       data => {
       this.loadingState.emit(false);
       this.hideHandler();
-      console.log(data.message);
     },
       err => {
-        console.log(err);
         this.loadingState.emit(false);
         this.hideHandler();
         this.errorService.handleError({title: 'Convertion Failed', content: err.statusText});

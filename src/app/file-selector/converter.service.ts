@@ -9,7 +9,7 @@ export class ConverterService {
 
   constructor(private http: Http) { }
 
-public convertFiles(){
+public convertFiles() {
 
     return this.http.get('/api/convert')
       .map(res => res.json());
