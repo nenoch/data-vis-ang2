@@ -8,26 +8,6 @@ body{
   color: #333F48;
 }
 
-.btn-style {
-  -webkit-transition-duration: 0.4s;
-  transition-duration: 0.4s;
-  opacity: 0.9;
-  background-color: #FFF;
-  /* border-color: #0056b8; */
-  border: 1px solid #ddd;
-  color: #0056b8;
-  font-weight: bold;
-}
-
- .btn-style:hover {
-  opacity: 1;
-}
-
-.btn-style-active {
-  opacity: 0.7;
-  box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
-}
-
 .divider {
   margin-top: 10px;
   border: 2px solid #eee;
@@ -65,6 +45,27 @@ button:focus {
   outline:0 !important;
 }
 
+.btn-style {
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  background-color: #7ECEFC;
+  border: 1px solid #ddd;
+  color: #fff;
+  margin: 1em auto;
+}
+
+.btn.btn-style:hover {
+  font-weight: bold;
+  color: #fff;
+}
+
+.btn.btn-style-active {
+  color: #fff;
+  background-color: #0056b8;
+  box-shadow: inset 0 3px 5px rgba(0,0,0,.5);
+  /*rgba(0,86,184,.5);*/
+}
+
 .btn-green {
   -webkit-transition-duration: 0.4s;
   transition-duration: 0.4s;
@@ -92,10 +93,6 @@ div.tooltip {
   border: 0px;
   border-radius: 8px;
   pointer-events: none;
-}
-
-.chart-container {
-  height: 500px;
 }
 
 button .svg-icon {
