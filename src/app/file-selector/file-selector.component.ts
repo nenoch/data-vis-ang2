@@ -11,13 +11,13 @@ import { ConverterService } from './converter.service';
 })
 export class FileSelectorComponent implements OnInit {
 
-  public showFileSelector: Boolean = true;
-  public filesChosen: Boolean = false;
+  public showFileSelector = true;
+  public filesChosen = false;
 
   private files: any = [];
 
-  @Output() showState: EventEmitter<Boolean> = new EventEmitter();
-  @Output() loadingState: EventEmitter<Boolean> = new EventEmitter();
+  @Output() showState: EventEmitter<boolean> = new EventEmitter();
+  @Output() loadingState: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
     private uploadService: UploadService,
@@ -29,7 +29,7 @@ export class FileSelectorComponent implements OnInit {
   }
 
   private onSubmit(form: NgForm) {
-    if (!this.checkFilesSelected()) {
+    if (!this.filesChosen) {
       this.errorService.handleError({title: 'Upload Failed', content: 'Please select SQL files to convert'});
       return;
     }
@@ -77,9 +77,5 @@ export class FileSelectorComponent implements OnInit {
     this.files = [];
     this.filesChosen = false;
     form.reset();
-  }
-
-  private checkFilesSelected(): boolean {
-    return this.files.length > 0;
   }
 }
