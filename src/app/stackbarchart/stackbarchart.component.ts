@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener} from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Output, HostListener} from '@angular/core';
 import { DataService } from '../shared/data.service';
 import { ChartUtilsService } from '../shared/chart-utils.service';
 import { ISubscription } from 'rxjs/Subscription';
@@ -11,17 +11,19 @@ import * as d3 from 'd3';
   styleUrls: ['./stackbarchart.component.css']
 })
 export class StackbarchartComponent implements OnInit, OnDestroy {
+  // @Output() barsColours;
+  @Output() zValues = ["White","Black","Latino"];
   @ViewChild('stackbarchart') private stackbarContainer: ElementRef;
   private data;
   private xAxis;
   private xValues;
   private zKey;
-  private zValues = [];
+  // private zValues = [];
   private margin = {top: 50, right: 20, bottom: 100, left: 45};
   private width: number;
   private height: number;
-  private aspectRatio = 0.7;
   private barsColours;
+  private aspectRatio = 0.7;
   private subscription: ISubscription;
   private animate: boolean = true;
   private style = 'stacked';

@@ -7,7 +7,9 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-lg-12">
     <div class="chart-container">
-      <div #stackbarchart></div>
+      <div #stackbarchart>
+        <app-legend [zvalues]="zValues"></app-legend>
+      </div>
     </div>
   </div>
 </div>
