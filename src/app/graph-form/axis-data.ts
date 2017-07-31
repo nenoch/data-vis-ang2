@@ -1,7 +1,7 @@
 export class AxisData {
     constructor(
-        public xColumn: String,
-        public yColumn: String,
-        public rColumn: String
+        public xColumn: string,
+        public yColumn: string,
+        public rColumn: string
     ) {}
 };
