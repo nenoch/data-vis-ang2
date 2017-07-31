@@ -11,22 +11,21 @@ import * as d3 from 'd3';
   styleUrls: ['./stackbarchart.component.css']
 })
 export class StackbarchartComponent implements OnInit, OnDestroy {
-  // @Output() barsColours;
-  @Output() zValues = ["White","Black","Latino"];
   @ViewChild('stackbarchart') private stackbarContainer: ElementRef;
   private data;
   private xAxis;
   private xValues;
   private zKey;
-  // private zValues = [];
   private margin = {top: 50, right: 20, bottom: 100, left: 45};
   private width: number;
   private height: number;
-  private barsColours;
   private aspectRatio = 0.7;
   private subscription: ISubscription;
   private animate: boolean = true;
   private style = 'stacked';
+
+  @Output() barsColours;
+  @Output() zValues;
 
   @HostListener('window:resize', ['$event'])
   onKeyUp(ev: UIEvent) {
@@ -142,7 +141,7 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
         .call(d3.axisLeft(y));
 
     this.appendBars(x,y,svg,layers,animate);
-    this.addLegend(svg);
+    // this.addLegend(svg);
   }
 
   private isStacked(style: string): boolean {

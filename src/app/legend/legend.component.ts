@@ -1,4 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input } from '@angular/core';
+import { ChartUtilsService } from '../shared/chart-utils.service';
+
 import * as d3 from 'd3';
 
 @Component({
@@ -6,23 +8,24 @@ import * as d3 from 'd3';
   templateUrl: './legend.component.html',
   styleUrls: ['./legend.component.css']
 })
-export class LegendComponent implements OnInit {
+export class LegendComponent implements OnInit, OnChanges {
   @ViewChild('legend') private legendContainer: ElementRef;
-  private colours = d3.scaleOrdinal(d3.schemeCategory20c);
-  // private zValues = ["White","Black","Latino"];
   private margin = {top: 10, right: 20, left: 20};
   private aspectRatio = 0.7;
   private width: number;
   private height: number;
 
   @Input() zvalues;
+  @Input() colours;
 
-  constructor() {}
 
-// @Input? on input...
-  ngOnInit() {
+  constructor(private chartUtils: ChartUtilsService) {}
+
+  ngOnChanges() {
     this.createLegend();
   }
+
+  ngOnInit(){}
 
   private setSize() {
     const container = this.legendContainer.nativeElement;
@@ -31,6 +34,7 @@ export class LegendComponent implements OnInit {
   }
 
   private createLegend(){
+    this.reset();
     this.setSize();
     let element = this.legendContainer.nativeElement;
 
@@ -59,6 +63,10 @@ export class LegendComponent implements OnInit {
         .attr("width", 18)
         .attr("height", 5)
         .style("fill", (d, i) => this.colours(i));
+  }
+
+  private reset() {
+    this.chartUtils.resetLegend();
   }
 
 }
