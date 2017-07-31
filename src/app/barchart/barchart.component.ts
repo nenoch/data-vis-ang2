@@ -18,7 +18,7 @@ export class BarchartComponent implements OnInit, OnDestroy {
     private margin = {top: 50, right: 25, bottom: 100, left: 60};
     private width: number;
     private height: number;
-    private aspectRatio = 0.7;
+    private aspectRatio = 0.8;
     private barColours;
     private subscription: ISubscription;
     private animate = true;
