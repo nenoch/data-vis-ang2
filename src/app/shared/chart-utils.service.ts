@@ -14,7 +14,7 @@ export class ChartUtilsService {
   }
 
   public resetLegend() {
-    const legend = d3.select('svg#legend');
+    const legend = d3.select('div#legend');
     legend.remove();
   }
 

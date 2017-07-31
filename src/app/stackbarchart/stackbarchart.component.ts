@@ -25,7 +25,7 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
   private style = 'stacked';
 
   @Output() barsColours;
-  @Output() zValues;
+  @Output() zValues = [];
 
   @HostListener('window:resize', ['$event'])
   onKeyUp(ev: UIEvent) {
@@ -289,27 +289,27 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
     return layers;
   }
 
-  private addLegend(svg){
-    let legend = svg.selectAll(".legend-key")
-              .data(this.zValues)
-              .enter().append("g")
-              .attr("transform", (d, i) => `translate(0,${i*13})`);
-              // .attr("transform", (d, i) => `translate(${-this.width},${(this.height+30)+(i*13)})`);
-
-    legend.append("text")
-          .attr("x", this.width - 24)
-          .attr("dy", ".35em")
-          .style("text-anchor", "end")
-          .attr("class", "label-style")
-          .text(function(d) { return d; });
-
-    legend.append("rect")
-        .attr("x", this.width - 18)
-        .attr("width", 18)
-        .attr("height", 5)
-        .style("fill", (d, i) => this.barsColours(i));
-
-  }
+  // private addLegend(svg){
+  //   let legend = svg.selectAll(".legend-key")
+  //             .data(this.zValues)
+  //             .enter().append("g")
+  //             .attr("transform", (d, i) => `translate(0,${i*13})`);
+  //             // .attr("transform", (d, i) => `translate(${-this.width},${(this.height+30)+(i*13)})`);
+  //
+  //   legend.append("text")
+  //         .attr("x", this.width - 24)
+  //         .attr("dy", ".35em")
+  //         .style("text-anchor", "end")
+  //         .attr("class", "label-style")
+  //         .text(function(d) { return d; });
+  //
+  //   legend.append("rect")
+  //       .attr("x", this.width - 18)
+  //       .attr("width", 18)
+  //       .attr("height", 5)
+  //       .style("fill", (d, i) => this.barsColours(i));
+  //
+  // }
 
   private resetMultibarsChart() {
     this.chartUtils.resetSVG();

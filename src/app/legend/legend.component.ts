@@ -38,15 +38,10 @@ export class LegendComponent implements OnInit, OnChanges {
     this.setSize();
     let element = this.legendContainer.nativeElement;
 
-    let svg = d3.select(element).append('svg')
-        .attr('id', 'legend')
-        .attr("width", 300)
-        .attr("height", 50)
-        .append('g')
-          .attr('transform',
-                'translate(0,' + this.margin.top + ')');
+    let div = d3.select(element).append('div')
+        .attr('id', 'legend');
 
-    let legend = svg.selectAll(".legend-key")
+    let legend = div.selectAll(".legend-key")
               .data(this.zvalues)
               .enter().append("g")
               .attr("transform", (d, i) => `translate(0,${i*13})`);
@@ -58,11 +53,11 @@ export class LegendComponent implements OnInit, OnChanges {
           .attr("class", "label-style")
           .text(function(d) { return d; });
 
-    legend.append("rect")
+    legend.append("div")
         .attr("x", 100)
         .attr("width", 18)
         .attr("height", 5)
-        .style("fill", (d, i) => this.colours(i));
+        .style("background-color", (d, i) => this.colours(i));
   }
 
   private reset() {
