@@ -21,14 +21,15 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
   private width: number;
   private height: number;
   private aspectRatio = 0.7;
-  private stackbarColours;
+  private barsColours;
   private subscription: ISubscription;
-  private animate: Boolean = true;
+  private animate: boolean = true;
+  private style = 'stacked';
 
   @HostListener('window:resize', ['$event'])
   onKeyUp(ev: UIEvent) {
     if (this.dataExists()) {
-        this.createStackbarchart(false);
+        this.createMultibarsChart(false, this.style);
       }
   }
 
@@ -41,15 +42,18 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
   private getData() {
-    this.subscription = this.dataService.dataStream.subscribe((data) => {
-      this.data = data;
+      this.subscription = this.dataService.dataStream.subscribe((data) => {
+          this.data = data;
+          this.drawGraph();
+      });
+  }
+
+  private drawGraph() {
       if (this.dataExists()) {
-        this.setAxes();
-        this.createStackbarchart(this.animate);
+          this.setAxes();
+          this.createMultibarsChart(this.animate, this.style);
       }
-    });
   }
 
   private dataExists() {
@@ -73,36 +77,33 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
     this.height = this.aspectRatio * this.width - this.margin.top - this.margin.bottom;
   }
 
-  private createStackbarchart(animate: Boolean) {
-    this.resetStackbarchart();
+  private switchStyle(style: string) {
+      this.style = style;
+      this.drawGraph();
+  }
+
+  private createMultibarsChart(animate: boolean, style: string) {
+
+    this.resetMultibarsChart();
     if (this.chartUtils.checkZKeyError(this.data, this.zKey)) { return } // Return if yaxis is a string
     this.setSize();
 
-    console.log('data',this.data);
-
     const element = this.stackbarContainer.nativeElement;
 
-    this.stackbarColours = d3.scaleOrdinal(d3.schemeCategory20c);
+    this.barsColours = d3.scaleOrdinal(d3.schemeCategory20c);
 
     let layers = this.generateStackData();
-
-    let yStackMax = d3.max(layers, function(layer) {
-      return d3.max(layer, function(d) {
-        return d[1];
-      });
-    });
 
     const x = d3.scaleBand()
               .domain(this.xValues)
               .range([0, this.width])
               .padding(0.1);
 
+    let yMax = this.setYmax(layers);
+
     const y = d3.scaleLinear()
-              .domain([0, yStackMax])
+              .domain([0, yMax])
               .range([this.height, 0]);
-
-    const z = d3.scaleBand().domain(this.zValues).rangeRound([0, x.bandwidth()]);
-
 
     const svg = d3.select(element).append('svg')
         .attr('id', 'chart')
@@ -140,37 +141,92 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
 
     this.appendBars(x,y,svg,layers,animate);
     this.addLegend(svg);
-
   }
 
-  private appendBars(x,y,svg,layers, animate: Boolean){
+  private isStacked(style: string): boolean {
+      return (style === 'stacked');
+  }
+
+  private setYmax(layers){
+    if (this.isStacked(this.style)) {
+      return d3.max(layers, function(layer) {
+        return d3.max(layer, function(d) {
+          return d[1];
+        });
+      });
+    } else {
+      return d3.max(layers, function(layer) {
+        return d3.max(layer, function(d) {
+          return d[1] - d[0];
+        });
+      });
+    }
+  }
+
+  private appendBars(x,y,svg,layers, animate: boolean){
     let layer = svg.selectAll(".layer")
         .data(layers)
       .enter().append("g")
         .attr("class", "layer")
-        .style("fill", (d, i) => this.stackbarColours(i));
+        .style("fill", (d, i) => this.barsColours(i));
 
+    this.toggleGroupStack(layer, x,y,animate);
+
+  }
+
+  private toggleGroupStack(layer,x,y,animate: boolean) {
+    if (this.isStacked(this.style)) {
+      this.appendStackBars(layer,x,y,animate);
+    } else {
+      this.appendGroupBars(layer,x,y,animate);
+    }
+  }
+
+  private appendGroupBars(layer,x,y,animate: boolean){
+    let z = d3.scaleBand().domain(this.zValues).rangeRound([0, x.bandwidth()]);
+    let keysNum = this.zValues.length;
+
+    if (animate){
+    let rect = layer.selectAll("rect")
+             .data((d) => d)
+          .enter().append("rect")
+             .attr("y", this.height)
+             .transition()
+             .delay((d, i) => i * 10 )
+             .attr("x", (d) => x(d.xkey)+ z(d.zkey))
+             .attr("width", x.bandwidth() / keysNum)
+             .transition()
+             .attr("y", (d) => y(d.data[d.zkey]))
+             .attr("height", (d) => this.height - y(d.data[d.zkey]));
+    } else {
+    let rect = layer.selectAll("rect")
+            .data((d) => d)
+          .enter().append("rect")
+            .attr("x", (d) => x(d.xkey)+ z(d.zkey))
+            .attr("width", x.bandwidth() / keysNum)
+            .attr("y", (d) => y(d.data[d.zkey]))
+            .attr("height", (d) => this.height - y(d.data[d.zkey]));
+    }
+  }
+
+  private appendStackBars(layer,x,y,animate: boolean){
     if (animate) {
       let rect = layer.selectAll("rect")
-          .data(function(d) { return d; })
+          .data((d) => d)
         .enter().append("rect")
-          .attr("x", function(d) {
-            return x(d.xkey); })
+          .attr("x", (d) => x(d.xkey))
           .attr("y", this.height)
           .attr("width", x.bandwidth())
           .attr("height", 0);
 
       rect.transition()
-          .delay(function(d, i) { return i * 10; })
-          .attr("y", function(d) {
-              return y(d[1]);
-          })
-          .attr("height", function(d) {
-              return y(d[0]) - y(d[1]);
-          });
+          .delay((d, i) => i * 10)
+          .attr("y", (d) => y(d[1]))
+          .attr("height", (d) => y(d[0]) - y(d[1]));
+
     } else {
       let rect = layer.selectAll("rect")
-          .data(function(d) { return d; })
+          .data((d) => d)
         .enter().append("rect")
           .attr("x", (d) => x(d.xkey))
           .attr("y", (d) => y(d[1]))
@@ -250,11 +306,11 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
         .attr("x", this.width - 18)
         .attr("width", 18)
         .attr("height", 5)
-        .style("fill", (d, i) => this.stackbarColours(i));
+        .style("fill", (d, i) => this.barsColours(i));
 
   }
 
-  private resetStackbarchart() {
+  private resetMultibarsChart() {
     this.chartUtils.resetSVG();
   }
 
