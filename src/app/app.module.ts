@@ -32,6 +32,7 @@ import { ScatterchartComponent } from './scatterchart/scatterchart.component';
 import { TableFilterPipe } from './pipes/table-filter.pipe';
 import { StackbarchartComponent } from './stackbarchart/stackbarchart.component';
 import { LegendComponent } from './legend/legend.component';
+import { PlaceholderComponent } from './placeholder/placeholder.component';
 
 
 
@@ -54,7 +55,8 @@ import { LegendComponent } from './legend/legend.component';
     ScatterchartComponent,
     TableFilterPipe,
     StackbarchartComponent,
-    LegendComponent
+    LegendComponent,
+    PlaceholderComponent
   ],
   imports: [
     FormsModule,

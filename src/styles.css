@@ -19,6 +19,8 @@ body {
 
 .jumbotron.data-placeholder {
   color: #ccc;
+  background-color: #ddd;
+  text-align: center;
   height: 100%;
 }
 
