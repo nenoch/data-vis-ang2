@@ -21,12 +21,12 @@ export class LinechartComponent implements OnInit, OnDestroy {
     private aspectRatio = 0.7;
     private lineColours;
     private subscription: ISubscription;
-    private animate: Boolean = true;
+    private animate = true;
 
     @HostListener('window:resize', ['$event'])
     onKeyUp(ev: UIEvent) {
         if (this.dataExists()) {
-            this.createLinechart();
+            this.createLinechart(false);
         }
     }
 
@@ -43,12 +43,20 @@ export class LinechartComponent implements OnInit, OnDestroy {
     private getData() {
         this.subscription = this.dataService.dataStream.subscribe((data) => {
         this.data = data;
-        console.log(data);
         if (this.dataExists()) {
             this.setAxes();
             this.createLinechart(this.animate);
         }
         });
+    }
+
+    private addLine(event) {
+        const y = event.dragData
+        console.log(y);
+        if (this.chartUtils.checkAxisError(this.data, y, 'Y')) { return; };
+        this.yAxis.push(y);
+        console.log(this.yAxis);
+        this.createLinechart(this.animate);
     }
 
     private dataExists() {
@@ -65,7 +73,8 @@ export class LinechartComponent implements OnInit, OnDestroy {
         // this.xAxis = axes[0];
         // this.yAxis.push(axes[1]);
         this.xAxis = this.data.axes.xColumn;
-        this.yAxis.push(this.data.axes.yColumn);
+        this.yAxis = [this.data.axes.yColumn];
+        console.log(this.yAxis);
     }
 
     private setSize() {
@@ -75,9 +84,14 @@ export class LinechartComponent implements OnInit, OnDestroy {
     }
 
 
-    private createLinechart(animate: Boolean = false) {
+    private createLinechart(animate: boolean) {
         this.resetLinechart();
-        if (this.chartUtils.checkAxisError(this.data, this.yAxis, 'Y')) { return }; // Return if yaxis is a string
+
+        let exitFlag = false;
+        this.yAxis.forEach(y => {
+            if (this.chartUtils.checkAxisError(this.data, y, 'Y')) { exitFlag = true; }; // Return if yaxis is a string
+        })
+        if (exitFlag) { return; }
 
         // Grab the element in the DOM
         const element = this.lineContainer.nativeElement;
@@ -109,19 +123,19 @@ export class LinechartComponent implements OnInit, OnDestroy {
             .attr('transform', 'translate(0,' + this.height + ')')
             .call(d3.axisBottom(axes.x))
             .selectAll('text')
-                .style('text-anchor', 'end')
-                .attr('dx', '-.8em')
-                .attr('dy', '.15em')
-                .attr('transform', 'rotate(-65)' );
+            .style('text-anchor', 'end')
+            .attr('dx', '-.8em')
+            .attr('dy', '.15em')
+            .attr('transform', 'rotate(-65)' );
 
         // X Axis label
         svg.select('g')
             .append('text')
-                .attr('class', 'label-style')
-                .attr('x', this.width)
-                .attr('y', -6)
-                .style('text-anchor', 'end')
-                .text(this.xAxis);
+            .attr('class', 'label-style')
+            .attr('x', this.width)
+            .attr('y', -6)
+            .style('text-anchor', 'end')
+            .text(this.xAxis);
 
         // Y Axis
         svg.append('g')
@@ -152,6 +166,8 @@ export class LinechartComponent implements OnInit, OnDestroy {
             d3.min(this.yAxis, y => d3.min(this.data, d => d[y])),
             d3.max(this.yAxis, y => d3.max(this.data, d => d[y]))
         ])
+        console.log(d3.min(this.yAxis, y => d3.min(this.data, d => d[y])));
+        console.log(d3.max(this.yAxis, y => d3.max(this.data, d => d[y])));
         return axes;
     }
 
@@ -166,7 +182,7 @@ export class LinechartComponent implements OnInit, OnDestroy {
         return lines;
     }
 
-    private drawLine(svg, lines, animate: Boolean) {
+    private drawLine(svg, lines, animate: boolean) {
         lines.forEach((line, i) => {
             const path = svg.append('path')
                 .datum(this.data)
