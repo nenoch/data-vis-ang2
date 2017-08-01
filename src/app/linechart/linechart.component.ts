@@ -51,12 +51,16 @@ export class LinechartComponent implements OnInit, OnDestroy {
     }
 
     private addLine(event) {
-        const y = event.dragData
-        console.log(y);
-        if (this.chartUtils.checkAxisError(this.data, y, 'Y')) { return; };
-        this.yAxis.push(y);
-        console.log(this.yAxis);
-        this.createLinechart(this.animate);
+        if (this.dataExists()) {
+            const y = event.dragData;
+            if (this.chartUtils.checkAxisError(this.data, y, 'Y')) { return; };
+            if (!this.yAxis.includes(y)) {
+                this.yAxis.push(y)
+            } else {
+                return;
+            }
+            this.createLinechart(this.animate);
+        }
     }
 
     private dataExists() {
@@ -64,17 +68,8 @@ export class LinechartComponent implements OnInit, OnDestroy {
     }
 
     private setAxes() {
-        // const axes = [];
-        // for (const k in this.data[0]) {
-        //     if (this.data[0].hasOwnProperty(k)) {
-        //         axes.push(k)
-        //     }
-        // }
-        // this.xAxis = axes[0];
-        // this.yAxis.push(axes[1]);
         this.xAxis = this.data.axes.xColumn;
         this.yAxis = [this.data.axes.yColumn];
-        console.log(this.yAxis);
     }
 
     private setSize() {
@@ -146,9 +141,9 @@ export class LinechartComponent implements OnInit, OnDestroy {
             .attr('y', 6)
             .attr('dy', '.71em')
             .style('text-anchor', 'end')
-            .text(this.yAxis);
+            .text(this.yAxis[0]);
 
-        this.drawLine(svg, lines, animate);
+        this.drawLines(svg, lines, animate);
     }
 
     private defineScales(axes) {
@@ -166,8 +161,6 @@ export class LinechartComponent implements OnInit, OnDestroy {
             d3.min(this.yAxis, y => d3.min(this.data, d => d[y])),
             d3.max(this.yAxis, y => d3.max(this.data, d => d[y]))
         ])
-        console.log(d3.min(this.yAxis, y => d3.min(this.data, d => d[y])));
-        console.log(d3.max(this.yAxis, y => d3.max(this.data, d => d[y])));
         return axes;
     }
 
@@ -182,7 +175,7 @@ export class LinechartComponent implements OnInit, OnDestroy {
         return lines;
     }
 
-    private drawLine(svg, lines, animate: boolean) {
+    private drawLines(svg, lines, animate: boolean) {
         lines.forEach((line, i) => {
             const path = svg.append('path')
                 .datum(this.data)

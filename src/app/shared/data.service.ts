@@ -67,6 +67,7 @@ export class DataService {
     });
   }
 
+  // Sends entire csv data in json format, currently used for linechart
   private sendD3Data() {
     d3.csv(Constants.CSV_DIR, d => {
       for (const key in d) {
@@ -76,7 +77,6 @@ export class DataService {
       }
       return d;
     }, data => {
-      console.log(data);
       data.axes = this.axes;
       this.setD3data(data);
     })
