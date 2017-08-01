@@ -1,12 +1,13 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-lg-12">
-    <button #stack id="stacked" [ngClass]="{'btn-style-active': style === stack.id}" (click)="switchStyle(stack.id)" class="btn btn-style" type="button" aria-label="stacked">Stacked chart</button>
-    <button #group id="grouped" [ngClass]="{'btn-style-active': style === group.id}" (click)="switchStyle(group.id)" class="btn btn-style" type="button" aria-label="grouped">Grouped chart</button>
+    <button #stack id="stacked" [ngClass]="{'btn-style-active': style === stack.id}" (click)="switchStyle(stack.id)" class="btn btn-style" type="button" aria-label="stacked">Stacked</button>
+    <button #group id="grouped" [ngClass]="{'btn-style-active': style === group.id}" (click)="switchStyle(group.id)" class="btn btn-style" type="button" aria-label="grouped">Grouped</button>
   </div>
 </div>
 <div class="row">
   <div class="col-md-12 col-sm-12 col-lg-12">
     <div class="chart-container">
+      <app-legend [zvalues]="zValues" [colours]="barsColours"></app-legend>
       <div #stackbarchart></div>
     </div>
   </div>

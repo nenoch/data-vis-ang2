@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener} from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Output, HostListener} from '@angular/core';
 import { DataService } from '../shared/data.service';
 import { ChartUtilsService } from '../shared/chart-utils.service';
 import { ISubscription } from 'rxjs/Subscription';
@@ -16,15 +16,16 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
   private xAxis;
   private xValues;
   private zKey;
-  private zValues = [];
   private margin = {top: 50, right: 20, bottom: 100, left: 45};
   private width: number;
   private height: number;
   private aspectRatio = 0.7;
-  private barsColours;
   private subscription: ISubscription;
   private animate: boolean = true;
   private style = 'stacked';
+
+  @Output() barsColours;
+  @Output() zValues = [];
 
   @HostListener('window:resize', ['$event'])
   onKeyUp(ev: UIEvent) {
@@ -140,7 +141,7 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
         .call(d3.axisLeft(y));
 
     this.appendBars(x,y,svg,layers,animate);
-    this.addLegend(svg);
+    // this.addLegend(svg);
   }
 
   private isStacked(style: string): boolean {
@@ -288,27 +289,27 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
     return layers;
   }
 
-  private addLegend(svg){
-    let legend = svg.selectAll(".legend-key")
-              .data(this.zValues)
-              .enter().append("g")
-              .attr("transform", (d, i) => `translate(0,${i*13})`);
-              // .attr("transform", (d, i) => `translate(${-this.width},${(this.height+30)+(i*13)})`);
-
-    legend.append("text")
-          .attr("x", this.width - 24)
-          .attr("dy", ".35em")
-          .style("text-anchor", "end")
-          .attr("class", "label-style")
-          .text(function(d) { return d; });
-
-    legend.append("rect")
-        .attr("x", this.width - 18)
-        .attr("width", 18)
-        .attr("height", 5)
-        .style("fill", (d, i) => this.barsColours(i));
-
-  }
+  // private addLegend(svg){
+  //   let legend = svg.selectAll(".legend-key")
+  //             .data(this.zValues)
+  //             .enter().append("g")
+  //             .attr("transform", (d, i) => `translate(0,${i*13})`);
+  //             // .attr("transform", (d, i) => `translate(${-this.width},${(this.height+30)+(i*13)})`);
+  //
+  //   legend.append("text")
+  //         .attr("x", this.width - 24)
+  //         .attr("dy", ".35em")
+  //         .style("text-anchor", "end")
+  //         .attr("class", "label-style")
+  //         .text(function(d) { return d; });
+  //
+  //   legend.append("rect")
+  //       .attr("x", this.width - 18)
+  //       .attr("width", 18)
+  //       .attr("height", 5)
+  //       .style("fill", (d, i) => this.barsColours(i));
+  //
+  // }
 
   private resetMultibarsChart() {
     this.chartUtils.resetSVG();

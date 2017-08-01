@@ -31,6 +31,7 @@ import { ScatterchartComponent } from './scatterchart/scatterchart.component';
 
 import { TableFilterPipe } from './pipes/table-filter.pipe';
 import { StackbarchartComponent } from './stackbarchart/stackbarchart.component';
+import { LegendComponent } from './legend/legend.component';
 
 
 
@@ -52,7 +53,8 @@ import { StackbarchartComponent } from './stackbarchart/stackbarchart.component'
     InfiniteScrollerDirective,
     ScatterchartComponent,
     TableFilterPipe,
-    StackbarchartComponent
+    StackbarchartComponent,
+    LegendComponent
   ],
   imports: [
     FormsModule,
