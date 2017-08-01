@@ -2,8 +2,8 @@
 
 /* Common Styles */
 
-body{
-  background: #eee;
+body {
+  background-color: #eee;
   font-family: 'Open Sans', sans-serif;
   color: #333F48;
 }
@@ -14,7 +14,6 @@ body{
 }
 
 .container.wrapper {
-  /*padding-top: 2%;*/
   padding-bottom: 2.5%
 }
 

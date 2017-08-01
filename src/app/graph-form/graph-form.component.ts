@@ -61,6 +61,7 @@ export class GraphFormComponent implements OnInit {
 
   private onReset() {
     this.chartUtils.resetSVG();
+    this.chartUtils.resetLegend();
     this.dataService.setD3data([]);
   }
 }
