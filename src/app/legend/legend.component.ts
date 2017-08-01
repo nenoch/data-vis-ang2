@@ -15,8 +15,8 @@ export class LegendComponent implements OnInit, OnChanges {
   private width: number;
   private height: number;
 
-  @Input() zvalues;
-  @Input() colours;
+  @Input() zvalues: Array<any>;
+  @Input() colours: any;
 
 
   constructor(private chartUtils: ChartUtilsService) {}
@@ -43,20 +43,14 @@ export class LegendComponent implements OnInit, OnChanges {
 
     let legend = div.selectAll(".legend-key")
               .data(this.zvalues)
-              .enter().append("g")
-              .attr("transform", (d, i) => `translate(0,${i*13})`);
+              .enter().append("div")
+              .attr("class", "legend-key")
+              .append("p")
+              .attr("class", "label-style")
+              .text(function(d) { return d; });
 
-    legend.append("text")
-          .attr("x", 76)
-          .attr("dy", ".35em")
-          .style("text-anchor", "end")
-          .attr("class", "label-style")
-          .text(function(d) { return d; });
-
-    legend.append("div")
-        .attr("x", 100)
-        .attr("width", 18)
-        .attr("height", 5)
+    legend.append("span")
+        .attr("class", "key-dot")
         .style("background-color", (d, i) => this.colours(i));
   }
 
