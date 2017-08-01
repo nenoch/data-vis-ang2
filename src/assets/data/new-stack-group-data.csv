@@ -1,0 +1,37 @@
+gender,ethnicity,month,city,state,payment,product category
+Male,Black,June,Millbrook,AL,Bank Transfer,Electronics
+Male,Black,February,Millbrook,AL,Bank Transfer,Electronics
+Male,White,April,Pineville,LA,Bank Transfer,Electronics
+Male,White,March,Kenosha,WI,Bank Transfer,Electronics
+Male,Hispanic/Latino,March,South Gate,CA,Bank Transfer,Clothing
+Male,White,March,Munroe Falls,OH,Bank Transfer,Electronics
+Male,White,March,Phoenix,AZ,Bank Transfer,Electronics
+Male,Hispanic/Latino,March,Bakersfield,CA,Bank Transfer,Clothing
+Male,Hispanic/Latino,March,Wilmington,CA,Bank Transfer,Electronics
+Male,White,January,Sunset,TX,Bank Transfer,Clothing
+Male,White,February,Wyoming,MI,Bank Transfer,Other
+Male,White,April,Hanford,CA,Bank Transfer,Jewelry
+Male,White,May,Rancho Santa Margarita,CA,Bank Transfer,Electronics
+Male,Hispanic/Latino,February,Houston,TX,Bank Transfer,Electronics
+Male,White,February,Terre Haute ,IN,Debit card,Clothing
+Male,White,April,Indianapolis,IN,Debit card,Electronics
+Male,Hispanic/Latino,May,Nashville,TN,Bank Transfer,Clothing
+Female,Black,April,Atlanta,GA,Bank Transfer,Entertainment
+Male,Hispanic/Latino,May,Arlington,VA,Bank Transfer,Clothing
+Female,White,March,San Francisco,CA,Bank Transfer,Clothing
+Male,Black,January,San Francisco,CA,Debit card,Electronics
+Male,Hispanic/Latino,February,San Francisco,CA,Bank Transfer,Entertainment
+Male,Black,January,Morfolk,NE,Debit card,Electronics
+Male,Hispanic/Latino,February,Kansas City,KS,Bank Transfer,Other
+Male,White,March,Fontana,CA,Bank Transfer,Clothing
+Male,White,April,Chickasha,OK,Bank Transfer,Clothing
+Male,White,March,Medford,OR,Bank Transfer,Clothing
+Male,White,January,Derry,NH,Bank Transfer,Clothing
+Male,White,April,Sylmar,CA,Bank Transfer,Clothing
+Male,Black,March,Putnam Hall,FL,Bank Transfer,Clothing
+Male,Hispanic/Latino,January,El Paso,TX,Bank Transfer,Clothing
+Male,Hispanic/Latino,April,Corning,CA,Bank Transfer,Jewelry
+Male,Black,March,Roxbury,MA,Bank Transfer,Clothing
+Male,Black,February,Memphis,TN,Bank Transfer,Entertainment
+Male,Black,May,Huntsville,AL,Bank Transfer,Jewelry
+Male,Hispanic/Latino,February,Clarkesville,GA,Bank Transfer,Clothing

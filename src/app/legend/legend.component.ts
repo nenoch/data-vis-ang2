@@ -39,7 +39,8 @@ export class LegendComponent implements OnInit, OnChanges {
     let element = this.legendContainer.nativeElement;
 
     let div = d3.select(element).append('div')
-        .attr('id', 'legend');
+        .attr('id', 'legend')
+        .attr("class", "margin-top10");
 
     let legend = div.selectAll(".legend-key")
               .data(this.zvalues)
