@@ -1,7 +1,12 @@
 export class AxisData {
     constructor(
-        public xColumn: String,
-        public yColumn: String,
-        public rColumn: String
+        public xColumn: string,
+        public yColumn: string,
+        public rColumn: string
     ) {}
+
+    // For the time being, this only checks the x and y columns
+    public isEmpty(): boolean {
+        return (!this.xColumn || !this.yColumn) ? true : false;
+    }
 };

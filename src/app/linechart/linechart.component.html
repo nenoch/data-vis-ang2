@@ -1,3 +1,15 @@
-<div class="chart-container">
-  <div #linechart></div>
+<div class="row">
+  <div class="col-md-4 col-sm-4 col-lg-4">
+    <label class="text-blue" for="input-line">Drag a column to add an additional line</label>
+      <input class="form-control input-line" id="input-line" type="text"  placeholder="Drop value here" dnd-droppable (onDropSuccess)="addLine($event)">
+  </div>
+   <div class="col-md-8 col-sm-8 col-lg-8">
+  </div> 
+</div>
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-lg-12">
+    <div class="chart-container">
+      <div #linechart></div>
+    </div>
+  </div>
 </div>

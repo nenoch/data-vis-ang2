@@ -4,3 +4,9 @@
   font-weight: bold;
   fill: #000;
 }
+
+.input-line {
+  /* border-left: 0; */
+  border-color: #333F48;
+  color: #333F48;
+}
