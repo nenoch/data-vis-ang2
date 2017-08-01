@@ -69,12 +69,14 @@ export class DataService {
 
   private sendD3Data() {
     d3.csv(Constants.CSV_DIR, d => {
-      for (let key in d) {
+      for (const key in d) {
         if (d.hasOwnProperty(key)) {
-          console.log(d[key]);
+          d[key] = this.isNumber(d[key]);
         }
       }
+      return d;
     }, data => {
+      console.log(data);
       data.axes = this.axes;
       this.setD3data(data);
     })
