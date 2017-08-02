@@ -60,17 +60,13 @@ export class BarchartComponent implements OnInit, OnDestroy {
     }
 
     private setAxes() {
-        const axes = [];
-        for (const axis in this.data[0]) {
-            if (this.data[0].hasOwnProperty(axis)) {
-                axes.push(axis)
-            }
-        }
         if (this.isHorizontal(this.style)) {
-            [this.yAxis, this.xAxis] = axes;
+            this.yAxis = this.data.axes.xColumn;
+            this.xAxis = this.data.axes.yColumn;
             return;
         }
-        [this.xAxis, this.yAxis] = axes;
+        this.xAxis = this.data.axes.xColumn;
+        this.yAxis = this.data.axes.yColumn;
     }
 
     private setSize() {

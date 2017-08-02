@@ -48,7 +48,7 @@ export class GraphFormComponent implements OnInit {
       return;
     }
     this.graphType = 'barchart';
-    this.dataService.setAxes(this.axisData);
+    this.dataService.setAxes(this.axisData, this.graphType);
     this.toggleChartBtn();
   }
 
@@ -58,6 +58,8 @@ export class GraphFormComponent implements OnInit {
 
   private changeGraph(graph) {
     this.graphType = graph;
+    if (this.axisData.isEmpty()) { return; }
+    this.dataService.setAxes(this.axisData, this.graphType);
   }
 
   private onReset() {
