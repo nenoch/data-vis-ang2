@@ -4,7 +4,7 @@ import { DebugElement }    from '@angular/core';
 
 import { PlaceholderComponent } from './placeholder.component';
 
-fdescribe('PlaceholderComponent', () => {
+describe('PlaceholderComponent', () => {
   let component: PlaceholderComponent;
   let fixture: ComponentFixture<PlaceholderComponent>;
   let debug: DebugElement;

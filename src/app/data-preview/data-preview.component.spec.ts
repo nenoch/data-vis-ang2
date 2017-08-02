@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DataPreviewComponent } from './data-preview.component';
 
-describe('DataPreviewComponent', () => {
+xdescribe('DataPreviewComponent', () => {
   let component: DataPreviewComponent;
   let fixture: ComponentFixture<DataPreviewComponent>;
 

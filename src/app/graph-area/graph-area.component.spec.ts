@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GraphAreaComponent } from './graph-area.component';
 
-describe('GraphAreaComponent', () => {
+xdescribe('GraphAreaComponent', () => {
   let component: GraphAreaComponent;
   let fixture: ComponentFixture<GraphAreaComponent>;
 

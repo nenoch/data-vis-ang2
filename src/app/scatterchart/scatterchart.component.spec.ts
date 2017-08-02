@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ScatterchartComponent } from './scatterchart.component';
 
-describe('ScatterchartComponent', () => {
+xdescribe('ScatterchartComponent', () => {
   let component: ScatterchartComponent;
   let fixture: ComponentFixture<ScatterchartComponent>;
 
