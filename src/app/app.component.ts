@@ -20,7 +20,7 @@ export class AppComponent {
           .addSvgIcon('linechart', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/linechart.svg'))
           .addSvgIcon('scatterchart', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/scatterchart.svg'))
           .addSvgIcon('stackbarchart', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/stackbarchart.svg'));
-  }
+    }
 
   private toggleGraphCreator(bool) {
     this.hideGraphCreator = !bool;

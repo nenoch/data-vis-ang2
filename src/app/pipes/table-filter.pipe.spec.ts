@@ -1,7 +1,7 @@
 import { TableFilterPipe } from './table-filter.pipe';
 import { DataFilter } from '../data-preview/data-filter';
 
-fdescribe('TableFilterPipe', () => {
+describe('TableFilterPipe', () => {
 
   const data = [['Canada', 'Fish', '10'], ['England', 'Chips', '30']];
   const pipe = new TableFilterPipe();

@@ -1,37 +1,37 @@
-Gender,Ethnicity,Month,City,State,Cause,Armed
-Male,Black,June,Millbrook,AL,Gunshot,No
-Male,Black,February,Millbrook,AL,Gunshot,No
-Male,White,April,Pineville,LA,Gunshot,No
-Male,White,March,Kenosha,WI,Gunshot,No
-Male,Hispanic/Latino,March,South Gate,CA,Gunshot,Firearm
-Male,White,March,Munroe Falls,OH,Gunshot,No
-Male,White,March,Phoenix,AZ,Gunshot,No
-Male,Hispanic/Latino,March,Bakersfield,CA,Gunshot,Firearm
-Male,Hispanic/Latino,March,Wilmington,CA,Gunshot,Non-lethal firearm
-Male,White,January,Sunset,TX,Gunshot,Firearm
-Male,White,February,Wyoming,MI,Gunshot,Other
-Male,White,April,Hanford,CA,Gunshot,Knife
-Male,White,May,Rancho Santa Margarita,CA,Gunshot,No
-Male,Hispanic/Latino,February,Houston,TX,Gunshot,No
-Male,White,February,Terre Haute ,IN,Death in custody,Firearm
-Male,White,April,Indianapolis,IN,Death in custody,Non-lethal firearm
-Male,Hispanic/Latino,May,Nashville,TN,Gunshot,Firearm
-Female,Black,April,Atlanta,GA,Gunshot,Vehicle
-Male,Hispanic/Latino,May,Arlington,VA,Gunshot,Firearm
-Female,White,March,San Francisco,CA,Gunshot,Firearm
-Male,Black,January,San Francisco,CA,Death in custody,No
-Male,Hispanic/Latino,February,San Francisco,CA,Gunshot,Vehicle
-Male,Black,January,Norfolk,NE,Death in custody,No
-Male,Hispanic/Latino,February,Kansas City,KS,Gunshot,Other
-Male,White,March,Fontana,CA,Gunshot,Firearm
-Male,White,April,Chickasha,OK,Gunshot,Firearm
-Male,White,March,Medford,OR,Gunshot,Firearm
-Male,White,January,Derry,NH,Gunshot,Firearm
-Male,White,April,Sylmar,CA,Gunshot,Firearm
-Male,Black,March,Putnam Hall,FL,Gunshot,Firearm
-Male,Hispanic/Latino,January,El Paso,TX,Gunshot,Firearm
-Male,Hispanic/Latino,April,Corning,CA,Gunshot,Knife
-Male,Black,March,Roxbury,MA,Gunshot,Firearm
-Male,Black,February,Memphis,TN,Gunshot,Vehicle
-Male,Black,May,Huntsville,AL,Gunshot,Knife
-Male,Hispanic/Latino,February,Clarkesville,GA,Gunshot,Firearm
+gender,ethnicity,month,city,state,payment,product category
+Male,Black,June,Millbrook,AL,Bank Transfer,Electronics
+Male,Black,February,Millbrook,AL,Bank Transfer,Electronics
+Male,White,April,Pineville,LA,Bank Transfer,Electronics
+Male,White,March,Kenosha,WI,Bank Transfer,Electronics
+Male,Hispanic/Latino,March,South Gate,CA,Bank Transfer,Clothing
+Male,White,March,Munroe Falls,OH,Bank Transfer,Electronics
+Male,White,March,Phoenix,AZ,Bank Transfer,Electronics
+Male,Hispanic/Latino,March,Bakersfield,CA,Bank Transfer,Clothing
+Male,Hispanic/Latino,March,Wilmington,CA,Bank Transfer,Electronics
+Male,White,January,Sunset,TX,Bank Transfer,Clothing
+Male,White,February,Wyoming,MI,Bank Transfer,Other
+Male,White,April,Hanford,CA,Bank Transfer,Jewelry
+Male,White,May,Rancho Santa Margarita,CA,Bank Transfer,Electronics
+Male,Hispanic/Latino,February,Houston,TX,Bank Transfer,Electronics
+Male,White,February,Terre Haute ,IN,Debit card,Clothing
+Male,White,April,Indianapolis,IN,Debit card,Electronics
+Male,Hispanic/Latino,May,Nashville,TN,Bank Transfer,Clothing
+Female,Black,April,Atlanta,GA,Bank Transfer,Entertainment
+Male,Hispanic/Latino,May,Arlington,VA,Bank Transfer,Clothing
+Female,White,March,San Francisco,CA,Bank Transfer,Clothing
+Male,Black,January,San Francisco,CA,Debit card,Electronics
+Male,Hispanic/Latino,February,San Francisco,CA,Bank Transfer,Entertainment
+Male,Black,January,Morfolk,NE,Debit card,Electronics
+Male,Hispanic/Latino,February,Kansas City,KS,Bank Transfer,Other
+Male,White,March,Fontana,CA,Bank Transfer,Clothing
+Male,White,April,Chickasha,OK,Bank Transfer,Clothing
+Male,White,March,Medford,OR,Bank Transfer,Clothing
+Male,White,January,Derry,NH,Bank Transfer,Clothing
+Male,White,April,Sylmar,CA,Bank Transfer,Clothing
+Male,Black,March,Putnam Hall,FL,Bank Transfer,Clothing
+Male,Hispanic/Latino,January,El Paso,TX,Bank Transfer,Clothing
+Male,Hispanic/Latino,April,Corning,CA,Bank Transfer,Jewelry
+Male,Black,March,Roxbury,MA,Bank Transfer,Clothing
+Male,Black,February,Memphis,TN,Bank Transfer,Entertainment
+Male,Black,May,Huntsville,AL,Bank Transfer,Jewelry
+Male,Hispanic/Latino,February,Clarkesville,GA,Bank Transfer,Clothing

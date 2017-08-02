@@ -3,9 +3,18 @@
 
 /* Text Colours */
 
-  .text-blue {
+
+.jumbotron.data-placeholder {
+  color: #ccc;
+  background-color: #ddd;
+  text-align: center;
+  height: 100%;
+}
+
+ .text-blue {
     color: #0056b8;
   }
+
 
 /* Common Styles */
 
