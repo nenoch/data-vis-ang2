@@ -12,3 +12,8 @@
   font-weight: bold;
   fill: #000;
 }
+
+.input-radius {
+  border-color: #333F48;
+  color: #333F48;
+}

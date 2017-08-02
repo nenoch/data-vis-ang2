@@ -16,14 +16,14 @@ export class ScatterchartComponent implements OnInit {
   private data;
   private xAxis;
   private yAxis;
-  private radius;
+  private radius = '';
   private margin = {top: 50, right: 20, bottom: 100, left: 45};
   private width: number;
   private height: number;
   private aspectRatio = 0.7;
   private circleColour: String = '#0056b8';
   private subscription: ISubscription;
-  private animate: Boolean = true;
+  private animate: boolean = true;
 
   @HostListener('window:resize', ['$event'])
   onKeyUp(ev: UIEvent) {
@@ -57,15 +57,14 @@ export class ScatterchartComponent implements OnInit {
   }
 
   private setAxes() {
-    const axes = [];
-    for (const k in this.data[0]) {
-      if (this.data[0].hasOwnProperty(k)) {
-        axes.push(k)
-      }
-    }
-    this.xAxis = axes[0];
-    this.yAxis = axes[1];
-    this.radius = axes[2];
+    this.xAxis = this.data.axes.xColumn;
+    this.yAxis = this.data.axes.yColumn;
+  }
+
+  private addRadius(event){
+    let radius = event.dragData;
+    this.radius = radius;
+    this.createScatterchart();
   }
 
 

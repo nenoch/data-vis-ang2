@@ -35,7 +35,7 @@ export class GraphFormComponent implements OnInit {
   constructor(private dataService: DataService, private chartUtils: ChartUtilsService) {}
 
   ngOnInit() {
-    this.axisData = new AxisData('', '', '');
+    this.axisData = new AxisData('', '');
   }
 
   private transferDataSuccess(event) {

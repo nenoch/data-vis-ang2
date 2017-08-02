@@ -16,15 +16,6 @@
         <input class="form-control input-xy" name="y" #name="ngModel" [ngModel]="axisData.yColumn" [(ngModel)]="axisData.yColumn" type="text"  placeholder="Drop value here" dnd-droppable (onDropSuccess)="transferDataSuccess($event)">
       </div>
     </div>
-    <div *ngIf="graphType === 'scatterchart'">
-      <div class="form-group form-element">
-        <label class="sr-only" for="R">Value for the radius</label>
-        <div class="input-group">
-          <div class="input-group-addon XY-icon">R</div>
-          <input class="form-control input-xy" name="r" #name="ngModel" [ngModel]="axisData.rColumn" [(ngModel)]="axisData.rColumn" type="text"  placeholder="Drop radius here" dnd-droppable (onDropSuccess)="transferDataSuccess($event)">
-        </div>
-      </div>
-    </div>
     <button type="submit" class="btn btn-green form-element" value="Submit">Submit</button>
     <button type="reset" (click)="onReset()" class="btn btn-reset form-element" value="Reset">Reset</button>
   </form>
