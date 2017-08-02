@@ -15,7 +15,7 @@ export class LegendComponent implements OnInit, OnChanges {
   private width: number;
   private height: number;
 
-  @Input() zvalues: Array<any>;
+  @Input() legendKeys: Array<any>;
   @Input() colours: any;
 
 
@@ -40,19 +40,19 @@ export class LegendComponent implements OnInit, OnChanges {
 
     let div = d3.select(element).append('div')
         .attr('id', 'legend')
-        .attr("class", "margin-top10");
+        .attr('class', 'margin-top10');
 
-    let legend = div.selectAll(".legend-key")
-              .data(this.zvalues)
-              .enter().append("div")
-              .attr("class", "legend-key")
-              .append("p")
-              .attr("class", "label-style")
+    let legend = div.selectAll('.legend-key')
+              .data(this.legendKeys)
+              .enter().append('div')
+              .attr('class', 'legend-key')
+              .append('p')
+              .attr('class', 'label-style')
               .text(function(d) { return d; });
 
-    legend.append("span")
-        .attr("class", "key-dot")
-        .style("background-color", (d, i) => this.colours(i));
+    legend.append('span')
+        .attr('class', 'key-dot')
+        .style('background-color', (d, i) => this.colours(i));
   }
 
   private reset() {

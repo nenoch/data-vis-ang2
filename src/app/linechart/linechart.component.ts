@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener, Output } from '@angular/core';
 import { DataService } from '../shared/data.service';
 import { ErrorHandlerService } from '../error-handler/error-handler.service';
 import { ChartUtilsService } from '../shared/chart-utils.service';
@@ -14,14 +14,16 @@ export class LinechartComponent implements OnInit, OnDestroy {
     @ViewChild('linechart') private lineContainer: ElementRef;
     private data;
     private xAxis;
-    private yAxis = [];
     private margin = {top: 50, right: 20, bottom: 100, left: 45};
     private width: number;
     private height: number;
     private aspectRatio = 0.7;
-    private lineColours;
     private subscription: ISubscription;
     private animate = true;
+
+    // Output to the legend
+    @Output() lineColours;
+    @Output() yAxis = [];
 
     @HostListener('window:resize', ['$event'])
     onKeyUp(ev: UIEvent) {
@@ -180,7 +182,7 @@ export class LinechartComponent implements OnInit, OnDestroy {
             const path = svg.append('path')
                 .datum(this.data)
                 .attr('fill', 'none')
-                .attr('stroke', this.lineColours(this.yAxis[i]))
+                .attr('stroke', this.lineColours(i))
                 .attr('stroke-linejoin', 'round')
                 .attr('stroke-linecap', 'round')
                 .attr('stroke-width', 1.5)
