@@ -47,7 +47,9 @@ export class GraphFormComponent implements OnInit {
     if (!this.axisData.xColumn || !this.axisData.yColumn) {
       return;
     }
-    this.graphType = 'barchart';
+    if (this.graphType === 'default') {
+      this.graphType = 'barchart';
+    }
     this.dataService.setAxes(this.axisData, this.graphType);
     this.toggleChartBtn();
   }
