@@ -6,8 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./placeholder.component.css']
 })
 export class PlaceholderComponent implements OnInit {
-  public title: string = "Data Visualisation Area";
-  public img:string = 'assets/imgs/data-vis.svg';
+  public img: string = 'assets/imgs/data-vis.svg';
   constructor() { }
 
   ngOnInit() {

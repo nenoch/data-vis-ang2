@@ -20,8 +20,6 @@ fdescribe('PlaceholderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PlaceholderComponent);
     component = fixture.componentInstance;
-    debug = fixture.debugElement.query(By.css('h3'));
-    element = debug.nativeElement;
     fixture.detectChanges();
   });
 
@@ -29,8 +27,10 @@ fdescribe('PlaceholderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display text', () => {
-    console.log(component.title);
-    expect(element.textContent).toContain(component.title);
+  it('should display image', () => {
+    debug = fixture.debugElement.query(By.css('img'));
+    element = debug.nativeElement;
+    expect(element.attributes[3].value).toMatch(component.img);
   });
+
 });

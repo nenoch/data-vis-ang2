@@ -47,6 +47,7 @@ export class GraphFormComponent implements OnInit {
     if (!this.axisData.xColumn || !this.axisData.yColumn) {
       return;
     }
+    this.graphType = 'barchart';
     this.dataService.setAxes(this.axisData);
     this.toggleChartBtn();
   }
@@ -60,6 +61,7 @@ export class GraphFormComponent implements OnInit {
   }
 
   private onReset() {
+    this.graphType = 'default';
     this.chartUtils.resetSVG();
     this.chartUtils.resetLegend();
     this.dataService.setD3data([]);
