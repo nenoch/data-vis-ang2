@@ -169,7 +169,8 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
         .data(layers)
       .enter().append('g')
         .attr('class', 'layer')
-        .style('fill', (d, i) => this.barsColours(i));
+        // .style('fill', (d, i) => this.barsColours(i));
+        .style('fill', (d, i) => this.barsColours(this.zValues[i]));
 
     this.toggleGroupStack(layer, x,y,animate);
 

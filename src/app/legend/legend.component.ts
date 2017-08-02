@@ -52,7 +52,7 @@ export class LegendComponent implements OnInit, OnChanges {
 
     legend.append('span')
         .attr('class', 'key-dot')
-        .style('background-color', (d, i) => this.colours(i));
+        .style('background-color', (d, i) => this.colours(this.legendKeys[i]));
   }
 
   private reset() {

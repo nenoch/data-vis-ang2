@@ -22,7 +22,7 @@ export class LinechartComponent implements OnInit, OnDestroy {
     private animate = true;
 
     // Output to the legend
-    @Output() lineColours;
+    @Output() lineColours = d3.scaleOrdinal(d3.schemeCategory10);
     @Output() yAxis = [];
 
     @HostListener('window:resize', ['$event'])
@@ -182,7 +182,7 @@ export class LinechartComponent implements OnInit, OnDestroy {
             const path = svg.append('path')
                 .datum(this.data)
                 .attr('fill', 'none')
-                .attr('stroke', this.lineColours(i))
+                .attr('stroke', this.lineColours(this.yAxis[i]))
                 .attr('stroke-linejoin', 'round')
                 .attr('stroke-linecap', 'round')
                 .attr('stroke-width', 1.5)

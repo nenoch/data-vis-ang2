@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener} from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener, Output} from '@angular/core';
 import { DataService } from '../shared/data.service';
 import { ErrorHandlerService } from '../error-handler/error-handler.service';
 import { ChartUtilsService } from '../shared/chart-utils.service';
@@ -19,11 +19,15 @@ export class DonutchartComponent implements OnInit, OnDestroy {
   private margin = {top: 50, right: 20, bottom: 100, left: 20};
   private width: number;
   private height: number;
-  private colour = d3.scaleOrdinal(d3.schemeCategory20c);
+  // private colours = d3.scaleOrdinal(d3.schemeCategory20c);
   private padAngle = 0.015;
   private cornerRadius = 3;
   private subscription: ISubscription;
   private animate = true;
+
+  // Output for legend
+  @Output() colours;
+  @Output() categoryList: Array<string>;
 
   @HostListener('window:resize', ['$event'])
   onKeyUp(ev: UIEvent) {
@@ -57,14 +61,12 @@ export class DonutchartComponent implements OnInit, OnDestroy {
   }
 
   private setAxes() {
-    const axes = [];
-    for (const k in this.data[0]) {
-      if (this.data[0].hasOwnProperty(k)) {
-      axes.push(k)
-      }
-    }
-    this.category = axes[0];
-    this.variable = axes[1];
+    this.category = this.data.axes.xColumn;
+    this.variable = this.data.axes.yColumn;
+    this.categoryList = [];
+    this.data.forEach(element => {
+      this.categoryList.push(element[this.category]);
+    });
   }
 
   private setSize() {
@@ -79,6 +81,8 @@ export class DonutchartComponent implements OnInit, OnDestroy {
 
     const element = this.donutContainer.nativeElement;
     const radius = Math.min(this.width, this.height) / 2;
+
+    this.colours = d3.scaleOrdinal(d3.schemeCategory20c);
 
     const pie = d3.pie()
       .value(d => d[this.variable])
@@ -123,7 +127,7 @@ export class DonutchartComponent implements OnInit, OnDestroy {
       .selectAll('path')
       .data(pie)
       .enter().append('path')
-      .attr('fill', d => this.colour(d.data[this.category]));
+      .attr('fill', d => this.colours(d.data[this.category]));
 
     if (animate) {
       return slices.transition()
@@ -209,7 +213,7 @@ export class DonutchartComponent implements OnInit, OnDestroy {
       svg.append('circle')
           .attr('class', 'toolCircle')
           .attr('r', radius * 0.55) // radius of tooltip circle
-          .style('fill', this.colour(data.data[this.category])) // colour based on category mouse is over
+          .style('fill', this.colours(data.data[this.category])) // colours based on category mouse is over
           .style('fill-opacity', 0.35);
     });
 
@@ -226,6 +230,7 @@ export class DonutchartComponent implements OnInit, OnDestroy {
     for (const key in data.data) {
       if (data.data.hasOwnProperty(key)) {
           const value = data.data[key];
+          if (!value) { continue; }
           // leave off 'dy' attr for first tspan so the 'dy' attr on text element works. The 'dy' attr on
           // tspan effectively imitates a line break.
           if (i === 0) {
