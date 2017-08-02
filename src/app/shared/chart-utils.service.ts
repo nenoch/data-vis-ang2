@@ -43,7 +43,7 @@ export class ChartUtilsService {
   }
 
   public checkRadiusError(data, radius) {
-    let error = { title: 'R Error', content: 'Please enter a numeric value that hasn\'t been assigned to X or Y for the radius.'};
+    let error = { title: 'R Error', content: 'Please enter a numeric value for the radius.'};
     let flag = false;
     if (radius !== '' && !this.isNumber(data[0][radius])) {
         this.errorService.handleError(error);
