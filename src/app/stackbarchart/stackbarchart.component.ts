@@ -21,7 +21,7 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
   private height: number;
   private aspectRatio = 0.7;
   private subscription: ISubscription;
-  private animate: boolean = true;
+  private animate = true;
   private style = 'stacked';
 
   @Output() barsColours;
@@ -137,7 +137,7 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
 
     // Y Axis
     svg.append('g')
-        .attr("transform", "translate(0,0)")
+        .attr('transform', 'translate(0,0)')
         .call(d3.axisLeft(y));
 
     this.appendBars(x,y,svg,layers,animate);
@@ -165,11 +165,11 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
   }
 
   private appendBars(x,y,svg,layers, animate: boolean){
-    let layer = svg.selectAll(".layer")
+    let layer = svg.selectAll('.layer')
         .data(layers)
-      .enter().append("g")
-        .attr("class", "layer")
-        .style("fill", (d, i) => this.barsColours(i));
+      .enter().append('g')
+        .attr('class', 'layer')
+        .style('fill', (d, i) => this.barsColours(i));
 
     this.toggleGroupStack(layer, x,y,animate);
 
@@ -188,51 +188,51 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
     let keysNum = this.zValues.length;
 
     if (animate){
-    let rect = layer.selectAll("rect")
+    let rect = layer.selectAll('rect')
              .data((d) => d)
-          .enter().append("rect")
-             .attr("y", this.height)
+          .enter().append('rect')
+             .attr('y', this.height)
              .transition()
              .delay((d, i) => i * 10 )
-             .attr("x", (d) => x(d.xkey)+ z(d.zkey))
-             .attr("width", x.bandwidth() / keysNum)
+             .attr('x', (d) => x(d.xkey)+ z(d.zkey))
+             .attr('width', x.bandwidth() / keysNum)
              .transition()
-             .attr("y", (d) => y(d.data[d.zkey]))
-             .attr("height", (d) => this.height - y(d.data[d.zkey]));
+             .attr('y', (d) => y(d.data[d.zkey]))
+             .attr('height', (d) => this.height - y(d.data[d.zkey]));
     } else {
-    let rect = layer.selectAll("rect")
+    let rect = layer.selectAll('rect')
             .data((d) => d)
-          .enter().append("rect")
-            .attr("x", (d) => x(d.xkey)+ z(d.zkey))
-            .attr("width", x.bandwidth() / keysNum)
-            .attr("y", (d) => y(d.data[d.zkey]))
-            .attr("height", (d) => this.height - y(d.data[d.zkey]));
+          .enter().append('rect')
+            .attr('x', (d) => x(d.xkey)+ z(d.zkey))
+            .attr('width', x.bandwidth() / keysNum)
+            .attr('y', (d) => y(d.data[d.zkey]))
+            .attr('height', (d) => this.height - y(d.data[d.zkey]));
     }
   }
 
   private appendStackBars(layer,x,y,animate: boolean){
     if (animate) {
-      let rect = layer.selectAll("rect")
+      let rect = layer.selectAll('rect')
           .data((d) => d)
-        .enter().append("rect")
-          .attr("x", (d) => x(d.xkey))
-          .attr("y", this.height)
-          .attr("width", x.bandwidth())
-          .attr("height", 0);
+        .enter().append('rect')
+          .attr('x', (d) => x(d.xkey))
+          .attr('y', this.height)
+          .attr('width', x.bandwidth())
+          .attr('height', 0);
 
       rect.transition()
           .delay((d, i) => i * 10)
-          .attr("y", (d) => y(d[1]))
-          .attr("height", (d) => y(d[0]) - y(d[1]));
+          .attr('y', (d) => y(d[1]))
+          .attr('height', (d) => y(d[0]) - y(d[1]));
 
     } else {
-      let rect = layer.selectAll("rect")
+      let rect = layer.selectAll('rect')
           .data((d) => d)
-        .enter().append("rect")
-          .attr("x", (d) => x(d.xkey))
-          .attr("y", (d) => y(d[1]))
-          .attr("height", (d) => y(d[0]) - y(d[1]))
-          .attr("width", x.bandwidth());
+        .enter().append('rect')
+          .attr('x', (d) => x(d.xkey))
+          .attr('y', (d) => y(d[1]))
+          .attr('height', (d) => y(d[0]) - y(d[1]))
+          .attr('width', x.bandwidth());
     }
   }
 
@@ -258,7 +258,7 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
     });
 
     this.xValues.forEach((value,i) => {
-      var xdata = {};
+      let xdata = {};
       groups[value].forEach((item) => {
         if(!xdata[item[this.zKey]]) {
           xdata[item[this.zKey]] = 1
@@ -266,7 +266,7 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
           xdata[item[this.zKey]]++;
         }
       })
-      // "result" is an ordered array with a count for each x by z categories
+      // 'result' is an ordered array with a count for each x by z categories
       let result = {};
       this.zValues.forEach(function(g) {
         result[g]= xdata[g]||0;
@@ -288,28 +288,6 @@ export class StackbarchartComponent implements OnInit, OnDestroy {
     });
     return layers;
   }
-
-  // private addLegend(svg){
-  //   let legend = svg.selectAll(".legend-key")
-  //             .data(this.zValues)
-  //             .enter().append("g")
-  //             .attr("transform", (d, i) => `translate(0,${i*13})`);
-  //             // .attr("transform", (d, i) => `translate(${-this.width},${(this.height+30)+(i*13)})`);
-  //
-  //   legend.append("text")
-  //         .attr("x", this.width - 24)
-  //         .attr("dy", ".35em")
-  //         .style("text-anchor", "end")
-  //         .attr("class", "label-style")
-  //         .text(function(d) { return d; });
-  //
-  //   legend.append("rect")
-  //       .attr("x", this.width - 18)
-  //       .attr("width", 18)
-  //       .attr("height", 5)
-  //       .style("fill", (d, i) => this.barsColours(i));
-  //
-  // }
 
   private resetMultibarsChart() {
     this.chartUtils.resetSVG();
