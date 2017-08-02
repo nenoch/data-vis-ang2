@@ -17,10 +17,6 @@ describe('DataService', () => {
   service = s;
   }));
 
-  xit('should be created', inject([DataService], (service: DataService) => {
-    expect(service).toBeTruthy();
-  }));
-
   it('should convert item to Number if string is number', () => {
     expect(service.isNumber('9')).toEqual(9);
     expect(service.isNumber('nine')).toEqual('nine');
