@@ -20,7 +20,7 @@ export class TableFilterPipe implements PipeTransform {
 
   private filterEmpty(filter: DataFilter) {
     if (!filter) { return true };
-    if ((!filter.column && filter.column !== 0) || !filter.filterString) { return true };
+    if (!filter.column || !filter.filterString) { return true };
     return false;
   }
 }

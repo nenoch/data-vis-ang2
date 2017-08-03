@@ -102,6 +102,7 @@ export class DataService {
   }
 
   private arraryFilter(item: object, filter: DataFilter) {
+    console.log(item);
     return item[`${filter.column}`].toLowerCase().includes(filter.filterString.toLowerCase());
   }
 // -----------
