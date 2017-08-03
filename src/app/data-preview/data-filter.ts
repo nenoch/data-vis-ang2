@@ -1,6 +1,6 @@
 export class DataFilter {
     constructor(
-        public column: number,
+        public column: string,
         public filterString: string
     ) {}
 };
