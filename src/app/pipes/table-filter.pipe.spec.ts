@@ -17,11 +17,11 @@ fdescribe('TableFilterPipe', () => {
     expect(pipe.transform(data, emptyFilter)).toBe(data);
   });
 
-  it('filters first column when given column of 0', () => {
+  it('filters first column when given column of Country', () => {
     expect(pipe.transform(data, filter1)).toEqual([{Country: 'Canada', Food: 'Fish', Amount: '10'}]);
   });
 
-  it('filters second column when given column of 1', () => {
+  it('filters second column when given column of Food', () => {
     expect(pipe.transform(data, filter2)).toEqual([{Country: 'England', Food: 'Chips', Amount: '30'}]);
   });
 });
