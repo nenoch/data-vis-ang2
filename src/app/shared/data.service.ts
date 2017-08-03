@@ -15,6 +15,7 @@ export class DataService {
   public axes: AxisData;
   public dataStream: Observable<any>;
   private observable: BehaviorSubject<any>;
+  private url = Constants.CSV_DIR;
 
   constructor(private http: Http) {
     this.observable = new BehaviorSubject([]);
@@ -23,19 +24,19 @@ export class DataService {
 
   // Independent from d3 library
   public getCSVColumns() {
-    return this.http.get(Constants.CSV_DIR)
+    return this.http.get(this.url)
     .map((response: Response) => this.extractColumns(response));
   }
 
   // Once connected to backend, change this so it gets the filtered csv from the backend and passes that to data-table
   public getCSV(filter) {
-    return this.http.get(Constants.CSV_DIR)
+    return this.http.get(this.url)
       .map(res => this.prepareCSVResponse(res, filter));
   }
 
   public setAxes(axisObject, graphType) {
     this.axes = axisObject;
-    if (graphType === 'linechart' || 'scatterchart') {
+    if (graphType === ('linechart' || 'scatterchart')) {
       this.sendD3Data();
       return;
     }
@@ -54,7 +55,7 @@ export class DataService {
   }
 
   private convertD3data() {
-    d3.csv(Constants.CSV_DIR, d => {
+    d3.csv(this.url, d => {
       const axisData = this.axes;
       return {
         [axisData.xColumn] : this.isNumber(d[axisData.xColumn]),
@@ -68,7 +69,7 @@ export class DataService {
 
   // Sends entire csv data in json format, currently used for linechart
   private sendD3Data() {
-    d3.csv(Constants.CSV_DIR, d => {
+    d3.csv(this.url, d => {
       for (const key in d) {
         if (d.hasOwnProperty(key)) {
           d[key] = this.isNumber(d[key]);
