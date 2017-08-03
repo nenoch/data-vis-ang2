@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UploadService } from './upload.service';
 import { ErrorHandlerService } from '../error-handler/error-handler.service';
@@ -15,14 +15,19 @@ export class FileSelectorComponent implements OnInit {
   public filesChosen = false;
 
   private files: any = [];
+  private toggleObject = { show: true, hide: false};
+  private recentlyClicked = false;
 
   @Output() showState: EventEmitter<boolean> = new EventEmitter();
   @Output() loadingState: EventEmitter<boolean> = new EventEmitter();
 
+  @ViewChild('hideButton') hideButton: ElementRef;
+  @ViewChild('fileInput') fileInput: ElementRef;
+
   constructor(
     private uploadService: UploadService,
     private errorService: ErrorHandlerService,
-    private converterService: ConverterService
+    private converterService: ConverterService,
   ) { };
 
   ngOnInit() {
@@ -55,16 +60,21 @@ export class FileSelectorComponent implements OnInit {
     this.converterService.convertFiles().subscribe(
       data => {
       this.loadingState.emit(false);
-      this.hideHandler();
+      this.hideButton.nativeElement.click(); // Trigger fileselector collapse
+      this.fileInput.nativeElement.value = ''; // Clear the input field text
     },
       err => {
         this.loadingState.emit(false);
-        this.hideHandler();
         this.errorService.handleError({title: 'Convertion Failed', content: err.statusText});
       })
   }
 
   private hideHandler() {
+    // Hacky way to stop a weird bug when double clicking toggle button, replace with ngx-bootstrap functions when transition is implemented
+    if (this.recentlyClicked) { return; }
+    this.recentlyClicked = true;
+    setTimeout(() => this.recentlyClicked = false, 500);
+    // --------------
     this.showState.emit(this.showFileSelector);
     this.toggleShowFileSelector();
   }

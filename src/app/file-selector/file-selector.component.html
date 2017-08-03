@@ -1,7 +1,7 @@
 <div class="file-selector-box">
   <div class="row">
     <div class="col-md-12 col-sm-12 col-lg-12">
-      <button class="btn btn-hide-show pull-right" *ngIf="showFileSelector; else showButton" (click)="hideHandler($event)" data-toggle="collapse" data-target="#collapseBox">
+      <button #hideButton *ngIf="showFileSelector; else show" class="btn btn-hide-show pull-right" id="hide" (click)="hideHandler()" data-toggle="collapse" data-target="#collapseBox"> 
         <span class="glyphicon glyphicon-arrow-up"></span> Hide
       </button> 
     </div>
@@ -27,7 +27,7 @@
           <div class="form-group">
             <div class="input-group">
               <span class="input-group-addon blue-icon" id="basic-addon1"><span class="glyphicon glyphicon-file"></span></span>
-              <input class="form-control no-border" name="file[]" (change)="onChange($event)" type="file" multiple>
+              <input #fileInput class="form-control no-border" name="file[]" (change)="onChange($event)" type="file" multiple>
             </div>
           </div>
           <button type="submit" class="btn btn-green" value="Submit">Convert files</button>
@@ -39,8 +39,8 @@
     </div>
   </div>
 </div>
-<ng-template #showButton>
-  <button class="btn btn-hide-show pull-right" (click)="hideHandler($event)" data-toggle="collapse" data-target="#collapseBox">
+ <ng-template #show>
+  <button class="btn btn-hide-show pull-right" id="show" (click)="hideHandler()" data-toggle="collapse" data-target="#collapseBox">
     <span class="glyphicon glyphicon-arrow-down"></span> Show File Converter
   </button>
-</ng-template> 
+</ng-template>  
