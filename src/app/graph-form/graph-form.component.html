@@ -23,19 +23,19 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-lg-12 text-center ">
     <div class="btn-group margin-top10">
-      <button [ngClass]="{'btn-chart-focus': this.graphType === 'barchart' }" [focus]="barFocusTrigger" type="button" (click)="changeGraph('barchart')" class="btn btn-chart" aria-label="barchart">
+      <button [ngClass]="{'btn-chart-focus': this.graphType === 'barchart' }" type="button" (click)="changeGraph('barchart')" class="btn btn-chart" aria-label="barchart">
         <md-icon svgIcon="barchart" class="svg-icon"></md-icon>
       </button>
-      <button [ngClass]="{'btn-chart-focus': this.graphType === 'linechart' }"[focus]="lineFocusTrigger" type="button" (click)="changeGraph('linechart')" class="btn btn-chart" aria-label="linechart">
+      <button [ngClass]="{'btn-chart-focus': this.graphType === 'linechart' }" type="button" (click)="changeGraph('linechart')" class="btn btn-chart" aria-label="linechart">
         <md-icon svgIcon="linechart" class="svg-icon"></md-icon>
       </button>
-      <button [ngClass]="{'btn-chart-focus': this.graphType === 'donutchart' }"[focus]="donutFocusTrigger" type="button" (click)="changeGraph('donutchart')" class="btn btn-chart" aria-label="donutchart">
+      <button [ngClass]="{'btn-chart-focus': this.graphType === 'donutchart' }" type="button" (click)="changeGraph('donutchart')" class="btn btn-chart" aria-label="donutchart">
         <md-icon svgIcon="donutchart" class="svg-icon"></md-icon>
       </button>
-      <button [ngClass]="{'btn-chart-focus': this.graphType === 'scatterchart' }" [focus]="scatterFocusTrigger" type="button" (click)="changeGraph('scatterchart')" class="btn btn-chart" aria-label="scatterchart">
+      <button [ngClass]="{'btn-chart-focus': this.graphType === 'scatterchart' }" type="button" (click)="changeGraph('scatterchart')" class="btn btn-chart" aria-label="scatterchart">
         <md-icon svgIcon="scatterchart" class="svg-icon"></md-icon>
       </button>
-      <button [ngClass]="{'btn-chart-focus': this.graphType === 'stackbarchart' }" [focus]="stackFocusTrigger" type="button" (click)="changeGraph('stackbarchart')" class="btn btn-chart" aria-label="stackbarchart">
+      <button [ngClass]="{'btn-chart-focus': this.graphType === 'stackbarchart' }" type="button" (click)="changeGraph('stackbarchart')" class="btn btn-chart" aria-label="stackbarchart">
         <md-icon svgIcon="stackbarchart" class="svg-icon"></md-icon>
       </button>
     </div>
