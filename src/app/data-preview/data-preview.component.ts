@@ -27,7 +27,7 @@ export class DataPreviewComponent implements OnInit {
     this.filter = new DataFilter(null, null);
   }
 
-  private getCSV(filter) {
+  private getCSV(filter: DataFilter) {
     this.dataService.getCSV(filter).subscribe(
       data => {
         this.columns = data.columns;
@@ -38,13 +38,13 @@ export class DataPreviewComponent implements OnInit {
     );
   }
 
-  private displayRows() {
+  private displayRows(): Array<any> {
     this.rowsToDisplay = this.rows.slice(0, this.currentRow);
     this.currentRow++;
     return this.rowsToDisplay;
   }
 
-  private convertRows(data) {
+  private convertRows(data: Array<any>): Array<any> {
     const rows = [];
     for (let i = 0; i < data.length; i++) {
       rows.push(data[i]);
@@ -53,7 +53,7 @@ export class DataPreviewComponent implements OnInit {
     return rows;
   }
 
-  private filterKeyUp(column, filterString) {
+  private filterKeyUp(column: string, filterString: string) {
     this.filter.column = column;
     this.filter.filterString = filterString;
     this.getCSV(this.filter);
