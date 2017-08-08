@@ -36,7 +36,7 @@ export class DataService {
 
   public setAxes(axisObject, graphType) {
     this.axes = axisObject;
-    if (graphType === ('linechart' || 'scatterchart')) {
+    if (graphType === 'linechart' || 'scatterchart') {
       this.sendD3Data();
       return;
     }
